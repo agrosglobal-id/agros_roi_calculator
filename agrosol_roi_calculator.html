@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator ROI — AgrosolPump</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-deep: #0a3d2b;
+  --green-mid: #1a6645;
+  --green-bright: #2d9e6b;
+  --green-light: #c8eed9;
+  --green-pale: #f0faf4;
+  --amber: #e8a020;
+  --amber-light: #fff5dc;
+  --red-soft: #e05c40;
+  --red-light: #fdf0ec;
+  --ink: #1a2118;
+  --ink-soft: #3a4a3a;
+  --muted: #6b7f6b;
+  --border: #d4e4d4;
+  --surface: #ffffff;
+  --bg: #f5f9f5;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  background: var(--green-deep);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--green-mid);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--green-bright);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-icon svg { width: 20px; height: 20px; fill: white; }
+.logo-text { color: white; }
+.logo-text .brand { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+.logo-text .tagline { font-size: 11px; color: var(--green-light); opacity: 0.8; }
+.header-badge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+  color: white;
+  padding: 52px 24px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-content { position: relative; max-width: 680px; margin: 0 auto; }
+.hero h1 { font-size: clamp(24px, 5vw, 38px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 12px; }
+.hero h1 span { color: #7de0a8; }
+.hero p { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 24px; }
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: 22px; font-weight: 700; color: #7de0a8; }
+.hero-stat .lbl { font-size: 11px; color: rgba(255,255,255,0.6); }
+
+/* LAYOUT */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* SECTIONS */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.sec-num {
+  width: 26px; height: 26px;
+  background: var(--green-deep);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sec-head h3 { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+/* KOMODITAS PILLS */
+.komoditas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.kpill {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  background: var(--surface);
+  position: relative;
+}
+.kpill:hover { border-color: var(--green-bright); background: var(--green-pale); }
+.kpill.active { border-color: var(--green-bright); background: var(--green-pale); }
+.kpill.active::after {
+  content: '✓';
+  position: absolute;
+  top: 4px; right: 6px;
+  font-size: 10px;
+  color: var(--green-bright);
+  font-weight: 700;
+}
+.kpill .emoji { font-size: 22px; display: block; margin-bottom: 4px; }
+.kpill .kname { font-size: 11px; font-weight: 600; color: var(--ink-soft); display: block; }
+.kpill .ksub { font-size: 10px; color: var(--muted); display: block; }
+
+/* KOMODITAS INFO BANNER */
+.komoditas-info {
+  background: var(--green-pale);
+  border: 1px solid var(--green-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--green-mid);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.komoditas-info .icon { flex-shrink: 0; margin-top: 1px; }
+
+/* GRID FIELDS */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* FIELD */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.field .hint { font-size: 11px; color: var(--muted); }
+.field input, .field select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--surface);
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.field input:focus, .field select:focus {
+  outline: none;
+  border-color: var(--green-bright);
+  box-shadow: 0 0 0 3px rgba(45,158,107,0.12);
+}
+.field .prefix-wrap {
+  position: relative;
+}
+.field .prefix-wrap input { padding-left: 36px; }
+.field .prefix {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+/* TOGGLE ENERGI */
+.energi-toggle {
+  display: flex;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.etab {
+  flex: 1;
+  padding: 8px 4px;
+  border: none;
+  background: var(--surface);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  border-right: 1.5px solid var(--border);
+}
+.etab:last-child { border-right: none; }
+.etab.active { background: var(--green-deep); color: white; }
+.etab .eicon { font-size: 16px; display: block; margin-bottom: 2px; }
+
+/* SLIDER */
+.slider-wrap { display: flex; flex-direction: column; gap: 4px; }
+.slider-row { display: flex; align-items: center; gap: 10px; }
+.slider-row input[type=range] {
+  flex: 1;
+  height: 4px;
+  appearance: none;
+  background: var(--green-light);
+  border-radius: 2px;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.slider-row input[type=range]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--green-deep);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.slider-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green-mid);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* RESULT PANEL */
+.result-panel {
+  position: sticky;
+  top: 80px;
+}
+.result-card {
+  background: var(--green-deep);
+  color: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.rc-title { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
+.metric-big {
+  text-align: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 14px;
+}
+.metric-big .val { font-family: var(--mono); font-size: 38px; font-weight: 500; color: #7de0a8; line-height: 1; }
+.metric-big .unit { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+.metrics-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.m-cell { background: rgba(255,255,255,0.07); border-radius: 8px; padding: 10px; }
+.m-cell .mv { font-family: var(--mono); font-size: 16px; font-weight: 500; color: white; }
+.m-cell .ml { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.m-cell.amber .mv { color: #f5c842; }
+.m-cell.red .mv { color: #ff8f7a; }
+.m-cell.green .mv { color: #7de0a8; }
+
+/* CASHFLOW CHART */
+.cashflow-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.cf-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
+.cf-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+.cf-yr { font-size: 11px; color: var(--muted); width: 46px; flex-shrink: 0; font-family: var(--mono); }
+.cf-track {
+  flex: 1;
+  height: 18px;
+  background: #f0f5f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.cf-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.cf-amt { font-size: 11px; width: 72px; flex-shrink: 0; text-align: right; font-family: var(--mono); font-weight: 500; }
+
+/* TIMELINE BOXES */
+.timeline-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+.tl-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+.tl-boxes { display: flex; gap: 5px; flex-wrap: wrap; }
+.tl-box {
+  width: 44px; height: 44px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  line-height: 1.2;
+}
+.tl-box span { font-size: 9px; font-weight: 400; }
+.tl-box.invest { background: #fde8e3; color: #c0391e; }
+.tl-box.breakeven { background: var(--amber-light); color: #9a6a00; }
+.tl-box.profit { background: var(--green-light); color: var(--green-deep); }
+.tl-legend { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+.tl-leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.tl-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* BREAKDOWN */
+.breakdown-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+.bk-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #f0f5f0; font-size: 13px; }
+.bk-row:last-child { border-bottom: none; font-weight: 600; }
+.bk-row .bk-label { color: var(--ink-soft); }
+.bk-row .bk-val { font-family: var(--mono); font-weight: 500; }
+.bk-row.positive .bk-val { color: var(--green-mid); }
+.bk-row.negative .bk-val { color: var(--red-soft); }
+.bk-row.total { background: var(--green-pale); margin: 0 -18px -18px; padding: 12px 18px; border-radius: 0 0 var(--radius) var(--radius); }
+
+/* SENSITIVITY */
+.sensitivity-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+.sens-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+.sens-scenario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+.sens-scenario .sn { font-weight: 500; }
+.sens-scenario .sv { font-family: var(--mono); font-weight: 600; }
+.sens-scenario.pessimis { background: var(--red-light); }
+.sens-scenario.pessimis .sv { color: var(--red-soft); }
+.sens-scenario.base { background: var(--green-pale); }
+.sens-scenario.base .sv { color: var(--green-mid); }
+.sens-scenario.optimis { background: #eefaf3; }
+.sens-scenario.optimis .sv { color: #0a7a45; }
+
+/* CTA */
+.cta-card {
+  background: var(--amber-light);
+  border: 1px solid #f0d080;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-align: center;
+}
+.cta-card h4 { font-size: 14px; font-weight: 600; color: #7a5000; margin-bottom: 6px; }
+.cta-card p { font-size: 12px; color: #9a6a00; margin-bottom: 14px; }
+.cta-btn {
+  display: inline-block;
+  background: var(--green-deep);
+  color: white;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.cta-btn:hover { background: var(--green-mid); }
+
+/* FOOTER */
+footer {
+  background: var(--green-deep);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 20px 24px;
+  font-size: 12px;
+}
+footer strong { color: white; }
+
+/* DISCLAIMER */
+.disclaimer {
+  background: #fffbf0;
+  border: 1px solid #f0e0a0;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 11px;
+  color: #8a7030;
+  margin-bottom: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; padding: 16px 14px 48px; gap: 0; }
+  .result-panel { position: static; }
+  .komoditas-grid { grid-template-columns: repeat(3, 1fr); }
+  .grid3 { grid-template-columns: 1fr 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 36px 20px 32px; }
+  .hero-stats { gap: 20px; }
+}
+@media (max-width: 400px) {
+  .komoditas-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid3 { grid-template-columns: 1fr; }
+  .metric-big .val { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M17 6.5C17 5.12 15.88 4 14.5 4S12 5.12 12 6.5c0 1.15.77 2.12 1.83 2.42V12h1.34V8.92C16.23 8.62 17 7.65 17 6.5z"/></svg>
+      </div>
+      <div class="logo-text">
+        <div class="brand">AgrosolPump</div>
+        <div class="tagline">Pompa Irigasi Tenaga Surya</div>
+      </div>
+    </div>
+    <div class="header-badge">Kalkulator ROI B2B/B2G</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>Hitung <span>Balik Modal</span><br>Pompa Surya Anda</h1>
+    <p>Masukkan data lahan dan biaya operasional Anda. Kami hitung penghematan, payback period, dan ROI secara otomatis.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">0%</div><div class="lbl">Biaya BBM</div></div>
+      <div class="hero-stat"><div class="num">15–30%</div><div class="lbl">Peningkatan Yield</div></div>
+      <div class="hero-stat"><div class="num">2–5 Thn</div><div class="lbl">Rata-rata BEP</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT: INPUTS -->
+  <div class="inputs-col">
+
+    <!-- KOMODITAS -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">1</div>
+        <h3>Pilih Komoditas & Profil Lahan</h3>
+      </div>
+      <div class="komoditas-grid">
+        <div class="kpill active" data-crop="padi" onclick="selectCrop('padi', this)">
+          <span class="emoji">🌾</span>
+          <span class="kname">Padi</span>
+          <span class="ksub">Tinggi air</span>
+        </div>
+        <div class="kpill" data-crop="sayuran" onclick="selectCrop('sayuran', this)">
+          <span class="emoji">🥬</span>
+          <span class="kname">Sayuran</span>
+          <span class="ksub">Sedang</span>
+        </div>
+        <div class="kpill" data-crop="jagung" onclick="selectCrop('jagung', this)">
+          <span class="emoji">🌽</span>
+          <span class="kname">Jagung</span>
+          <span class="ksub">Sedang</span>
+        </div>
+        <div class="kpill" data-crop="cabai" onclick="selectCrop('cabai', this)">
+          <span class="emoji">🌶️</span>
+          <span class="kname">Cabai/Tomat</span>
+          <span class="ksub">Sering siram</span>
+        </div>
+        <div class="kpill" data-crop="tebu" onclick="selectCrop('tebu', this)">
+          <span class="emoji">🎋</span>
+          <span class="kname">Tebu</span>
+          <span class="ksub">Sangat tinggi</span>
+        </div>
+        <div class="kpill" data-crop="lainnya" onclick="selectCrop('lainnya', this)">
+          <span class="emoji">🌿</span>
+          <span class="kname">Lainnya</span>
+          <span class="ksub">Input manual</span>
+        </div>
+      </div>
+      <div class="komoditas-info" id="cropInfo">
+        <span class="icon">💧</span>
+        <span id="cropInfoText">Padi membutuhkan 8–12 mm air/hari, irigasi terus-menerus (continuous flooding). Konsumsi BBM tinggi — penghematan terbesar dari beralih ke surya.</span>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Luas lahan (ha)</label>
+          <input type="number" id="lahan" value="2" min="0.25" step="0.25">
+        </div>
+        <div class="field">
+          <label>Musim tanam / tahun</label>
+          <select id="musim">
+            <option value="1">1x / tahun</option>
+            <option value="2" selected>2x / tahun</option>
+            <option value="3">3x / tahun</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVESTASI -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">2</div>
+        <h3>Biaya Investasi</h3>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Harga unit pompa + instalasi</label>
+          <div class="prefix-wrap">
+            <span class="prefix">Rp</span>
+            <input type="number" id="hargaPompa" value="25000000" step="1000000">
+          </div>
+        </div>
+        <div class="field">
+          <label>Maintenance tahunan</label>
+          <div class="prefix-wrap">
+            <span class="prefix">Rp</span>
+            <input type="number" id="maintenance" value="1500000" step="100000">
+          </div>
+          <span class="hint">servis + penggantian spare part</span>
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>Horizon analisis</label>
+        <select id="horizon">
+          <option value="5">5 tahun</option>
+          <option value="7" selected>7 tahun</option>
+          <option value="10">10 tahun</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ENERGI SEKARANG -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">3</div>
+        <h3>Biaya Irigasi Saat Ini</h3>
+      </div>
+      <div class="energi-toggle">
+        <button class="etab active" onclick="setEnergi('diesel', this)">
+          <span class="eicon">⛽</span>Diesel
+        </button>
+        <button class="etab" onclick="setEnergi('pln', this)">
+          <span class="eicon">⚡</span>PLN
+        </button>
+        <button class="etab" onclick="setEnergi('manual', this)">
+          <span class="eicon">💪</span>Manual
+        </button>
+      </div>
+      <div class="grid2" id="energiFields">
+        <div class="field">
+          <label id="konsumsiLabel">Konsumsi solar (liter/bln)</label>
+          <input type="number" id="konsumsi" value="80" step="5">
+        </div>
+        <div class="field">
+          <label id="hargaEnergiLabel">Harga solar (Rp/liter)</label>
+          <input type="number" id="hargaEnergi" value="10000" step="500">
+        </div>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>Biaya tenaga kerja irigasi (Rp/bln)</label>
+        <div class="prefix-wrap">
+          <span class="prefix">Rp</span>
+          <input type="number" id="tkIrigasi" value="500000" step="50000">
+        </div>
+        <span class="hint">gaji operator pompa / tenaga pengairan manual</span>
+      </div>
+    </div>
+
+    <!-- PRODUKTIVITAS -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">4</div>
+        <h3>Produktivitas & Harga Jual</h3>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Produktivitas saat ini (ton/ha/panen)</label>
+          <input type="number" id="prodNow" value="5" step="0.5">
+        </div>
+        <div class="field">
+          <label>Harga jual (Rp/kg)</label>
+          <input type="number" id="hargaKomoditas" value="6000" step="500">
+        </div>
+      </div>
+      <div class="slider-wrap" style="margin-top:14px">
+        <label style="font-size:12px;font-weight:600;color:var(--ink-soft)">
+          Estimasi peningkatan yield karena irigasi terjadwal
+        </label>
+        <div class="slider-row">
+          <input type="range" id="yieldUp" min="0" max="50" step="5" value="15" oninput="document.getElementById('yieldVal').textContent=this.value+'%'; calc()">
+          <span class="slider-val" id="yieldVal">15%</span>
+        </div>
+        <span class="hint" id="yieldHint" style="font-size:11px;color:var(--muted)">Referensi: padi 15–25%, sayuran 10–20%, jagung 10–15%</span>
+      </div>
+    </div>
+
+  </div><!-- /inputs-col -->
+
+  <!-- RIGHT: RESULTS -->
+  <div class="result-panel">
+
+    <!-- MAIN RESULT -->
+    <div class="result-card">
+      <div class="rc-title">Payback Period</div>
+      <div class="metric-big">
+        <div class="val" id="rPayback">—</div>
+        <div class="unit">tahun untuk balik modal</div>
+      </div>
+      <div class="metrics-row">
+        <div class="m-cell green">
+          <div class="mv" id="rSavingYear">—</div>
+          <div class="ml">Net saving/tahun</div>
+        </div>
+        <div class="m-cell amber">
+          <div class="mv" id="rROI">—</div>
+          <div class="ml">ROI kumulatif</div>
+        </div>
+        <div class="m-cell red">
+          <div class="mv" id="rInvestasi">—</div>
+          <div class="ml">Total investasi</div>
+        </div>
+        <div class="m-cell green">
+          <div class="mv" id="rNetProfit">—</div>
+          <div class="ml">Net profit <span id="horizonLabel">7</span> thn</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASHFLOW CHART -->
+    <div class="cashflow-card">
+      <div class="cf-title">Cashflow kumulatif per tahun</div>
+      <div id="cfBars"></div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline-section">
+      <div class="tl-title">Timeline investasi</div>
+      <div class="tl-boxes" id="tlBoxes"></div>
+      <div class="tl-legend">
+        <div class="tl-leg"><div class="tl-dot" style="background:#fde8e3"></div>Investasi</div>
+        <div class="tl-leg"><div class="tl-dot" style="background:var(--amber-light)"></div>Breakeven</div>
+        <div class="tl-leg"><div class="tl-dot" style="background:var(--green-light)"></div>Profit</div>
+      </div>
+    </div>
+
+    <!-- BREAKDOWN -->
+    <div class="breakdown-card">
+      <div class="cf-title" style="margin-bottom:10px">Rincian penghematan/tahun</div>
+      <div class="bk-row positive">
+        <span class="bk-label">Penghematan energi</span>
+        <span class="bk-val" id="bkEnergi">—</span>
+      </div>
+      <div class="bk-row positive">
+        <span class="bk-label">Penghematan TK irigasi</span>
+        <span class="bk-val" id="bkTK">—</span>
+      </div>
+      <div class="bk-row positive">
+        <span class="bk-label">Revenue uplift (yield +<span id="bkYieldPct">0</span>%)</span>
+        <span class="bk-val" id="bkYield">—</span>
+      </div>
+      <div class="bk-row negative">
+        <span class="bk-label">Biaya maintenance</span>
+        <span class="bk-val" id="bkMaint">—</span>
+      </div>
+      <div class="bk-row total positive">
+        <span class="bk-label">Net saving bersih/tahun</span>
+        <span class="bk-val" id="bkNet">—</span>
+      </div>
+    </div>
+
+    <!-- SENSITIVITY -->
+    <div class="sensitivity-card">
+      <div class="sens-title">Analisis sensitivitas payback</div>
+      <div class="sens-scenario pessimis">
+        <span class="sn">😟 Pesimis (yield +5%, BBM +20%)</span>
+        <span class="sv" id="sensPes">—</span>
+      </div>
+      <div class="sens-scenario base">
+        <span class="sn">📊 Base case (input Anda)</span>
+        <span class="sv" id="sensBase">—</span>
+      </div>
+      <div class="sens-scenario optimis">
+        <span class="sn">🚀 Optimis (yield +25%, BBM +30%)</span>
+        <span class="sv" id="sensOpt">—</span>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ Estimasi ini bersifat indikatif. Hasil aktual dipengaruhi kondisi iklim, kualitas lahan, dan fluktuasi harga komoditas. Konsultasikan dengan tim Agros untuk proposal resmi.
+    </div>
+
+    <div class="cta-card">
+      <h4>Tertarik dengan proposal resmi?</h4>
+      <p>Tim kami siap menyiapkan studi kelayakan lengkap sesuai kondisi lahan Anda.</p>
+      <button class="cta-btn" onclick="alert('Hubungi tim Agros untuk konsultasi lebih lanjut.')">Hubungi Tim Agros →</button>
+    </div>
+
+  </div><!-- /result-panel -->
+</div>
+
+<footer>
+  <strong>AgrosolPump</strong> — PT. Agros Global Indonesia &nbsp;·&nbsp; Kalkulator ini bersifat estimasi untuk tujuan perencanaan B2B/B2G
+</footer>
+
+<script>
+const CROP_DATA = {
+  padi: {
+    info: 'Padi membutuhkan 8–12 mm air/hari, irigasi terus-menerus (continuous flooding). Konsumsi BBM tinggi — penghematan terbesar dari beralih ke surya.',
+    konsumsiMultiplier: 1.4,
+    yieldHint: 'Referensi padi: peningkatan yield 15–25% dengan irigasi terjadwal',
+    defaultYield: 20,
+    defaultProd: 5,
+    defaultHarga: 6000,
+    musim: 2,
+  },
+  sayuran: {
+    info: 'Sayuran hortikultura butuh 4–6 mm air/hari, frekuensi siram tinggi (setiap 1–2 hari). Sensitif terhadap kekeringan — irigasi terjadwal sangat berpengaruh ke kualitas.',
+    konsumsiMultiplier: 0.8,
+    yieldHint: 'Referensi sayuran: peningkatan yield 10–20% dengan irigasi konsisten',
+    defaultYield: 15,
+    defaultProd: 8,
+    defaultHarga: 5000,
+    musim: 3,
+  },
+  jagung: {
+    info: 'Jagung butuh 5–8 mm air/hari, kritis pada fase vegetatif & pembungaan. Toleran kekeringan ringan namun yield drop signifikan jika kekurangan air saat fase kritis.',
+    konsumsiMultiplier: 0.9,
+    yieldHint: 'Referensi jagung: peningkatan yield 10–15% dengan irigasi tepat waktu',
+    defaultYield: 12,
+    defaultProd: 6,
+    defaultHarga: 4500,
+    musim: 2,
+  },
+  cabai: {
+    info: 'Cabai & tomat butuh 5–7 mm air/hari, siram 2–3 kali/minggu. Sangat sensitif terhadap stress air — bisa menyebabkan gugur bunga dan busuk buah.',
+    konsumsiMultiplier: 1.0,
+    yieldHint: 'Referensi cabai/tomat: peningkatan yield 15–25% dengan irigasi presisi',
+    defaultYield: 20,
+    defaultProd: 10,
+    defaultHarga: 20000,
+    musim: 2,
+  },
+  tebu: {
+    info: 'Tebu adalah komoditas paling boros air: 8–15 mm/hari, siklus 10–12 bulan. Satu unit pompa surya besar bisa menghemat puluhan juta rupiah solar per tahun.',
+    konsumsiMultiplier: 1.8,
+    yieldHint: 'Referensi tebu: peningkatan rendemen 10–18% dengan irigasi optimal',
+    defaultYield: 15,
+    defaultProd: 80,
+    defaultHarga: 600,
+    musim: 1,
+  },
+  lainnya: {
+    info: 'Masukkan data konsumsi air dan produktivitas sesuai kondisi aktual lahan Anda.',
+    konsumsiMultiplier: 1.0,
+    yieldHint: 'Sesuaikan estimasi yield uplift berdasarkan pengalaman atau referensi setempat',
+    defaultYield: 15,
+    defaultProd: 5,
+    defaultHarga: 8000,
+    musim: 2,
+  }
+};
+
+let currentCrop = 'padi';
+let currentEnergi = 'diesel';
+
+function selectCrop(crop, el) {
+  document.querySelectorAll('.kpill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  currentCrop = crop;
+  const d = CROP_DATA[crop];
+  document.getElementById('cropInfoText').textContent = d.info;
+  document.getElementById('yieldUp').value = d.defaultYield;
+  document.getElementById('yieldVal').textContent = d.defaultYield + '%';
+  document.getElementById('yieldHint').textContent = d.yieldHint;
+  document.getElementById('prodNow').value = d.defaultProd;
+  document.getElementById('hargaKomoditas').value = d.defaultHarga;
+  document.getElementById('musim').value = d.musim;
+  const baseKonsumsi = parseFloat(document.getElementById('konsumsi').value) || 80;
+  calc();
+}
+
+function setEnergi(e, btn) {
+  document.querySelectorAll('.etab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentEnergi = e;
+  const kl = document.getElementById('konsumsiLabel');
+  const hl = document.getElementById('hargaEnergiLabel');
+  const ki = document.getElementById('konsumsi');
+  const hi = document.getElementById('hargaEnergi');
+  if (e === 'diesel') {
+    kl.textContent = 'Konsumsi solar (liter/bln)';
+    hl.textContent = 'Harga solar (Rp/liter)';
+    ki.value = 80; hi.value = 10000;
+  } else if (e === 'pln') {
+    kl.textContent = 'Pemakaian listrik (kWh/bln)';
+    hl.textContent = 'Tarif listrik (Rp/kWh)';
+    ki.value = 200; hi.value = 1445;
+  } else {
+    kl.textContent = 'Hari kerja irigasi / bln';
+    hl.textContent = 'Upah harian (Rp/hari)';
+    ki.value = 20; hi.value = 100000;
+  }
+  calc();
+}
+
+const fmtM = n => {
+  const r = Math.round(n);
+  if (Math.abs(r) >= 1000000000) return 'Rp ' + (r / 1000000000).toFixed(1) + 'M';
+  if (Math.abs(r) >= 1000000) return 'Rp ' + (r / 1000000).toFixed(1) + 'jt';
+  return 'Rp ' + r.toLocaleString('id-ID');
+};
+
+function computePayback(hargaPompa, netSavingYear, horizon) {
+  let cash = -hargaPompa;
+  for (let y = 1; y <= horizon; y++) {
+    cash += netSavingYear;
+    if (cash >= 0) return y;
+  }
+  return null;
+}
+
+function calc() {
+  const lahan = parseFloat(document.getElementById('lahan').value) || 1;
+  const musim = parseInt(document.getElementById('musim').value) || 2;
+  const hargaPompa = parseFloat(document.getElementById('hargaPompa').value) || 25000000;
+  const maint = parseFloat(document.getElementById('maintenance').value) || 1500000;
+  const konsumsi = parseFloat(document.getElementById('konsumsi').value) || 80;
+  const hargaEnergi = parseFloat(document.getElementById('hargaEnergi').value) || 10000;
+  const tkIrigasi = parseFloat(document.getElementById('tkIrigasi').value) || 500000;
+  const yieldUp = parseFloat(document.getElementById('yieldUp').value) || 15;
+  const prodNow = parseFloat(document.getElementById('prodNow').value) || 5;
+  const hargaKomoditas = parseFloat(document.getElementById('hargaKomoditas').value) || 6000;
+  const horizon = parseInt(document.getElementById('horizon').value) || 7;
+
+  const savingEnergi = konsumsi * hargaEnergi * 12;
+  const savingTK = tkIrigasi * 12;
+  const addYield = lahan * prodNow * (yieldUp / 100) * musim * hargaKomoditas * 1000;
+  const totalSaving = savingEnergi + savingTK + addYield;
+  const netSavingYear = totalSaving - maint;
+
+  let cumCash = [];
+  let cash = -hargaPompa;
+  let payback = null;
+  for (let y = 1; y <= horizon; y++) {
+    cash += netSavingYear;
+    cumCash.push({ y, val: cash });
+    if (payback === null && cash >= 0) payback = y;
+  }
+
+  const roi = ((netSavingYear * horizon - hargaPompa) / hargaPompa * 100);
+  const netProfit = netSavingYear * horizon - hargaPompa;
+
+  // Main metrics
+  document.getElementById('rPayback').textContent = payback ? payback + (payback < horizon ? '' : '') : '>' + horizon;
+  document.getElementById('rSavingYear').textContent = fmtM(netSavingYear);
+  document.getElementById('rROI').textContent = Math.round(roi) + '%';
+  document.getElementById('rInvestasi').textContent = fmtM(hargaPompa);
+  document.getElementById('rNetProfit').textContent = fmtM(netProfit);
+  document.getElementById('horizonLabel').textContent = horizon;
+
+  // Breakdown
+  document.getElementById('bkEnergi').textContent = fmtM(savingEnergi);
+  document.getElementById('bkTK').textContent = fmtM(savingTK);
+  document.getElementById('bkYieldPct').textContent = yieldUp;
+  document.getElementById('bkYield').textContent = fmtM(addYield);
+  document.getElementById('bkMaint').textContent = '-' + fmtM(maint);
+  document.getElementById('bkNet').textContent = fmtM(netSavingYear);
+
+  // Cashflow bars
+  const maxAbs = Math.max(...cumCash.map(c => Math.abs(c.val)), hargaPompa);
+  const barsEl = document.getElementById('cfBars');
+  barsEl.innerHTML = '';
+  cumCash.forEach(({ y, val }) => {
+    const isPos = val >= 0;
+    const pct = Math.min(Math.abs(val) / maxAbs * 100, 100).toFixed(1);
+    const color = isPos ? '#2d9e6b' : '#e05c40';
+    const textColor = isPos ? '#0a3d2b' : '#a03020';
+    barsEl.innerHTML += `<div class="cf-bar-row">
+      <div class="cf-yr">Thn ${y}</div>
+      <div class="cf-track"><div class="cf-fill" style="width:${pct}%;background:${color}20"><div class="cf-fill" style="width:${pct}%;background:${color};height:18px;border-radius:4px"></div></div></div>
+      <div class="cf-amt" style="color:${textColor}">${isPos ? '+' : ''}${fmtM(val)}</div>
+    </div>`;
+  });
+
+  // Timeline
+  const tlEl = document.getElementById('tlBoxes');
+  tlEl.innerHTML = '<div class="tl-box invest" style="font-size:10px;line-height:1.3">Inv.<span>Thn 0</span></div>';
+  for (let y = 1; y <= Math.min(horizon, 10); y++) {
+    const isBreak = payback && y === payback;
+    const isProfit = payback && y > payback;
+    const cls = isBreak ? 'breakeven' : isProfit ? 'profit' : 'invest';
+    tlEl.innerHTML += `<div class="tl-box ${cls}">${y}<span>thn</span></div>`;
+  }
+
+  // Sensitivity
+  const compPayback = (energiMult, yieldPct) => {
+    const se = konsumsi * hargaEnergi * 12 * energiMult;
+    const ay = lahan * prodNow * (yieldPct / 100) * musim * hargaKomoditas * 1000;
+    const ns = se + savingTK + ay - maint;
+    const pb = computePayback(hargaPompa, ns, horizon + 5);
+    return pb ? pb + ' thn' : '>' + (horizon + 5) + ' thn';
+  };
+  document.getElementById('sensPes').textContent = compPayback(0.7, 5);
+  document.getElementById('sensBase').textContent = payback ? payback + ' thn' : '>' + horizon + ' thn';
+  document.getElementById('sensOpt').textContent = compPayback(1.3, 25);
+}
+
+// Attach all input listeners
+document.querySelectorAll('input[type=number], select').forEach(el => {
+  el.addEventListener('input', calc);
+  el.addEventListener('change', calc);
+});
+
+calc();
+</script>
+</body>
+</html>
