@@ -3,812 +3,1606 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalkulator ROI — AgrosolPump</title>
+<title>AgrosolPump — Kalkulator Hemat & Balik Modal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green-deep: #0a3d2b;
-  --green-mid: #1a6645;
-  --green-bright: #2d9e6b;
-  --green-light: #c8eed9;
-  --green-pale: #f0faf4;
-  --amber: #e8a020;
-  --amber-light: #fff5dc;
-  --red-soft: #e05c40;
-  --red-light: #fdf0ec;
-  --ink: #1a2118;
-  --ink-soft: #3a4a3a;
-  --muted: #6b7f6b;
-  --border: #d4e4d4;
-  --surface: #ffffff;
-  --bg: #f5f9f5;
-  --font: 'Plus Jakarta Sans', sans-serif;
-  --mono: 'DM Mono', monospace;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --soil:    #1f2937;
+  --bark:    #2d2218;
+  --earth:   #3d3020;
+  --clay:    #6b5240;
+  --sand:    #c4a882;
+  --cream:   #f5ede0;
+  --paper:   #f8fafc;
 
-  /* Level water colors — biru muda ke biru tua */
-  --l1-bg: #f0f9ff; --l1-border: #bae6fd; --l1-text: #075985; --l1-badge: #e0f2fe;
-  --l2-bg: #eff6ff; --l2-border: #93c5fd; --l2-text: #1d4ed8; --l2-badge: #dbeafe;
-  --l3-bg: #f0faf4; --l3-border: #6ee7b7; --l3-text: #065f46; --l3-badge: #d1fae5;
-  --l4-bg: #fefce8; --l4-border: #fde047; --l4-text: #854d0e; --l4-badge: #fef9c3;
-  --l5-bg: #fff7ed; --l5-border: #fdba74; --l5-text: #9a3412; --l5-badge: #ffedd5;
-  --l6-bg: #fdf2f8; --l6-border: #f0abfc; --l6-text: #86198f; --l6-badge: #fae8ff;
+  --leaf:    #166534;
+  --sprout:  #16a34a;
+  --mint:    #7de0a8;
+  --pale-g:  #d4f5e4;
+
+  --sun:     #e8a020;
+  --gold:    #f5c842;
+  --straw:   #fef3cc;
+
+  --rust:    #c0391e;
+  --blush:   #fde8e3;
+
+  --water:   #1e6fa8;
+  --sky:     #3fa0d8;
+  --mist:    #d0eaf8;
+
+  --font-display: 'Inter', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'Inter', monospace;
+
+  --r: 10px;
+  --r-lg: 16px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: var(--bg); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--soil);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
 
-/* HEADER */
-header { background: var(--green-deep); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--green-mid); }
-.header-inner { max-width: 1100px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 36px; height: 36px; background: var(--green-bright); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.logo-icon svg { width: 20px; height: 20px; fill: white; }
-.logo-text { color: white; }
-.logo-text .brand { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
-.logo-text .tagline { font-size: 11px; color: var(--green-light); opacity: 0.8; }
-.header-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: white; font-size: 11px; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+/* ===== HEADER ===== */
+header {
+  background: var(--soil);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--leaf);
+}
+.hdr {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--leaf), var(--sprout));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-name { color: white; font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+.logo-sub  { color: var(--sand); font-size: 11px; margin-top: 1px; }
+.hdr-badge {
+  background: var(--leaf);
+  color: var(--mint);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
 
-/* HERO */
-.hero { background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%); color: white; padding: 52px 24px 48px; text-align: center; position: relative; overflow: hidden; }
-.hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-.hero-content { position: relative; max-width: 680px; margin: 0 auto; }
-.hero h1 { font-size: clamp(24px, 5vw, 38px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 12px; }
-.hero h1 span { color: #7de0a8; }
-.hero p { font-size: 15px; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 24px; }
-.hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
-.hero-stat .num { font-size: 22px; font-weight: 700; color: #7de0a8; }
-.hero-stat .lbl { font-size: 11px; color: rgba(255,255,255,0.6); }
-
-/* LAYOUT */
-.main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
-
-/* SECTION */
-.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
-.sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-.sec-num { width: 26px; height: 26px; background: var(--green-deep); color: white; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.sec-head h3 { font-size: 14px; font-weight: 600; color: var(--ink); }
-
-/* LEVEL LEGEND */
-.level-legend { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-.leg-pill { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; }
-.leg-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
-
-/* KOMODITAS GROUPS */
-.crop-group { margin-bottom: 14px; }
-.crop-group-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.crop-group-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.crop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
-
-/* KOMODITAS PILL */
-.kpill {
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 9px 8px 8px;
-  cursor: pointer;
+/* ===== HERO ===== */
+.hero {
+  background: var(--soil);
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, #2d5040 0%, transparent 60%);
+  color: white;
+  padding: 56px 24px 0;
   text-align: center;
-  transition: all 0.15s;
-  background: var(--surface);
-  position: relative;
+  overflow: hidden;
+}
+.hero-inner { max-width: 640px; margin: 0 auto; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(61,170,106,0.15);
+  border: 1px solid rgba(125,224,168,0.25);
+  color: var(--mint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5.5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--mint);
+}
+.hero p {
+  color: rgba(255,255,255,0.6);
+  font-size: 15px;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+.hero-kpi {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.kpi {
+  flex: 1;
+  padding: 24px 16px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.kpi:last-child { border-right: none; }
+.kpi-val {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.kpi-lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+/* ===== STEP NAVIGATION ===== */
+.steps-nav {
+  background: var(--bark);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  top: 63px;
+  z-index: 100;
+}
+.steps-nav-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.steps-nav-inner::-webkit-scrollbar { display: none; }
+.snav-item {
+  flex: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-display);
   user-select: none;
 }
-.kpill:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.kpill.active { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.kpill.active::after { content: '✓'; position: absolute; top: 4px; right: 6px; font-size: 9px; font-weight: 700; }
-.kpill .emoji { font-size: 20px; display: block; margin-bottom: 3px; }
-.kpill .kname { font-size: 10px; font-weight: 600; display: block; line-height: 1.3; }
-.kpill .klevel { font-size: 9px; display: block; margin-top: 3px; padding: 1px 5px; border-radius: 10px; font-weight: 600; }
-
-/* Level color variants */
-.kpill.lv1 { border-color: var(--l1-border); background: var(--l1-bg); }
-.kpill.lv1 .kname { color: var(--l1-text); }
-.kpill.lv1 .klevel { background: var(--l1-badge); color: var(--l1-text); }
-.kpill.lv1.active { border-color: #0284c7; }
-.kpill.lv1.active::after { color: #0284c7; }
-
-.kpill.lv2 { border-color: var(--l2-border); background: var(--l2-bg); }
-.kpill.lv2 .kname { color: var(--l2-text); }
-.kpill.lv2 .klevel { background: var(--l2-badge); color: var(--l2-text); }
-.kpill.lv2.active { border-color: #2563eb; }
-.kpill.lv2.active::after { color: #2563eb; }
-
-.kpill.lv3 { border-color: var(--l3-border); background: var(--l3-bg); }
-.kpill.lv3 .kname { color: var(--l3-text); }
-.kpill.lv3 .klevel { background: var(--l3-badge); color: var(--l3-text); }
-.kpill.lv3.active { border-color: #059669; }
-.kpill.lv3.active::after { color: #059669; }
-
-.kpill.lv4 { border-color: var(--l4-border); background: var(--l4-bg); }
-.kpill.lv4 .kname { color: var(--l4-text); }
-.kpill.lv4 .klevel { background: var(--l4-badge); color: var(--l4-text); }
-.kpill.lv4.active { border-color: #ca8a04; }
-.kpill.lv4.active::after { color: #ca8a04; }
-
-.kpill.lv5 { border-color: var(--l5-border); background: var(--l5-bg); }
-.kpill.lv5 .kname { color: var(--l5-text); }
-.kpill.lv5 .klevel { background: var(--l5-badge); color: var(--l5-text); }
-.kpill.lv5.active { border-color: #ea580c; }
-.kpill.lv5.active::after { color: #ea580c; }
-
-.kpill.lv6 { border-color: var(--l6-border); background: var(--l6-bg); }
-.kpill.lv6 .kname { color: var(--l6-text); }
-.kpill.lv6 .klevel { background: var(--l6-badge); color: var(--l6-text); }
-.kpill.lv6.active { border-color: #a21caf; }
-.kpill.lv6.active::after { color: #a21caf; }
-
-/* INFO BANNER */
-.info-banner { border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px; font-size: 12px; display: flex; gap: 10px; align-items: flex-start; }
-.info-banner.green { background: var(--green-pale); border: 1px solid var(--green-light); color: var(--green-mid); }
-.info-banner .icon { flex-shrink: 0; }
-
-/* WATER METER visual */
-.water-meter { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 10px 14px; background: #f8faff; border: 1px solid #e0e8ff; border-radius: var(--radius-sm); }
-.wm-label { font-size: 11px; color: var(--muted); flex-shrink: 0; }
-.wm-track { flex: 1; height: 8px; background: #e8f0fe; border-radius: 4px; overflow: hidden; }
-.wm-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease, background 0.4s ease; }
-.wm-val { font-size: 11px; font-family: var(--mono); font-weight: 500; color: var(--ink-soft); flex-shrink: 0; min-width: 90px; text-align: right; }
-
-/* GRID & FIELD */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field label { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
-.field .hint { font-size: 11px; color: var(--muted); }
-.field input, .field select { height: 38px; padding: 0 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 14px; color: var(--ink); background: var(--surface); transition: border-color 0.15s; width: 100%; }
-.field input:focus, .field select:focus { outline: none; border-color: var(--green-bright); box-shadow: 0 0 0 3px rgba(45,158,107,0.12); }
-.field .prefix-wrap { position: relative; }
-.field .prefix-wrap input { padding-left: 36px; }
-.field .prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--muted); font-weight: 500; pointer-events: none; }
-
-/* ENERGI TOGGLE */
-.energi-toggle { display: flex; border: 1.5px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 14px; }
-.etab { flex: 1; padding: 8px 4px; border: none; background: var(--surface); font-family: var(--font); font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; text-align: center; border-right: 1.5px solid var(--border); }
-.etab:last-child { border-right: none; }
-.etab.active { background: var(--green-deep); color: white; }
-.etab .eicon { font-size: 16px; display: block; margin-bottom: 2px; }
-
-/* SLIDER */
-.slider-wrap { display: flex; flex-direction: column; gap: 4px; }
-.slider-row { display: flex; align-items: center; gap: 10px; }
-.slider-row input[type=range] { flex: 1; height: 4px; appearance: none; background: var(--green-light); border-radius: 2px; outline: none; border: none; box-shadow: none; padding: 0; }
-.slider-row input[type=range]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--green-deep); cursor: pointer; border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-.slider-val { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--green-mid); min-width: 36px; text-align: right; }
-
-/* RESULT PANEL */
-.result-panel { position: sticky; top: 80px; }
-.result-card { background: var(--green-deep); color: white; border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
-.rc-title { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
-.metric-big { text-align: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 14px; }
-.metric-big .val { font-family: var(--mono); font-size: 38px; font-weight: 500; color: #7de0a8; line-height: 1; }
-.metric-big .unit { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 4px; }
-.metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.m-cell { background: rgba(255,255,255,0.07); border-radius: 8px; padding: 10px; }
-.m-cell .mv { font-family: var(--mono); font-size: 16px; font-weight: 500; color: white; }
-.m-cell .ml { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
-.m-cell.amber .mv { color: #f5c842; }
-.m-cell.red .mv { color: #ff8f7a; }
-.m-cell.green .mv { color: #7de0a8; }
-
-/* CASHFLOW */
-.cashflow-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
-.cf-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
-.cf-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-.cf-yr { font-size: 11px; color: var(--muted); width: 46px; flex-shrink: 0; font-family: var(--mono); }
-.cf-track { flex: 1; height: 18px; background: #f0f5f0; border-radius: 4px; overflow: hidden; }
-.cf-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
-.cf-amt { font-size: 11px; width: 72px; flex-shrink: 0; text-align: right; font-family: var(--mono); font-weight: 500; }
-
-/* TIMELINE */
-.timeline-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
-.tl-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
-.tl-boxes { display: flex; gap: 5px; flex-wrap: wrap; }
-.tl-box { width: 44px; height: 44px; border-radius: 8px; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
-.tl-box span { font-size: 9px; font-weight: 400; }
-.tl-box.invest { background: #fde8e3; color: #c0391e; }
-.tl-box.breakeven { background: var(--amber-light); color: #9a6a00; }
-.tl-box.profit { background: var(--green-light); color: var(--green-deep); }
-.tl-legend { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
-.tl-leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
-.tl-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-
-/* BREAKDOWN */
-.breakdown-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
-.bk-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #f0f5f0; font-size: 13px; }
-.bk-row:last-child { border-bottom: none; font-weight: 600; }
-.bk-row .bk-label { color: var(--ink-soft); }
-.bk-row .bk-val { font-family: var(--mono); font-weight: 500; }
-.bk-row.positive .bk-val { color: var(--green-mid); }
-.bk-row.negative .bk-val { color: var(--red-soft); }
-.bk-row.total { background: var(--green-pale); margin: 0 -18px -18px; padding: 12px 18px; border-radius: 0 0 var(--radius) var(--radius); }
-
-/* SENSITIVITY */
-.sensitivity-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
-.sens-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
-.sens-scenario { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 12px; }
-.sens-scenario .sn { font-weight: 500; }
-.sens-scenario .sv { font-family: var(--mono); font-weight: 600; }
-.sens-scenario.pessimis { background: var(--red-light); }
-.sens-scenario.pessimis .sv { color: var(--red-soft); }
-.sens-scenario.base { background: var(--green-pale); }
-.sens-scenario.base .sv { color: var(--green-mid); }
-.sens-scenario.optimis { background: #eefaf3; }
-.sens-scenario.optimis .sv { color: #0a7a45; }
-
-/* CTA */
-.cta-card { background: var(--amber-light); border: 1px solid #f0d080; border-radius: var(--radius); padding: 16px 20px; text-align: center; }
-.cta-card h4 { font-size: 14px; font-weight: 600; color: #7a5000; margin-bottom: 6px; }
-.cta-card p { font-size: 12px; color: #9a6a00; margin-bottom: 14px; }
-.cta-btn { display: inline-block; background: var(--green-deep); color: white; font-family: var(--font); font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.15s; }
-.cta-btn:hover { background: var(--green-mid); }
-
-.disclaimer { background: #fffbf0; border: 1px solid #f0e0a0; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 11px; color: #8a7030; margin-bottom: 16px; }
-
-footer { background: var(--green-deep); color: rgba(255,255,255,0.5); text-align: center; padding: 20px 24px; font-size: 12px; }
-footer strong { color: white; }
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .main { grid-template-columns: 1fr; padding: 16px 14px 48px; gap: 0; }
-  .result-panel { position: static; }
-  .crop-grid { grid-template-columns: repeat(3, 1fr); }
-  .grid2 { grid-template-columns: 1fr; }
-  .metrics-row { grid-template-columns: 1fr 1fr; }
-  .hero { padding: 36px 20px 32px; }
-  .hero-stats { gap: 20px; }
-  .sens-scenario { flex-direction: column; align-items: flex-start; gap: 4px; }
+.snav-item:hover { color: rgba(255,255,255,0.7); }
+.snav-item.active { color: var(--mint); border-bottom-color: var(--sprout); }
+.snav-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
 }
-@media (max-width: 420px) {
-  .crop-grid { grid-template-columns: repeat(2, 1fr); }
-  .metric-big .val { font-size: 30px; }
-  .level-legend { gap: 4px; }
-  .leg-pill { font-size: 9px; padding: 2px 7px; }
+.snav-item.active .snav-num { background: var(--sprout); color: white; }
+.snav-item.done .snav-num { background: var(--leaf); color: var(--mint); }
+.snav-item.done { color: rgba(255,255,255,0.55); }
+
+/* ===== MAIN LAYOUT ===== */
+.main-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ===== STEP PANEL ===== */
+.step-panel {
+  display: none;
+  animation: fadeSlide 0.3s ease;
+}
+.step-panel.active { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0ebe3;
+}
+.card-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.card-icon.green { background: var(--pale-g); }
+.card-icon.gold  { background: var(--straw); }
+.card-icon.water { background: var(--mist); }
+.card-icon.rust  { background: var(--blush); }
+.card-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--soil); letter-spacing: -0.01em; }
+.card-sub   { font-size: 12px; color: var(--clay); margin-top: 2px; }
+
+/* ===== PAIN CALLOUT ===== */
+.pain-box {
+  background: linear-gradient(135deg, #fff8f0, #fef3e6);
+  border: 1px solid #f0d090;
+  border-radius: var(--r);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.pain-box .pb-icon { font-size: 22px; flex-shrink: 0; line-height: 1; }
+.pain-box .pb-body { font-size: 13px; color: #7a5000; line-height: 1.6; }
+.pain-box .pb-body strong { color: #5a3800; }
+
+/* ===== FIELDS ===== */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--earth);
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+.field .hint { font-size: 11px; color: var(--clay); }
+.inp-wrap { position: relative; }
+.inp-prefix {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--clay);
+  font-weight: 500;
+  pointer-events: none;
+}
+.inp-suffix {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--clay);
+  pointer-events: none;
+}
+.field input[type=number],
+.field select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1.5px solid #d8cfbf;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--soil);
+  background: #fdfaf6;
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+}
+.field input[type=number]:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--sprout);
+  box-shadow: 0 0 0 3px rgba(61,170,106,0.12);
+  background: white;
+}
+.has-prefix input { padding-left: 36px; }
+.has-suffix input { padding-right: 52px; }
+
+/* ===== SOURCE TOGGLE ===== */
+.src-toggle {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.src-btn {
+  border: 1.5px solid #d8cfbf;
+  border-radius: var(--r);
+  padding: 12px 8px;
+  cursor: pointer;
+  text-align: center;
+  background: #fdfaf6;
+  transition: all 0.15s;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--clay);
+  user-select: none;
+}
+.src-btn:hover { border-color: var(--sprout); color: var(--leaf); }
+.src-btn.active {
+  border-color: var(--leaf);
+  background: var(--pale-g);
+  color: var(--leaf);
+}
+.src-btn .sico { font-size: 20px; display: block; margin-bottom: 4px; }
+
+/* ===== COST TOTAL BOX ===== */
+.cost-total {
+  background: var(--soil);
+  color: white;
+  border-radius: var(--r);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+.ct-label { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
+.ct-val {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+}
+.ct-yr { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+/* ===== CAPEX BREAKDOWN ===== */
+.capex-rows { margin-bottom: 0; }
+.capex-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ebe3;
+}
+.capex-row:last-child { border-bottom: none; }
+.capex-row label { font-size: 12px; color: var(--earth); flex: 1; }
+.capex-row .field { flex: 0 0 160px; margin: 0; }
+.capex-row .field input { height: 36px; font-size: 13px; }
+.capex-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--pale-g);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+}
+.capex-total-row .ctl { font-size: 13px; font-weight: 600; color: var(--leaf); font-family: var(--font-display); }
+.capex-total-row .ctv { font-family: var(--font-mono); font-size: 18px; font-weight: 500; color: var(--leaf); }
+
+/* ===== FINANCING ===== */
+.financing-toggle {
+  display: flex;
+  border: 1.5px solid #d8cfbf;
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.ftab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: #fdfaf6;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--clay);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-right: 1.5px solid #d8cfbf;
+}
+.ftab:last-child { border-right: none; }
+.ftab.active { background: var(--soil); color: var(--gold); }
+
+.financing-result {
+  background: linear-gradient(135deg, #1c1410, #2d2218);
+  border-radius: var(--r);
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+.fr-tag { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.fr-val { font-family: var(--font-mono); font-size: 32px; font-weight: 500; color: var(--gold); letter-spacing: -0.02em; }
+.fr-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.fr-row { display: flex; gap: 12px; margin-top: 14px; }
+.fr-cell { flex: 1; background: rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; text-align: center; }
+.fr-cell .fcv { font-family: var(--font-mono); font-size: 15px; font-weight: 500; color: white; }
+.fr-cell .fcl { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+/* ===== NAVIGATION BUTTONS ===== */
+.nav-btns { display: flex; gap: 10px; margin-top: 8px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-radius: var(--r);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn-primary { background: var(--leaf); color: white; flex: 1; justify-content: center; }
+.btn-primary:hover { background: var(--sprout); }
+.btn-back { background: #f0ebe3; color: var(--clay); }
+.btn-back:hover { background: #e0d8cc; }
+.btn-cta {
+  background: linear-gradient(135deg, var(--sun), var(--gold));
+  color: var(--soil);
+  font-size: 15px;
+  padding: 14px 28px;
+  width: 100%;
+  justify-content: center;
+  font-weight: 800;
+}
+.btn-cta:hover { filter: brightness(1.05); }
+
+/* ===== STICKY RESULT PANEL ===== */
+.result-panel {
+  position: sticky;
+  top: 112px;
+}
+
+/* ===== HERO METRIC CARD ===== */
+.hero-metric {
+  background: var(--soil);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-metric::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 80% at 0% 100%, rgba(42,122,75,0.3) 0%, transparent 60%);
+}
+.hm-inner { position: relative; }
+.hm-eyebrow {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+}
+.hm-main {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--mint);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hm-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.hm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hm-cell {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.hm-cell .hcv { font-family: var(--font-mono); font-size: 15px; color: white; font-weight: 500; }
+.hm-cell .hcl { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.hm-cell.amber .hcv { color: var(--gold); }
+.hm-cell.rust .hcv { color: #ff9980; }
+.hm-cell.mint .hcv { color: var(--mint); }
+
+/* ===== COMPARISON TABLE ===== */
+.compare-card {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.compare-head {
+  background: var(--bark);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.compare-head .ch-title { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.04em; text-transform: uppercase; }
+.cmp-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0ebe3;
+  gap: 10px;
+}
+.cmp-row:last-child { border-bottom: none; }
+.cmp-icon { font-size: 16px; width: 28px; flex-shrink: 0; }
+.cmp-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--earth); }
+.cmp-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--soil);
+  text-align: right;
+  min-width: 90px;
+}
+.cmp-bar-wrap { width: 64px; height: 6px; background: #f0ebe3; border-radius: 3px; overflow: hidden; }
+.cmp-bar { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+.cmp-row.active-row { background: var(--pale-g); }
+.cmp-row.active-row .cmp-name { color: var(--leaf); font-weight: 600; }
+.cmp-row.active-row .cmp-val { color: var(--leaf); }
+
+/* ===== SAVINGS BAR ===== */
+.savings-section {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.ss-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--clay);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.cf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cf-lbl { font-size: 11px; color: var(--clay); width: 48px; flex-shrink: 0; font-family: var(--font-mono); }
+.cf-track { flex: 1; height: 20px; background: #f0ebe3; border-radius: 4px; overflow: hidden; position: relative; }
+.cf-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease, background 0.3s; }
+.cf-amt { font-size: 11px; font-family: var(--font-mono); font-weight: 500; min-width: 78px; text-align: right; }
+
+/* ===== TIMELINE ===== */
+.tl-section {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.tl-boxes { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+.tl-box {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  transition: transform 0.2s;
+}
+.tl-box:hover { transform: scale(1.08); }
+.tl-box span { font-size: 8px; font-weight: 400; }
+.tl-box.invest { background: var(--blush); color: var(--rust); }
+.tl-box.breakeven { background: var(--straw); color: #7a5000; }
+.tl-box.profit { background: var(--pale-g); color: var(--leaf); }
+.tl-legend { display: flex; gap: 14px; flex-wrap: wrap; }
+.tl-leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--clay); }
+.tl-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+/* ===== BREAKDOWN ===== */
+.bk-section {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.bk-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #f0ebe3; font-size: 12px; }
+.bk-row:last-child { border-bottom: none; }
+.bk-lbl { color: var(--clay); }
+.bk-val { font-family: var(--font-mono); font-weight: 500; }
+.bk-row.pos .bk-val { color: var(--leaf); }
+.bk-row.neg .bk-val { color: var(--rust); }
+.bk-row.total-row { background: var(--pale-g); margin: 0 -18px -18px; padding: 12px 18px; border-radius: 0 0 var(--r-lg) var(--r-lg); font-weight: 600; }
+.bk-row.total-row .bk-lbl { color: var(--leaf); font-family: var(--font-display); }
+.bk-row.total-row .bk-val { color: var(--leaf); font-size: 16px; }
+
+/* ===== CUMULATIVE ===== */
+.cum-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0ebe3; font-size: 13px; }
+.cum-row:last-child { border-bottom: none; }
+.cum-lbl { color: var(--clay); }
+.cum-val { font-family: var(--font-mono); font-weight: 600; color: var(--leaf); }
+
+/* ===== CTA ===== */
+.cta-card {
+  background: linear-gradient(135deg, #1c5c30, #2a7a4b);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.cta-card h4 { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; }
+.cta-card p { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 16px; line-height: 1.6; }
+
+.disclaimer {
+  background: #fef9f0;
+  border: 1px solid #f0e0a0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 11px;
+  color: #8a7030;
+  line-height: 1.5;
+}
+
+/* ===== KOMODITAS PILLS ===== */
+.kpill-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 8px; }
+.kpill {
+  border: 1.5px solid #d8cfbf;
+  border-radius: var(--r);
+  padding: 10px 6px 8px;
+  cursor: pointer;
+  text-align: center;
+  background: #fdfaf6;
+  transition: all 0.15s;
+  user-select: none;
+  position: relative;
+}
+.kpill:hover { border-color: var(--sprout); transform: translateY(-1px); }
+.kpill.active { border-color: var(--leaf); background: var(--pale-g); }
+.kpill.active::after { content: '✓'; position: absolute; top: 4px; right: 6px; font-size: 9px; font-weight: 700; color: var(--leaf); }
+.kpill .ke { font-size: 20px; display: block; margin-bottom: 3px; }
+.kpill .kn { font-size: 10px; font-weight: 600; color: var(--earth); display: block; line-height: 1.3; }
+
+.kgrp-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--clay);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 12px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kgrp-lbl::after { content: ''; flex: 1; height: 1px; background: #e8e0d5; }
+
+/* ===== WATER METER ===== */
+.wmeter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--mist);
+  border: 1px solid #b0d8f0;
+  border-radius: var(--r);
+  margin: 12px 0;
+  font-size: 12px;
+}
+.wm-track { flex: 1; height: 8px; background: rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+.wm-fill { height: 100%; border-radius: 4px; transition: width 0.4s, background 0.3s; }
+.wm-lbl { color: var(--water); font-weight: 600; white-space: nowrap; }
+.wm-val { font-family: var(--font-mono); font-size: 11px; color: var(--water); white-space: nowrap; }
+
+/* ===== INFO BANNER ===== */
+.info-note {
+  background: var(--pale-g);
+  border: 1px solid #a0dab8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--leaf);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ===== RESULT PANEL — STEP 1 placeholder ===== */
+.result-placeholder {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--clay);
+}
+.result-placeholder .rp-icon { font-size: 40px; margin-bottom: 12px; }
+.result-placeholder p { font-size: 13px; line-height: 1.7; }
+
+/* ===== SENSITIVITY ===== */
+.sens-section {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.sens-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+.sens-row:last-child { margin-bottom: 0; }
+.sens-row .sn { font-weight: 500; }
+.sens-row .sv { font-family: var(--font-mono); font-weight: 600; }
+.sens-row.pes { background: var(--blush); }
+.sens-row.pes .sv { color: var(--rust); }
+.sens-row.base { background: var(--pale-g); }
+.sens-row.base .sv { color: var(--leaf); }
+.sens-row.opt { background: var(--straw); }
+.sens-row.opt .sv { color: #7a5000; }
+
+/* ===== YIELD BADGE ===== */
+.yield-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--straw);
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7a5000;
+  margin-top: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 860px) {
+  .main-wrap { grid-template-columns: 1fr; padding: 16px 14px 60px; gap: 0; }
+  .result-panel { position: static; }
+  .kpill-grid { grid-template-columns: repeat(3, 1fr); }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .src-toggle { grid-template-columns: repeat(2, 1fr); }
+  .hero-kpi { flex-wrap: wrap; }
+  .kpi { min-width: 50%; }
+}
+@media (max-width: 480px) {
+  .kpill-grid { grid-template-columns: repeat(2, 1fr); }
+  .hm-main { font-size: 34px; }
+  .snav-item { padding: 12px 14px; font-size: 11px; }
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
+  <div class="hdr">
     <div class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 19.34L5.71 21l1-1.17A4.49 4.49 0 008 20a4.5 4.5 0 000-9 4.47 4.47 0 00-1.93.44C7.19 9.17 9.1 7.5 12 7l1-1.5C14.5 4 17 4 17 4V8zm-7 7a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
-      </div>
-      <div class="logo-text">
-        <div class="brand">AgrosolPump</div>
-        <div class="tagline">Pompa Irigasi Tenaga Surya</div>
+      <div class="logo-mark">🌿</div>
+      <div>
+        <div class="logo-name">AgrosolPump</div>
+        <div class="logo-sub">Pompa Irigasi Tenaga Surya</div>
       </div>
     </div>
-    <div class="header-badge">Kalkulator ROI B2B/B2G</div>
+    <div class="hdr-badge">Sales ROI Tool</div>
   </div>
 </header>
 
 <div class="hero">
-  <div class="hero-content">
-    <h1>Hitung <span>Balik Modal</span><br>Pompa Surya Anda</h1>
-    <p>Masukkan data lahan dan biaya operasional Anda. Kami hitung penghematan, payback period, dan ROI secara otomatis.</p>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="num">0%</div><div class="lbl">Biaya BBM</div></div>
-      <div class="hero-stat"><div class="num">15–30%</div><div class="lbl">Peningkatan Yield</div></div>
-      <div class="hero-stat"><div class="num">2–5 Thn</div><div class="lbl">Rata-rata BEP</div></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">⚡ Solar Water Pump — Kalkulator Hemat</div>
+    <h1>Bapak Sekarang <em>Keluar<br>Berapa</em> untuk Air?</h1>
+    <p>Isi data biaya operasional Anda, kami hitung berapa bisa Anda hemat dan kapan investasi kembali — langkah demi langkah.</p>
+  </div>
+  <div class="hero-kpi">
+    <div class="kpi"><div class="kpi-val">0%</div><div class="kpi-lbl">Biaya BBM/Listrik Setelah Pasang</div></div>
+    <div class="kpi"><div class="kpi-val">15–30%</div><div class="kpi-lbl">Peningkatan Hasil Panen</div></div>
+    <div class="kpi"><div class="kpi-val">2–5 Thn</div><div class="kpi-lbl">Rata-rata Balik Modal</div></div>
+    <div class="kpi"><div class="kpi-val">20+ Thn</div><div class="kpi-lbl">Umur Sistem Solar Pump</div></div>
+  </div>
+</div>
+
+<!-- STEP NAV -->
+<div class="steps-nav">
+  <div class="steps-nav-inner">
+    <div class="snav-item active" id="nav0" onclick="goStep(0)">
+      <div class="snav-num">1</div> Kondisi Sekarang
+    </div>
+    <div class="snav-item" id="nav1" onclick="goStep(1)">
+      <div class="snav-num">2</div> Lahan & Komoditas
+    </div>
+    <div class="snav-item" id="nav2" onclick="goStep(2)">
+      <div class="snav-num">3</div> Investasi Solar Pump
+    </div>
+    <div class="snav-item" id="nav3" onclick="goStep(3)">
+      <div class="snav-num">4</div> Simulasi Pembelian
+    </div>
+    <div class="snav-item" id="nav4" onclick="goStep(4)">
+      <div class="snav-num">5</div> Hasil & Analisis
     </div>
   </div>
 </div>
 
-<div class="main">
-  <div class="inputs-col">
+<div class="main-wrap">
+  <!-- ==================== LEFT COL ==================== -->
+  <div>
 
-    <!-- SECTION 1: KOMODITAS -->
-    <div class="section">
-      <div class="sec-head">
-        <div class="sec-num">1</div>
-        <h3>Pilih Komoditas & Profil Lahan</h3>
-      </div>
+    <!-- STEP 0: PAIN POINT — current cost -->
+    <div class="step-panel active" id="step0">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon rust">⛽</div>
+          <div>
+            <div class="card-title">Biaya Irigasi Anda Saat Ini</div>
+            <div class="card-sub">Kita mulai dari sini — berapa yang Anda keluarkan setiap bulan untuk mengairi lahan?</div>
+          </div>
+        </div>
 
-      <!-- Level legend -->
-      <div class="level-legend">
-        <div class="leg-pill" style="background:var(--l1-badge);color:var(--l1-text)"><div class="dot" style="background:var(--l1-text)"></div>Sangat Rendah</div>
-        <div class="leg-pill" style="background:var(--l2-badge);color:var(--l2-text)"><div class="dot" style="background:var(--l2-text)"></div>Rendah</div>
-        <div class="leg-pill" style="background:var(--l3-badge);color:var(--l3-text)"><div class="dot" style="background:var(--l3-text)"></div>Sedang</div>
-        <div class="leg-pill" style="background:var(--l4-badge);color:var(--l4-text)"><div class="dot" style="background:var(--l4-text)"></div>Sedang-Tinggi</div>
-        <div class="leg-pill" style="background:var(--l5-badge);color:var(--l5-text)"><div class="dot" style="background:var(--l5-text)"></div>Tinggi</div>
-        <div class="leg-pill" style="background:var(--l6-badge);color:var(--l6-text)"><div class="dot" style="background:var(--l6-text)"></div>Sangat Tinggi</div>
-      </div>
+        <div class="pain-box">
+          <div class="pb-icon">💡</div>
+          <div class="pb-body">Banyak petani tidak sadar seberapa besar biaya air mereka. Mari kita hitung dengan jelas — <strong>ini uang yang bisa Anda hemat</strong> dengan Solar Water Pump.</div>
+        </div>
 
-      <!-- Group: Perkebunan & Tanaman Keras -->
-      <div class="crop-group">
-        <div class="crop-group-label">🌳 Perkebunan & Tanaman Keras</div>
-        <div class="crop-grid">
-          <div class="kpill lv1" onclick="selectCrop('singkong',this)">
-            <span class="emoji">🍠</span>
-            <span class="kname">Singkong</span>
-            <span class="klevel">2–4 mm/hari</span>
+        <p style="font-size:12px;font-weight:700;color:var(--earth);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;font-family:var(--font-display)">Sumber Irigasi Saat Ini</p>
+        <div class="src-toggle">
+          <div class="src-btn active" onclick="setSrc('diesel',this)"><span class="sico">⛽</span>Genset Diesel</div>
+          <div class="src-btn" onclick="setSrc('pln',this)"><span class="sico">⚡</span>PLN</div>
+          <div class="src-btn" onclick="setSrc('manual',this)"><span class="sico">💪</span>Manual</div>
+          <div class="src-btn" onclick="setSrc('mix',this)"><span class="sico">🔀</span>Campuran</div>
+        </div>
+
+        <div class="grid2" style="margin-bottom:14px" id="energyFields">
+          <div class="field">
+            <label id="q1lbl">Konsumsi solar (liter/bulan)</label>
+            <input type="number" id="q1" value="80" step="5">
           </div>
-          <div class="kpill lv1" onclick="selectCrop('kopi',this)">
-            <span class="emoji">☕</span>
-            <span class="kname">Kopi / Kakao</span>
-            <span class="klevel">2–4 mm/hari</span>
+          <div class="field">
+            <label id="q2lbl">Harga solar (Rp/liter)</label>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="q2" value="10000" step="500" style="padding-left:36px"></div>
           </div>
-          <div class="kpill lv1" onclick="selectCrop('tembakau',this)">
-            <span class="emoji">🌿</span>
-            <span class="kname">Tembakau</span>
-            <span class="klevel">2–4 mm/hari</span>
+        </div>
+
+        <div class="grid2" style="margin-bottom:14px">
+          <div class="field">
+            <label>Gaji operator pompa (Rp/bulan)</label>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="opCost" value="500000" step="50000" style="padding-left:36px"></div>
+            <span class="hint">Masukkan 0 jika tidak ada operator</span>
           </div>
-          <div class="kpill lv5" onclick="selectCrop('jeruk',this)">
-            <span class="emoji">🍊</span>
-            <span class="kname">Jeruk / Mangga</span>
-            <span class="klevel">10–13 mm/hari</span>
+          <div class="field">
+            <label>Biaya servis & spare part (Rp/bulan)</label>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintCost" value="200000" step="50000" style="padding-left:36px"></div>
+          </div>
+        </div>
+
+        <div class="cost-total">
+          <div>
+            <div class="ct-label">Estimasi Biaya Irigasi Saat Ini</div>
+            <div class="ct-val" id="totalMonthly">Rp 1.500.000</div>
+          </div>
+          <div style="text-align:right">
+            <div class="ct-yr" id="totalYearly">≈ Rp 18jt / tahun</div>
+            <div class="ct-yr" style="margin-top:3px">Uang yang bisa dihemat ☝️</div>
           </div>
         </div>
       </div>
 
-      <!-- Group: Serealia & Umbi -->
-      <div class="crop-group">
-        <div class="crop-group-label">🌾 Serealia & Umbi</div>
-        <div class="crop-grid">
-          <div class="kpill lv2" onclick="selectCrop('jagung',this)">
-            <span class="emoji">🌽</span>
-            <span class="kname">Jagung</span>
-            <span class="klevel">4–6 mm/hari</span>
-          </div>
-          <div class="kpill lv2" onclick="selectCrop('kedelai',this)">
-            <span class="emoji">🫘</span>
-            <span class="kname">Kedelai</span>
-            <span class="klevel">4–6 mm/hari</span>
-          </div>
-          <div class="kpill lv2" onclick="selectCrop('sorgum',this)">
-            <span class="emoji">🌾</span>
-            <span class="kname">Sorgum</span>
-            <span class="klevel">4–6 mm/hari</span>
-          </div>
-          <div class="kpill lv5 active" onclick="selectCrop('padigogo',this)">
-            <span class="emoji">🌱</span>
-            <span class="kname">Padi Gogo</span>
-            <span class="klevel">10–13 mm/hari</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group: Hortikultura Sayur -->
-      <div class="crop-group">
-        <div class="crop-group-label">🥬 Hortikultura Sayur</div>
-        <div class="crop-grid">
-          <div class="kpill lv3" onclick="selectCrop('cabai',this)">
-            <span class="emoji">🌶️</span>
-            <span class="kname">Cabai Besar</span>
-            <span class="klevel">6–8 mm/hari</span>
-          </div>
-          <div class="kpill lv3" onclick="selectCrop('bawangmerah',this)">
-            <span class="emoji">🧅</span>
-            <span class="kname">Bawang Merah</span>
-            <span class="klevel">6–8 mm/hari</span>
-          </div>
-          <div class="kpill lv3" onclick="selectCrop('bawangputih',this)">
-            <span class="emoji">🧄</span>
-            <span class="kname">Bawang Putih</span>
-            <span class="klevel">6–8 mm/hari</span>
-          </div>
-          <div class="kpill lv3" onclick="selectCrop('kentang',this)">
-            <span class="emoji">🥔</span>
-            <span class="kname">Kentang</span>
-            <span class="klevel">6–8 mm/hari</span>
-          </div>
-          <div class="kpill lv3" onclick="selectCrop('tomat',this)">
-            <span class="emoji">🍅</span>
-            <span class="kname">Tomat</span>
-            <span class="klevel">6–8 mm/hari</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group: Hortikultura Buah -->
-      <div class="crop-group">
-        <div class="crop-group-label">🍉 Hortikultura Buah</div>
-        <div class="crop-grid">
-          <div class="kpill lv4" onclick="selectCrop('melon',this)">
-            <span class="emoji">🍈</span>
-            <span class="kname">Melon / Semangka</span>
-            <span class="klevel">8–10 mm/hari</span>
-          </div>
-          <div class="kpill lv4" onclick="selectCrop('pepaya',this)">
-            <span class="emoji">🍈</span>
-            <span class="kname">Pepaya</span>
-            <span class="klevel">8–10 mm/hari</span>
-          </div>
-          <div class="kpill lv4" onclick="selectCrop('pisang',this)">
-            <span class="emoji">🍌</span>
-            <span class="kname">Pisang</span>
-            <span class="klevel">8–10 mm/hari</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Group: Padi & Tebu -->
-      <div class="crop-group">
-        <div class="crop-group-label">💧 Padi & Tebu</div>
-        <div class="crop-grid">
-          <div class="kpill lv5" onclick="selectCrop('padisri',this)">
-            <span class="emoji">🌾</span>
-            <span class="kname">Padi SRI</span>
-            <span class="klevel">10–13 mm/hari</span>
-          </div>
-          <div class="kpill lv6" onclick="selectCrop('padisawah',this)">
-            <span class="emoji">🌾</span>
-            <span class="kname">Padi Sawah</span>
-            <span class="klevel">13–15 mm/hari</span>
-          </div>
-          <div class="kpill lv6" onclick="selectCrop('tebu',this)">
-            <span class="emoji">🎋</span>
-            <span class="kname">Tebu</span>
-            <span class="klevel">13–15 mm/hari</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Water meter -->
-      <div class="water-meter">
-        <span class="wm-label">💧 Kebutuhan air:</span>
-        <div class="wm-track"><div class="wm-fill" id="wmFill" style="width:50%;background:#f59e0b"></div></div>
-        <span class="wm-val" id="wmVal">10–13 mm/hari</span>
-      </div>
-
-      <!-- Info banner -->
-      <div class="info-banner green" id="cropInfoBanner">
-        <span class="icon">ℹ️</span>
-        <span id="cropInfoText">Pilih komoditas untuk melihat karakteristik kebutuhan air dan asumsi kalkulasi.</span>
-      </div>
-
-      <div class="grid2">
-        <div class="field">
-          <label>Luas lahan (ha)</label>
-          <input type="number" id="lahan" value="2" min="0.25" step="0.25">
-        </div>
-        <div class="field">
-          <label>Musim tanam / tahun</label>
-          <select id="musim">
-            <option value="1">1x / tahun</option>
-            <option value="2" selected>2x / tahun</option>
-            <option value="3">3x / tahun</option>
-          </select>
-        </div>
+      <div class="nav-btns">
+        <button class="btn btn-primary" onclick="goStep(1)">Lanjut: Data Lahan →</button>
       </div>
     </div>
 
-    <!-- SECTION 2: INVESTASI -->
-    <div class="section">
-      <div class="sec-head">
-        <div class="sec-num">2</div>
-        <h3>Biaya Investasi</h3>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Harga unit pompa + instalasi</label>
-          <div class="prefix-wrap"><span class="prefix">Rp</span><input type="number" id="hargaPompa" value="25000000" step="1000000"></div>
+    <!-- STEP 1: LAHAN & KOMODITAS -->
+    <div class="step-panel" id="step1">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon green">🌱</div>
+          <div>
+            <div class="card-title">Lahan & Komoditas</div>
+            <div class="card-sub">Untuk menghitung kebutuhan sistem yang tepat dan potensi peningkatan hasil panen</div>
+          </div>
         </div>
-        <div class="field">
-          <label>Maintenance tahunan</label>
-          <div class="prefix-wrap"><span class="prefix">Rp</span><input type="number" id="maintenance" value="1500000" step="100000"></div>
-          <span class="hint">servis + penggantian spare part</span>
+
+        <div class="grid2" style="margin-bottom:20px">
+          <div class="field">
+            <label>Luas lahan (hektar)</label>
+            <div class="inp-wrap"><input type="number" id="lahan" value="2" min="0.25" step="0.25"><span class="inp-suffix">ha</span></div>
+          </div>
+          <div class="field">
+            <label>Musim tanam per tahun</label>
+            <select id="musim">
+              <option value="1">1× per tahun</option>
+              <option value="2" selected>2× per tahun</option>
+              <option value="3">3× per tahun</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="kgrp-lbl">🌳 Perkebunan & Tanaman Keras</p>
+        <div class="kpill-grid">
+          <div class="kpill" onclick="pickCrop('kopi',this)"><span class="ke">☕</span><span class="kn">Kopi/Kakao</span></div>
+          <div class="kpill" onclick="pickCrop('singkong',this)"><span class="ke">🍠</span><span class="kn">Singkong</span></div>
+          <div class="kpill" onclick="pickCrop('jeruk',this)"><span class="ke">🍊</span><span class="kn">Jeruk/Mangga</span></div>
+          <div class="kpill" onclick="pickCrop('pisang',this)"><span class="ke">🍌</span><span class="kn">Pisang</span></div>
+        </div>
+
+        <p class="kgrp-lbl">🌾 Serealia & Umbi</p>
+        <div class="kpill-grid">
+          <div class="kpill" onclick="pickCrop('jagung',this)"><span class="ke">🌽</span><span class="kn">Jagung</span></div>
+          <div class="kpill" onclick="pickCrop('kedelai',this)"><span class="ke">🫘</span><span class="kn">Kedelai</span></div>
+          <div class="kpill" onclick="pickCrop('kentang',this)"><span class="ke">🥔</span><span class="kn">Kentang</span></div>
+          <div class="kpill" onclick="pickCrop('singkong',this)"><span class="ke">🍠</span><span class="kn">Singkong</span></div>
+        </div>
+
+        <p class="kgrp-lbl">🥬 Sayuran & Hortikultura</p>
+        <div class="kpill-grid">
+          <div class="kpill" onclick="pickCrop('cabai',this)"><span class="ke">🌶️</span><span class="kn">Cabai</span></div>
+          <div class="kpill" onclick="pickCrop('bawangmerah',this)"><span class="ke">🧅</span><span class="kn">Bawang Merah</span></div>
+          <div class="kpill" onclick="pickCrop('tomat',this)"><span class="ke">🍅</span><span class="kn">Tomat</span></div>
+          <div class="kpill" onclick="pickCrop('melon',this)"><span class="ke">🍈</span><span class="kn">Melon/Semangka</span></div>
+        </div>
+
+        <p class="kgrp-lbl">💧 Padi & Tebu</p>
+        <div class="kpill-grid">
+          <div class="kpill active" onclick="pickCrop('padigogo',this)"><span class="ke">🌱</span><span class="kn">Padi Gogo</span></div>
+          <div class="kpill" onclick="pickCrop('padisawah',this)"><span class="ke">🌾</span><span class="kn">Padi Sawah</span></div>
+          <div class="kpill" onclick="pickCrop('tebu',this)"><span class="ke">🎋</span><span class="kn">Tebu</span></div>
+          <div class="kpill" onclick="pickCrop('pepaya',this)"><span class="ke">🍈</span><span class="kn">Pepaya</span></div>
+        </div>
+
+        <div class="wmeter" id="wmeter">
+          <span>💧</span>
+          <div class="wm-track"><div class="wm-fill" id="wmFill" style="width:60%;background:var(--sky)"></div></div>
+          <span class="wm-val" id="wmVal">10–13 mm/hari</span>
+        </div>
+
+        <div class="info-note" id="cropNote">
+          <span>🌱</span>
+          <span id="cropNoteText">Pilih komoditas untuk melihat informasi kebutuhan air dan potensi peningkatan hasil.</span>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label>Produktivitas saat ini (ton/ha/panen)</label>
+            <input type="number" id="prodNow" value="3.5" step="0.5">
+          </div>
+          <div class="field">
+            <label>Harga jual komoditas (Rp/kg)</label>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="hargaKom" value="7000" step="500" style="padding-left:36px"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label style="font-size:12px;font-weight:700;font-family:var(--font-display);color:var(--earth);letter-spacing:0.01em;display:block;margin-bottom:6px">Estimasi peningkatan yield dengan irigasi terjadwal</label>
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" id="yieldUp" min="0" max="50" step="5" value="10000000"
+              style="flex:1;height:4px;appearance:none;background:var(--pale-g);border-radius:2px;outline:none;border:none"
+              oninput="document.getElementById('yieldVal').textContent=this.value+'%';calcAll()">
+            <span style="font-family:var(--font-mono);font-size:15px;font-weight:500;color:var(--leaf);min-width:40px" id="yieldVal">25%</span>
+          </div>
+          <div class="yield-badge" id="yieldBadge">📊 Referensi: 20–30% untuk padi gogo</div>
         </div>
       </div>
-      <div class="field" style="margin-top:12px">
-        <label>Horizon analisis</label>
-        <select id="horizon">
-          <option value="5">5 tahun</option>
-          <option value="7" selected>7 tahun</option>
-          <option value="10">10 tahun</option>
-        </select>
+
+      <div class="nav-btns">
+        <button class="btn btn-back" onclick="goStep(0)">← Kembali</button>
+        <button class="btn btn-primary" onclick="goStep(2)">Lanjut: Investasi →</button>
       </div>
     </div>
 
-    <!-- SECTION 3: ENERGI -->
-    <div class="section">
-      <div class="sec-head">
-        <div class="sec-num">3</div>
-        <h3>Biaya Irigasi Saat Ini</h3>
-      </div>
-      <div class="energi-toggle">
-        <button class="etab active" onclick="setEnergi('diesel',this)"><span class="eicon">⛽</span>Diesel</button>
-        <button class="etab" onclick="setEnergi('pln',this)"><span class="eicon">⚡</span>PLN</button>
-        <button class="etab" onclick="setEnergi('manual',this)"><span class="eicon">💪</span>Manual</button>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label id="konsumsiLabel">Konsumsi solar (liter/bln)</label>
-          <input type="number" id="konsumsi" value="80" step="5">
+    <!-- STEP 2: INVESTASI / CAPEX -->
+    <div class="step-panel" id="step2">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon gold">☀️</div>
+          <div>
+            <div class="card-title">Investasi Solar Water Pump</div>
+            <div class="card-sub">Rincian biaya sistem — gunakan angka dari penawaran atau estimasi tim kami</div>
+          </div>
         </div>
-        <div class="field">
-          <label id="hargaEnergiLabel">Harga solar (Rp/liter)</label>
-          <input type="number" id="hargaEnergi" value="10000" step="500">
+
+        <div class="pain-box">
+          <div class="pb-icon">🎯</div>
+          <div class="pb-body">Jangan fokus dulu pada total harga. Kita akan tunjukkan di langkah berikutnya bagaimana investasi ini <strong>terbayar sendiri dari penghematan bulanan</strong> Anda.</div>
+        </div>
+
+        <div class="capex-rows">
+          <div class="capex-row">
+            <label>📦 Paket instalasi utama (pompa, solar panel, inverter & kelistrikan)</label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx1" value="146200000" step="1000000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+          </div>
+          <div class="capex-row">
+            <label>🔩 Biaya rangka & pipa distribusi di luar paket</label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx2" value="8000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+          </div>
+          <div class="capex-row">
+            <label>🚚 Biaya ongkir</label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx3" value="4000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+          </div>
+          <div class="capex-row">
+            <label>🛠️ Biaya instalasi lapangan</label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx4" value="5000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+          </div>
+          <div class="capex-row">
+            <label> </label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx5" value="2000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+          </div>
+        </div>
+
+        <div class="capex-total-row">
+          <span class="ctl">Total Investasi (CAPEX)</span>
+          <span class="ctv" id="capexTotal">Rp 34.000.000</span>
+        </div>
+
+        <div style="margin-top:20px">
+          <div class="field">
+            <label>Biaya maintenance tahunan (servis + spare part)</label>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintSolar" value="1500000" step="100000" style="padding-left:36px"></div>
+            <span class="hint">Solar pump sangat minim perawatan — umumnya Rp 1–2,5 jt/tahun</span>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="field">
+            <label>Horizon analisis</label>
+            <select id="horizon">
+              <option value="5">5 tahun</option>
+              <option value="7" selected>7 tahun</option>
+              <option value="10">10 tahun</option>
+              <option value="15">15 tahun</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="field" style="margin-top:12px">
-        <label>Biaya tenaga kerja irigasi (Rp/bln)</label>
-        <div class="prefix-wrap"><span class="prefix">Rp</span><input type="number" id="tkIrigasi" value="500000" step="50000"></div>
-        <span class="hint">gaji operator pompa / tenaga pengairan manual</span>
+
+      <div class="nav-btns">
+        <button class="btn btn-back" onclick="goStep(1)">← Kembali</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Lanjut: Simulasi Beli →</button>
       </div>
     </div>
 
-    <!-- SECTION 4: PRODUKTIVITAS -->
-    <div class="section">
-      <div class="sec-head">
-        <div class="sec-num">4</div>
-        <h3>Produktivitas & Harga Jual</h3>
+    <!-- STEP 3: FINANCING -->
+    <div class="step-panel" id="step3">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon water">💳</div>
+          <div>
+            <div class="card-title">Simulasi Pembelian</div>
+            <div class="card-sub">Cash atau cicilan — pilih yang paling sesuai arus kas Anda</div>
+          </div>
+        </div>
+
+        <div class="pain-box">
+          <div class="pb-icon">💰</div>
+          <div class="pb-body">Investasi tidak harus langsung lunas. Yang penting: <strong>cicilan bulanan harus lebih kecil dari penghematan bulanan Anda</strong>. Mari kita buktikan.</div>
+        </div>
+
+        <div class="financing-toggle">
+          <button class="ftab active" onclick="setFinancing('cash',this)">💵 Bayar Cash</button>
+          <button class="ftab" onclick="setFinancing('dp',this)">🏦 DP + Cicilan</button>
+        </div>
+
+        <div id="financing-cash">
+          <div class="financing-result">
+            <div class="fr-tag">Anda Bayar Sekali</div>
+            <div class="fr-val" id="cashAmount">Rp 34.000.000</div>
+            <div class="fr-sub">Lalu tidak ada biaya BBM atau listrik lagi — mulai bulan pertama hemat</div>
+          </div>
+        </div>
+
+        <div id="financing-dp" style="display:none">
+          <div class="grid3" style="margin-bottom:16px">
+            <div class="field">
+              <label>Uang Muka (%)</label>
+              <div class="inp-wrap"><input type="number" id="dpPct" value="10000000" min="10" max="100" step="5"><span class="inp-suffix">%</span></div>
+            </div>
+            <div class="field">
+              <label>Tenor (bulan)</label>
+              <select id="tenor">
+                <option value="12">12 bulan</option>
+                <option value="24" selected>24 bulan</option>
+                <option value="36">36 bulan</option>
+                <option value="48">48 bulan</option>
+                <option value="60">60 bulan</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Bunga per tahun (%)</label>
+              <div class="inp-wrap"><input type="number" id="bunga" value="8" min="0" max="24" step="0.5"><span class="inp-suffix">%</span></div>
+            </div>
+          </div>
+
+          <div class="financing-result">
+            <div class="fr-tag">DP Awal Yang Perlu Disiapkan</div>
+            <div class="fr-val" id="dpAmount">Rp 10.200.000</div>
+            <div class="fr-sub">Lalu cicilan bulanan:</div>
+            <div class="fr-row">
+              <div class="fr-cell">
+                <div class="fcv" id="cicilanPerBulan">Rp 1.150.000</div>
+                <div class="fcl">Cicilan / bulan</div>
+              </div>
+              <div class="fr-cell">
+                <div class="fcv" id="cicilanVsHemat" style="color:var(--mint)">vs Hemat Rp X</div>
+                <div class="fcl">Penghematan / bulan</div>
+              </div>
+              <div class="fr-cell">
+                <div class="fcv" id="selisihCicilan" style="color:var(--gold)">Net +Rp X</div>
+                <div class="fcl">Keuntungan bersih / bln</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Produktivitas saat ini (ton/ha/panen)</label>
-          <input type="number" id="prodNow" value="5" step="0.5">
-        </div>
-        <div class="field">
-          <label>Harga jual (Rp/kg)</label>
-          <input type="number" id="hargaKomoditas" value="6000" step="500">
-        </div>
-      </div>
-      <div class="slider-wrap" style="margin-top:14px">
-        <label style="font-size:12px;font-weight:600;color:var(--ink-soft)">Estimasi peningkatan yield karena irigasi terjadwal</label>
-        <div class="slider-row">
-          <input type="range" id="yieldUp" min="0" max="50" step="5" value="15" oninput="document.getElementById('yieldVal').textContent=this.value+'%';calc()">
-          <span class="slider-val" id="yieldVal">15%</span>
-        </div>
-        <span class="hint" id="yieldHint">Pilih komoditas untuk melihat referensi yield uplift</span>
+
+      <div class="nav-btns">
+        <button class="btn btn-back" onclick="goStep(2)">← Kembali</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Lihat Hasil Lengkap →</button>
       </div>
     </div>
 
-  </div><!-- /inputs-col -->
+    <!-- STEP 4: RESULTS -->
+    <div class="step-panel" id="step4">
+      <div class="card" style="background:var(--soil);color:white;border-color:var(--bark)">
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-display)">🎯 Kesimpulan Utama</div>
+        <div style="font-family:var(--font-mono);font-size:36px;font-weight:500;color:var(--mint);letter-spacing:-0.02em;line-height:1;margin-bottom:4px" id="r_hemat_bln">Rp —</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:20px">dihemat setiap bulan setelah beralih ke Solar Water Pump</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
+            <div style="font-family:var(--font-mono);font-size:15px;color:var(--gold)" id="r_payback">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">Balik Modal</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
+            <div style="font-family:var(--font-mono);font-size:15px;color:var(--mint)" id="r_hemat_thn">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">Hemat / Tahun</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
+            <div style="font-family:var(--font-mono);font-size:15px;color:white" id="r_roi">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">ROI Kumulatif</div>
+          </div>
+        </div>
+      </div>
 
-  <!-- RESULT PANEL -->
+      <!-- Before vs After -->
+      <div class="compare-card">
+        <div class="compare-head">
+          <span class="ch-title">Perbandingan Biaya Bulanan</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.4)">Sebelum vs Sesudah</span>
+        </div>
+        <div id="compareRows"></div>
+      </div>
+
+      <!-- Cumulative savings -->
+      <div class="card">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--clay);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px">📈 Total Kumulatif Yang Bisa Dihemat</div>
+        <div id="cumRows"></div>
+      </div>
+
+      <!-- Cashflow chart -->
+      <div class="savings-section">
+        <div class="ss-title">Cashflow Kumulatif Per Tahun</div>
+        <div id="cfBars"></div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="tl-section">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">⏱ Timeline Investasi</div>
+        <div class="tl-boxes" id="tlBoxes"></div>
+        <div class="tl-legend">
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--blush)"></div>Masa investasi</div>
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--straw)"></div>Titik balik modal</div>
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--pale-g)"></div>Periode profit</div>
+        </div>
+      </div>
+
+      <!-- Breakdown -->
+      <div class="bk-section">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">📊 Rincian Sumber Penghematan / Tahun</div>
+        <div class="bk-row pos"><span class="bk-lbl">Penghematan energi (BBM/Listrik)</span><span class="bk-val" id="bk_energi">—</span></div>
+        <div class="bk-row pos"><span class="bk-lbl">Penghematan biaya operator</span><span class="bk-val" id="bk_op">—</span></div>
+        <div class="bk-row pos"><span class="bk-lbl">Tambahan revenue panen (yield +<span id="bk_yp">0</span>%)</span><span class="bk-val" id="bk_yield">—</span></div>
+        <div class="bk-row neg"><span class="bk-lbl">Biaya maintenance solar pump</span><span class="bk-val" id="bk_maint">—</span></div>
+        <div class="bk-row total-row"><span class="bk-lbl">Net penghematan bersih / tahun</span><span class="bk-val" id="bk_net">—</span></div>
+      </div>
+
+      <!-- Sensitivity -->
+      <div class="sens-section">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">🎯 Analisis Sensitivitas — Payback Period</div>
+        <div class="sens-row pes"><span class="sn">😟 Skenario Pesimis (yield rendah, harga turun)</span><span class="sv" id="sens_pes">—</span></div>
+        <div class="sens-row base"><span class="sn">📊 Skenario Base (input Anda)</span><span class="sv" id="sens_base">—</span></div>
+        <div class="sens-row opt"><span class="sn">🚀 Skenario Optimis (panen bagus)</span><span class="sv" id="sens_opt">—</span></div>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn btn-back" onclick="goStep(3)">← Ubah Input</button>
+      </div>
+    </div>
+
+  </div><!-- /left col -->
+
+  <!-- ==================== RIGHT COL (STICKY RESULT) ==================== -->
   <div class="result-panel">
 
-    <div class="result-card">
-      <div class="rc-title">Payback Period</div>
-      <div class="metric-big">
-        <div class="val" id="rPayback">—</div>
-        <div class="unit">tahun untuk balik modal</div>
+    <!-- Step 0 & 1 placeholder -->
+    <div id="rp_placeholder" class="result-placeholder">
+      <div class="rp-icon">☀️</div>
+      <p>Isi data di sebelah kiri, dan hasil penghematan akan muncul di sini secara otomatis.</p>
+    </div>
+
+    <!-- Main result card — shown from step 0 onwards if there's data -->
+    <div class="hero-metric" id="rp_main" style="display:none">
+      <div class="hm-inner">
+        <div class="hm-eyebrow">Estimasi Hemat Per Bulan</div>
+        <div class="hm-main" id="rp_hemat">Rp —</div>
+        <div class="hm-label">dari biaya irigasi + peningkatan hasil panen</div>
+        <div class="hm-row">
+          <div class="hm-cell amber">
+            <div class="hcv" id="rp_payback">—</div>
+            <div class="hcl">Balik Modal</div>
+          </div>
+          <div class="hm-cell mint">
+            <div class="hcv" id="rp_saving_yr">—</div>
+            <div class="hcl">Hemat / Tahun</div>
+          </div>
+          <div class="hm-cell">
+            <div class="hcv" id="rp_capex">—</div>
+            <div class="hcl">Total Investasi</div>
+          </div>
+          <div class="hm-cell mint">
+            <div class="hcv" id="rp_roi">—</div>
+            <div class="hcl">ROI Kumulatif</div>
+          </div>
+        </div>
       </div>
-      <div class="metrics-row">
-        <div class="m-cell green"><div class="mv" id="rSavingYear">—</div><div class="ml">Net saving/tahun</div></div>
-        <div class="m-cell amber"><div class="mv" id="rROI">—</div><div class="ml">ROI kumulatif</div></div>
-        <div class="m-cell red"><div class="mv" id="rInvestasi">—</div><div class="ml">Total investasi</div></div>
-        <div class="m-cell green"><div class="mv" id="rNetProfit">—</div><div class="ml">Net profit <span id="horizonLabel">7</span> thn</div></div>
+    </div>
+
+    <!-- Current cost mini-card -->
+    <div class="compare-card" id="rp_compare" style="display:none">
+      <div class="compare-head">
+        <span class="ch-title">Biaya Irigasi per Bulan</span>
       </div>
+      <div id="rp_compareRows"></div>
     </div>
 
-    <div class="cashflow-card">
-      <div class="cf-title">Cashflow kumulatif per tahun</div>
-      <div id="cfBars"></div>
+    <!-- Cumulative savings short -->
+    <div class="savings-section" id="rp_cum" style="display:none">
+      <div class="ss-title">Kumulatif Penghematan</div>
+      <div id="rp_cfBars"></div>
     </div>
 
-    <div class="timeline-section">
-      <div class="tl-title">Timeline investasi</div>
-      <div class="tl-boxes" id="tlBoxes"></div>
-      <div class="tl-legend">
-        <div class="tl-leg"><div class="tl-dot" style="background:#fde8e3"></div>Investasi</div>
-        <div class="tl-leg"><div class="tl-dot" style="background:var(--amber-light)"></div>Breakeven</div>
-        <div class="tl-leg"><div class="tl-dot" style="background:var(--green-light)"></div>Profit</div>
-      </div>
+    <!-- CTA -->
+    <div class="cta-card" id="rp_cta" style="display:none">
+      <h4>Siap Pasang Solar Pump?</h4>
+      <p>Tim kami siap menyiapkan proposal resmi, survei lokasi, dan simulasi sistem sesuai kondisi lahan Anda.</p>
+      <a class="btn btn-cta" href="https://linktr.ee/PompaSemangatMu?utm_source=linktree_profile_share&ltsid=152376b2-ee0d-4e4e-bbef-d4431cdbe789" target="_blank" rel="noopener noreferrer">🌿 Hubungi Tim AgrosolPump</a>
     </div>
 
-    <div class="breakdown-card">
-      <div class="cf-title" style="margin-bottom:10px">Rincian penghematan/tahun</div>
-      <div class="bk-row positive"><span class="bk-label">Penghematan energi</span><span class="bk-val" id="bkEnergi">—</span></div>
-      <div class="bk-row positive"><span class="bk-label">Penghematan TK irigasi</span><span class="bk-val" id="bkTK">—</span></div>
-      <div class="bk-row positive"><span class="bk-label">Revenue uplift (yield +<span id="bkYieldPct">0</span>%)</span><span class="bk-val" id="bkYield">—</span></div>
-      <div class="bk-row negative"><span class="bk-label">Biaya maintenance</span><span class="bk-val" id="bkMaint">—</span></div>
-      <div class="bk-row total positive"><span class="bk-label">Net saving bersih/tahun</span><span class="bk-val" id="bkNet">—</span></div>
-    </div>
-
-    <div class="sensitivity-card">
-      <div class="sens-title">Analisis sensitivitas payback</div>
-      <div class="sens-scenario pessimis"><span class="sn">😟 Pesimis (yield +5%, energi -30%)</span><span class="sv" id="sensPes">—</span></div>
-      <div class="sens-scenario base"><span class="sn">📊 Base case (input Anda)</span><span class="sv" id="sensBase">—</span></div>
-      <div class="sens-scenario optimis"><span class="sn">🚀 Optimis (yield +25%, energi +30%)</span><span class="sv" id="sensOpt">—</span></div>
-    </div>
-
-    <div class="disclaimer">⚠️ Estimasi ini bersifat indikatif. Hasil aktual dipengaruhi kondisi iklim, kualitas lahan, dan fluktuasi harga komoditas. Konsultasikan dengan tim Agros untuk proposal resmi.</div>
-
-    <div class="cta-card">
-      <h4>Tertarik dengan proposal resmi?</h4>
-      <p>Tim kami siap menyiapkan studi kelayakan lengkap sesuai kondisi lahan Anda.</p>
-      <button class="cta-btn" onclick="window.open('https://linktr.ee/PompaSemangatMu?utm_source=linktree_profile_share&ltsid=152376b2-ee0d-4e4e-bbef-d4431cdbe789', '_blank')"> Hubungi Tim Agros →</button>
-    </div>
-
+    <div class="disclaimer">⚠️ Estimasi bersifat indikatif. Hasil aktual dipengaruhi kondisi iklim, kualitas lahan, dan harga komoditas. Konsultasikan dengan tim kami untuk proposal resmi.</div>
   </div>
-</div>
 
-<footer>
-  <strong>AgrosolPump</strong> — PT. Agros Global Indonesia &nbsp;·&nbsp; Kalkulator ini bersifat estimasi untuk tujuan perencanaan B2B/B2G
+</div><!-- /main-wrap -->
+
+<footer style="background:var(--soil);color:rgba(255,255,255,0.4);text-align:center;padding:24px;font-size:12px">
+  <strong style="color:white">AgrosolPump</strong> — PT. Agros Global Indonesia &nbsp;·&nbsp; Kalkulator ini bersifat estimasi untuk tujuan perencanaan B2B/B2G
 </footer>
 
 <script>
-// ============================================================
-// CROP DATABASE — 6 levels, 20 komoditas
-// airMult: multiplier terhadap konsumsi energi baseline
-// ============================================================
+// ===== CROP DATA =====
 const CROPS = {
-  // Level 1 — Sangat Rendah (0.4×) | 2–4 mm/hari
-  singkong:    { lv:1, airMult:0.4, mmRange:'2–4 mm/hari', wmPct:7,  emoji:'🍠', info:'Singkong sangat toleran kering. Irigasi hanya meningkatkan yield, bukan keharusan. Cocok untuk lahan tadah hujan yang ingin boost produksi di musim kemarau.', yieldHint:'Referensi: yield uplift 20–35% dengan irigasi di musim kemarau', defaultYield:25, defaultProd:20, defaultHarga:1500, musim:1 },
-  kopi:        { lv:1, airMult:0.4, mmRange:'2–4 mm/hari', wmPct:7,  emoji:'☕', info:'Kopi & kakao umumnya ditanam di dataran dengan curah hujan cukup. Irigasi supplemental di musim kemarau mencegah stress bunga dan meningkatkan konsistensi panen.', yieldHint:'Referensi: yield uplift 15–25% dengan irigasi musim kemarau', defaultYield:18, defaultProd:1.5, defaultHarga:25000, musim:1 },
-  tembakau:    { lv:1, airMult:0.4, mmRange:'2–4 mm/hari', wmPct:7,  emoji:'🌿', info:'Tembakau tidak boleh terlalu basah — kelebihan air menurunkan kualitas daun. Irigasi sangat terbatas, hanya untuk pembibitan dan fase awal pertumbuhan.', yieldHint:'Referensi: yield uplift 10–15% dengan irigasi presisi fase awal', defaultYield:12, defaultProd:1.2, defaultHarga:30000, musim:1 },
-
-  // Level 2 — Rendah (0.7×) | 4–6 mm/hari
-  jagung:      { lv:2, airMult:0.7, mmRange:'4–6 mm/hari', wmPct:20, emoji:'🌽', info:'Jagung kritis pada fase vegetatif dan pembungaan (30–60 HST). Toleran kekeringan ringan di fase lain, namun yield drop signifikan jika kekurangan air saat berbunga.', yieldHint:'Referensi: yield uplift 10–15% dengan irigasi tepat fase kritis', defaultYield:12, defaultProd:6, defaultHarga:4500, musim:2 },
-  kedelai:     { lv:2, airMult:0.7, mmRange:'4–6 mm/hari', wmPct:20, emoji:'🫘', info:'Kedelai toleran kering, kritis hanya di fase pengisian polong. Prioritas substitusi impor — sangat relevan untuk program B2G ketahanan pangan.', yieldHint:'Referensi: yield uplift 12–18% dengan irigasi fase polong', defaultYield:15, defaultProd:1.8, defaultHarga:8000, musim:2 },
-  sorgum:      { lv:2, airMult:0.7, mmRange:'4–6 mm/hari', wmPct:20, emoji:'🌾', info:'Sorgum adalah komoditas paling efisien air di kelas serealia. Sangat cocok untuk lahan kering Nusa Tenggara dan Sulawesi Selatan. Mulai masuk radar B2G sebagai pangan alternatif.', yieldHint:'Referensi: yield uplift 15–20% dengan irigasi di lahan kering', defaultYield:18, defaultProd:4, defaultHarga:3500, musim:2 },
-
-  // Level 3 — Sedang (1.0×) | 6–8 mm/hari
-  cabai:       { lv:3, airMult:1.0, mmRange:'6–8 mm/hari', wmPct:37, emoji:'🌶️', info:'Cabai besar sangat sensitif stress air terutama saat fase bunga dan pembesaran buah. Kekurangan air menyebabkan gugur bunga dan busuk ujung buah. Irigasi rutin 2–3x/minggu.', yieldHint:'Referensi: yield uplift 15–25% dengan irigasi terjadwal', defaultYield:20, defaultProd:10, defaultHarga:20000, musim:2 },
-  bawangmerah: { lv:3, airMult:1.0, mmRange:'6–8 mm/hari', wmPct:37, emoji:'🧅', info:'Bawang merah butuh irigasi sering dengan volume kecil. Sistem sprinkler atau tetes lebih efektif dari leb. Komoditas strategis — sangat relevan untuk petani Brebes, Solok, dan NTB.', yieldHint:'Referensi: yield uplift 15–20% dengan irigasi konsisten', defaultYield:18, defaultProd:8, defaultHarga:18000, musim:2 },
-  bawangputih: { lv:3, airMult:1.0, mmRange:'6–8 mm/hari', wmPct:37, emoji:'🧄', info:'Bawang putih mirip bawang merah dari sisi kebutuhan air. Prioritas tinggi untuk substitusi impor — program B2G BUMN dan Kementan sangat mendorong perluasan lahan bawang putih lokal.', yieldHint:'Referensi: yield uplift 15–20% dengan irigasi presisi', defaultYield:18, defaultProd:7, defaultHarga:22000, musim:1 },
-  kentang:     { lv:3, airMult:1.0, mmRange:'6–8 mm/hari', wmPct:37, emoji:'🥔', info:'Kentang butuh kelembaban tanah yang stabil sepanjang siklus. Kekeringan di fase tuberisasi langsung menurunkan ukuran dan bobot umbi. Utama di dataran tinggi Dieng, Karo, Pangalengan.', yieldHint:'Referensi: yield uplift 12–18% dengan irigasi stabil', defaultYield:15, defaultProd:18, defaultHarga:8000, musim:2 },
-  tomat:       { lv:3, airMult:1.0, mmRange:'6–8 mm/hari', wmPct:37, emoji:'🍅', info:'Tomat memerlukan irigasi konsisten sepanjang siklus, terutama saat pembungaan dan pembesaran buah. Stres air menyebabkan blossom end rot dan retakan buah.', yieldHint:'Referensi: yield uplift 15–20% dengan irigasi terjadwal', defaultYield:18, defaultProd:25, defaultHarga:5000, musim:3 },
-
-  // Level 4 — Sedang-Tinggi (1.3×) | 8–10 mm/hari
-  melon:       { lv:4, airMult:1.3, mmRange:'8–10 mm/hari', wmPct:53, emoji:'🍈', info:'Melon dan semangka membutuhkan air tinggi terutama di fase pembungaan dan pembesaran buah. Kekurangan air di fase kritis menurunkan kadar gula dan bobot buah drastis.', yieldHint:'Referensi: yield uplift 18–25% dengan irigasi fase kritis', defaultYield:20, defaultProd:20, defaultHarga:6000, musim:2 },
-  pepaya:      { lv:4, airMult:1.3, mmRange:'8–10 mm/hari', wmPct:53, emoji:'🍈', info:'Pepaya adalah tanaman tahunan yang butuh air konsisten sepanjang tahun. Tanpa irigasi di musim kemarau, produksi buah terhenti dan tanaman mudah terserang hama.', yieldHint:'Referensi: yield uplift 20–30% dengan irigasi konsisten', defaultYield:22, defaultProd:40, defaultHarga:3000, musim:3 },
-  pisang:      { lv:4, airMult:1.3, mmRange:'8–10 mm/hari', wmPct:53, emoji:'🍌', info:'Pisang membutuhkan air sedang-tinggi sepanjang tahun. Tanaman tahunan dengan produksi berkelanjutan — investasi pompa sangat efisien karena pompa bekerja sepanjang tahun.', yieldHint:'Referensi: yield uplift 15–25% dengan irigasi konsisten', defaultYield:20, defaultProd:30, defaultHarga:2500, musim:3 },
-
-  // Level 5 — Tinggi (1.6×) | 10–13 mm/hari
-  padigogo:    { lv:5, airMult:1.6, mmRange:'10–13 mm/hari', wmPct:70, emoji:'🌱', info:'Padi gogo (padi ladang) ditanam tanpa genangan, namun tetap butuh irigasi intensif. Lebih hemat air dibanding padi sawah tapi lebih boros dari palawija. Cocok untuk lahan kering berlereng.', yieldHint:'Referensi: yield uplift 20–30% dengan irigasi supplemen', defaultYield:25, defaultProd:3.5, defaultHarga:7000, musim:2 },
-  padisri:     { lv:5, airMult:1.6, mmRange:'10–13 mm/hari', wmPct:70, emoji:'🌾', info:'Padi metode SRI (System of Rice Intensification) menggunakan irigasi intermittent — lebih hemat 30–40% air dibanding padi sawah konvensional, namun tetap tergolong intensif dibanding komoditas lain.', yieldHint:'Referensi: yield uplift 20–35% vs padi konvensional dengan SRI + irigasi teratur', defaultYield:28, defaultProd:6, defaultHarga:7000, musim:2 },
-  jeruk:       { lv:5, airMult:1.6, mmRange:'10–13 mm/hari', wmPct:70, emoji:'🍊', info:'Jeruk dan mangga membutuhkan irigasi intensif terutama di fase pembungaan dan pembesaran buah. Teknik irigasi di luar musim (off-season) digunakan untuk memicu pembungaan serempak dan meningkatkan harga jual.', yieldHint:'Referensi: yield uplift 20–30% dengan irigasi terprogram', defaultYield:25, defaultProd:15, defaultHarga:8000, musim:1 },
-
-  // Level 6 — Sangat Tinggi (2.0×) | 13–15 mm/hari
-  padisawah:   { lv:6, airMult:2.0, mmRange:'13–15 mm/hari', wmPct:93, emoji:'🌾', info:'Padi sawah adalah komoditas paling boros air — membutuhkan genangan permanen (continuous flooding) 5–10 cm. Penggantian pompa diesel ke surya memberikan penghematan BBM terbesar di kelas ini.', yieldHint:'Referensi: yield uplift 15–25% dengan ketersediaan air optimal', defaultYield:20, defaultProd:5.5, defaultHarga:6500, musim:2 },
-  tebu:        { lv:6, airMult:2.0, mmRange:'13–15 mm/hari', wmPct:93, emoji:'🎋', info:'Tebu adalah komoditas dengan volume kebutuhan air terbesar — siklus 10–12 bulan dengan irigasi hampir setiap hari. Satu unit pompa surya skala besar bisa menghemat ratusan juta rupiah solar per siklus tanam.', yieldHint:'Referensi: peningkatan rendemen 10–18% dengan irigasi optimal', defaultYield:15, defaultProd:80, defaultHarga:600, musim:1 },
+  kopi:        { airMult:0.4, wmPct:7,  info:'Kopi & kakao: irigasi supplemental di musim kemarau mencegah stress bunga dan meningkatkan konsistensi panen.', yieldHint:'20–25%', defaultYield:18, defaultProd:1.5, defaultHarga:25000, musim:1 },
+  singkong:    { airMult:0.4, wmPct:7,  info:'Singkong sangat toleran kering. Irigasi di musim kemarau bisa meningkatkan yield secara signifikan.', yieldHint:'20–35%', defaultYield:25, defaultProd:20, defaultHarga:1500, musim:1 },
+  jeruk:       { airMult:1.6, wmPct:70, info:'Jeruk & mangga butuh irigasi intensif saat pembungaan. Irigasi off-season memicu pembungaan serempak.', yieldHint:'20–30%', defaultYield:25, defaultProd:15, defaultHarga:8000, musim:1 },
+  pisang:      { airMult:1.3, wmPct:53, info:'Pisang butuh air sedang-tinggi sepanjang tahun. Tanaman tahunan — pompa bekerja efisien sepanjang tahun.', yieldHint:'15–25%', defaultYield:20, defaultProd:30, defaultHarga:2500, musim:3 },
+  jagung:      { airMult:0.7, wmPct:20, info:'Jagung kritis pada fase vegetatif & pembungaan (30–60 HST). Yield drop signifikan jika kurang air saat berbunga.', yieldHint:'10–15%', defaultYield:12, defaultProd:6, defaultHarga:4500, musim:2 },
+  kedelai:     { airMult:0.7, wmPct:20, info:'Kedelai toleran kering, kritis hanya di fase pengisian polong.', yieldHint:'12–18%', defaultYield:15, defaultProd:1.8, defaultHarga:8000, musim:2 },
+  kentang:     { airMult:1.0, wmPct:37, info:'Kentang butuh kelembaban stabil sepanjang siklus. Kekeringan di fase tuberisasi menurunkan ukuran umbi.', yieldHint:'12–18%', defaultYield:15, defaultProd:18, defaultHarga:8000, musim:2 },
+  cabai:       { airMult:1.0, wmPct:37, info:'Cabai sangat sensitif stress air. Kekurangan air menyebabkan gugur bunga dan busuk ujung buah.', yieldHint:'15–25%', defaultYield:20, defaultProd:10, defaultHarga:20000, musim:2 },
+  bawangmerah: { airMult:1.0, wmPct:37, info:'Bawang merah butuh irigasi sering dengan volume kecil. Sprinkler/tetes lebih efektif dari leb.', yieldHint:'15–20%', defaultYield:18, defaultProd:8, defaultHarga:18000, musim:2 },
+  tomat:       { airMult:1.0, wmPct:37, info:'Tomat perlu irigasi konsisten. Stres air menyebabkan blossom end rot dan retakan buah.', yieldHint:'15–20%', defaultYield:18, defaultProd:25, defaultHarga:5000, musim:3 },
+  melon:       { airMult:1.3, wmPct:53, info:'Melon & semangka: kurang air di fase kritis menurunkan kadar gula dan bobot buah drastis.', yieldHint:'18–25%', defaultYield:20, defaultProd:20, defaultHarga:6000, musim:2 },
+  padigogo:    { airMult:1.6, wmPct:70, info:'Padi gogo (ladang): butuh irigasi intensif tapi lebih hemat air dari padi sawah. Cocok lahan kering.', yieldHint:'20–30%', defaultYield:25, defaultProd:3.5, defaultHarga:7000, musim:2 },
+  padisawah:   { airMult:2.0, wmPct:93, info:'Padi sawah: komoditas paling boros air — butuh genangan 5–10 cm. Penghematan diesel terbesar.', yieldHint:'15–25%', defaultYield:20, defaultProd:5.5, defaultHarga:6500, musim:2 },
+  tebu:        { airMult:2.0, wmPct:93, info:'Tebu: volume kebutuhan air terbesar — siklus 10–12 bulan, irigasi hampir setiap hari.', yieldHint:'10–18%', defaultYield:15, defaultProd:80, defaultHarga:600, musim:1 },
+  pepaya:      { airMult:1.3, wmPct:53, info:'Pepaya: tanaman tahunan butuh air konsisten sepanjang tahun. Tanpa irigasi, produksi terhenti di kemarau.', yieldHint:'20–30%', defaultYield:22, defaultProd:40, defaultHarga:3000, musim:3 },
 };
 
-// Water meter colors per level
-const WM_COLORS = { 1:'#38bdf8', 2:'#60a5fa', 3:'#34d399', 4:'#fbbf24', 5:'#f97316', 6:'#d946ef' };
+const WM_COLORS = { 7:'#38bdf8', 20:'#60a5fa', 37:'#34d399', 53:'#fbbf24', 70:'#f97316', 93:'#d946ef' };
 
-let currentCropKey = 'padigogo';
-let currentEnergi = 'diesel';
+let currentCrop = 'padigogo';
+let currentSrc  = 'diesel';
+let currentFinancing = 'cash';
+let currentStep = 0;
 
-function selectCrop(key, el) {
-  document.querySelectorAll('.kpill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  currentCropKey = key;
-  const d = CROPS[key];
-
-  // Water meter
-  document.getElementById('wmFill').style.width = d.wmPct + '%';
-  document.getElementById('wmFill').style.background = WM_COLORS[d.lv];
-  document.getElementById('wmVal').textContent = d.mmRange;
-
-  // Info banner
-  document.getElementById('cropInfoText').textContent = d.info;
-
-  // Defaults
-  document.getElementById('yieldUp').value = d.defaultYield;
-  document.getElementById('yieldVal').textContent = d.defaultYield + '%';
-  document.getElementById('yieldHint').textContent = d.yieldHint;
-  document.getElementById('prodNow').value = d.defaultProd;
-  document.getElementById('hargaKomoditas').value = d.defaultHarga;
-  document.getElementById('musim').value = d.musim;
-
-  calc();
-}
-
-function setEnergi(e, btn) {
-  document.querySelectorAll('.etab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  currentEnergi = e;
-  const kl = document.getElementById('konsumsiLabel');
-  const hl = document.getElementById('hargaEnergiLabel');
-  const ki = document.getElementById('konsumsi');
-  const hi = document.getElementById('hargaEnergi');
-  if (e === 'diesel') {
-    kl.textContent = 'Konsumsi solar (liter/bln)'; hl.textContent = 'Harga solar (Rp/liter)';
-    ki.value = 80; hi.value = 10000;
-  } else if (e === 'pln') {
-    kl.textContent = 'Pemakaian listrik (kWh/bln)'; hl.textContent = 'Tarif listrik (Rp/kWh)';
-    ki.value = 200; hi.value = 1445;
-  } else {
-    kl.textContent = 'Hari kerja irigasi / bln'; hl.textContent = 'Upah harian (Rp/hari)';
-    ki.value = 20; hi.value = 100000;
-  }
-  calc();
-}
-
-const fmtM = n => {
+// ===== FORMAT =====
+const fmt = n => {
   const r = Math.round(n);
-  if (Math.abs(r) >= 1000000000) return 'Rp ' + (r/1e9).toFixed(1) + 'M';
-  if (Math.abs(r) >= 1000000)    return 'Rp ' + (r/1e6).toFixed(1) + 'jt';
+  if (Math.abs(r) >= 1e9)  return 'Rp ' + (r/1e9).toFixed(1) + 'M';
+  if (Math.abs(r) >= 1e6)  return 'Rp ' + (r/1e6).toFixed(1) + 'jt';
   return 'Rp ' + r.toLocaleString('id-ID');
 };
 
-function computePayback(hp, ns, horizon) {
-  let cash = -hp;
-  for (let y = 1; y <= horizon; y++) { cash += ns; if (cash >= 0) return y; }
-  return null;
+// ===== STEP NAV =====
+function goStep(n) {
+  document.querySelectorAll('.step-panel').forEach((p,i) => {
+    p.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.snav-item').forEach((item,i) => {
+    item.classList.toggle('active', i === n);
+    if (i < n) item.classList.add('done'); else item.classList.remove('done');
+  });
+  currentStep = n;
+  calcAll();
+  // removed forced scroll to top
 }
 
-function calc() {
-  const crop        = CROPS[currentCropKey] || CROPS['padisawah'];
-  const lahan       = parseFloat(document.getElementById('lahan').value)          || 1;
-  const musim       = parseInt(document.getElementById('musim').value)             || 2;
-  const hargaPompa  = parseFloat(document.getElementById('hargaPompa').value)     || 25000000;
-  const maint       = parseFloat(document.getElementById('maintenance').value)     || 1500000;
-  const konsumsi    = parseFloat(document.getElementById('konsumsi').value)        || 80;
-  const hargaEnergi = parseFloat(document.getElementById('hargaEnergi').value)    || 10000;
-  const tkIrigasi   = parseFloat(document.getElementById('tkIrigasi').value)       || 500000;
-  const yieldUp     = parseFloat(document.getElementById('yieldUp').value)         || 15;
-  const prodNow     = parseFloat(document.getElementById('prodNow').value)         || 5;
-  const hargaKom    = parseFloat(document.getElementById('hargaKomoditas').value)  || 6000;
-  const horizon     = parseInt(document.getElementById('horizon').value)           || 7;
+// ===== SRC TOGGLE =====
+function setSrc(s, el) {
+  document.querySelectorAll('.src-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentSrc = s;
+  const q1 = document.getElementById('q1');
+  const q2 = document.getElementById('q2');
+  const l1 = document.getElementById('q1lbl');
+  const l2 = document.getElementById('q2lbl');
+  if (s === 'diesel') {
+    l1.textContent = 'Konsumsi solar (liter/bulan)'; l2.textContent = 'Harga solar (Rp/liter)';
+    q1.value = 80; q2.value = 10000;
+  } else if (s === 'pln') {
+    l1.textContent = 'Pemakaian listrik (kWh/bulan)'; l2.textContent = 'Tarif listrik (Rp/kWh)';
+    q1.value = 200; q2.value = 1445;
+  } else if (s === 'manual') {
+    l1.textContent = 'Hari kerja irigasi / bulan'; l2.textContent = 'Upah harian (Rp/hari)';
+    q1.value = 20; q2.value = 100000;
+  } else {
+    l1.textContent = 'Estimasi biaya energi total (Rp/bulan)'; l2.textContent = 'Biaya tambahan campuran (Rp/bulan)';
+    q1.value = 1; q2.value = 5000000;
+  }
+  calcAll();
+}
 
-  // Energi saving dipengaruhi airMult komoditas
-  const efKonsumsi  = konsumsi * crop.airMult;
-  const savingEnergi = efKonsumsi * hargaEnergi * 12;
-  const savingTK     = tkIrigasi * 12;
-  const addYield     = lahan * prodNow * (yieldUp / 100) * musim * hargaKom * 1000;
-  const netSaving    = savingEnergi + savingTK + addYield - maint;
+// ===== CROP PICKER =====
+function pickCrop(key, el) {
+  document.querySelectorAll('.kpill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  currentCrop = key;
+  const d = CROPS[key];
+  if (!d) return;
 
-  let cumCash = [], cash = -hargaPompa, payback = null;
+  const wmFill = document.getElementById('wmFill');
+  wmFill.style.width = d.wmPct + '%';
+  wmFill.style.background = WM_COLORS[d.wmPct] || '#60a5fa';
+  document.getElementById('wmVal').textContent = `${d.wmPct < 20 ? '2–4' : d.wmPct < 40 ? '4–6' : d.wmPct < 55 ? '6–8' : d.wmPct < 75 ? '8–13' : '13–15'} mm/hari`;
+  document.getElementById('cropNoteText').textContent = d.info;
+  document.getElementById('yieldUp').value = d.defaultYield;
+  document.getElementById('yieldVal').textContent = d.defaultYield + '%';
+  document.getElementById('yieldBadge').textContent = `📊 Referensi: ${d.yieldHint} untuk komoditas ini`;
+  document.getElementById('prodNow').value = d.defaultProd;
+  document.getElementById('hargaKom').value = d.defaultHarga;
+  document.getElementById('musim').value = d.musim;
+  calcAll();
+}
+
+// ===== FINANCING =====
+function setFinancing(mode, el) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentFinancing = mode;
+  document.getElementById('financing-cash').style.display = mode === 'cash' ? '' : 'none';
+  document.getElementById('financing-dp').style.display   = mode === 'dp'   ? '' : 'none';
+  calcAll();
+}
+
+// ===== MAIN CALC =====
+function calcAll() {
+  // --- STEP 0: Current cost ---
+  const q1   = parseFloat(document.getElementById('q1').value) || 0;
+  const q2   = parseFloat(document.getElementById('q2').value) || 0;
+  const opCost    = parseFloat(document.getElementById('opCost').value) || 0;
+  const maintCost = parseFloat(document.getElementById('maintCost').value) || 0;
+
+  let energyCostMonthly;
+  if (currentSrc === 'mix') energyCostMonthly = q2; // q2 used as total
+  else energyCostMonthly = q1 * q2;
+
+  const totalMonthly = energyCostMonthly + opCost + maintCost;
+  const totalYearly  = totalMonthly * 12;
+
+  document.getElementById('totalMonthly').textContent = fmt(totalMonthly);
+  document.getElementById('totalYearly').textContent  = `≈ ${fmt(totalYearly)} / tahun`;
+
+  // --- STEP 1: Lahan ---
+  const lahan    = parseFloat(document.getElementById('lahan').value) || 1;
+  const musim    = parseInt(document.getElementById('musim').value) || 2;
+  const prodNow  = parseFloat(document.getElementById('prodNow').value) || 3.5;
+  const hargaKom = parseFloat(document.getElementById('hargaKom').value) || 7000;
+  const yieldUp  = parseFloat(document.getElementById('yieldUp').value) || 25;
+  const crop     = CROPS[currentCrop] || CROPS['padigogo'];
+
+  // --- STEP 2: CAPEX ---
+  const cx1 = parseFloat(document.getElementById('cx1').value) || 0;
+  const cx2 = parseFloat(document.getElementById('cx2').value) || 0;
+  const cx3 = parseFloat(document.getElementById('cx3').value) || 0;
+  const cx4 = parseFloat(document.getElementById('cx4').value) || 0;
+  const cx5 = parseFloat(document.getElementById('cx5').value) || 0;
+  const capex    = cx1+cx2+cx3+cx4+cx5;
+  const maintSolar = parseFloat(document.getElementById('maintSolar').value) || 1500000;
+  const horizon    = parseInt(document.getElementById('horizon').value) || 7;
+
+  document.getElementById('capexTotal').textContent = fmt(capex);
+
+  // --- CALCULATIONS ---
+  // Solar pump has ~0 energy cost, so saving = previous monthly * 12 - new maint/year
+  // Plus yield improvement revenue
+  const energySavingYr = energyCostMonthly * 12;
+  const opSavingYr     = opCost * 12;
+  const yieldRevYr     = lahan * prodNow * (yieldUp / 100) * musim * hargaKom * 1000;
+  const netSavingYr    = energySavingYr + opSavingYr + yieldRevYr - maintSolar;
+  const netSavingMo    = netSavingYr / 12;
+
+  // Payback
+  let cash = -capex, payback = null;
+  const cfData = [];
   for (let y = 1; y <= horizon; y++) {
-    cash += netSaving;
-    cumCash.push({ y, val: cash });
+    cash += netSavingYr;
+    cfData.push({ y, val: cash });
     if (!payback && cash >= 0) payback = y;
   }
 
-  const roi      = (netSaving * horizon - hargaPompa) / hargaPompa * 100;
-  const netProfit = netSaving * horizon - hargaPompa;
+  const roi = capex > 0 ? ((netSavingYr * horizon - capex) / capex * 100) : 0;
 
-  document.getElementById('rPayback').textContent     = payback ? payback : '>' + horizon;
-  document.getElementById('rSavingYear').textContent  = fmtM(netSaving);
-  document.getElementById('rROI').textContent         = Math.round(roi) + '%';
-  document.getElementById('rInvestasi').textContent   = fmtM(hargaPompa);
-  document.getElementById('rNetProfit').textContent   = fmtM(netProfit);
-  document.getElementById('horizonLabel').textContent = horizon;
-  document.getElementById('bkEnergi').textContent     = fmtM(savingEnergi);
-  document.getElementById('bkTK').textContent         = fmtM(savingTK);
-  document.getElementById('bkYieldPct').textContent   = yieldUp;
-  document.getElementById('bkYield').textContent      = fmtM(addYield);
-  document.getElementById('bkMaint').textContent      = '-' + fmtM(maint);
-  document.getElementById('bkNet').textContent        = fmtM(netSaving);
+  // Solar monthly cost (maintenance only)
+  const solarMonthly = maintSolar / 12;
 
-  // Cashflow bars
-  const maxAbs = Math.max(...cumCash.map(c => Math.abs(c.val)), hargaPompa);
-  const barsEl = document.getElementById('cfBars');
-  barsEl.innerHTML = '';
-  cumCash.forEach(({ y, val }) => {
-    const isPos = val >= 0;
-    const pct   = Math.min(Math.abs(val) / maxAbs * 100, 100).toFixed(1);
-    barsEl.innerHTML += `<div class="cf-bar-row">
-      <div class="cf-yr">Thn ${y}</div>
-      <div class="cf-track"><div class="cf-fill" style="width:${pct}%;background:${isPos?'#2d9e6b':'#e05c40'}"></div></div>
-      <div class="cf-amt" style="color:${isPos?'#0a3d2b':'#a03020'}">${isPos?'+':''}${fmtM(val)}</div>
-    </div>`;
-  });
-
-  // Timeline
-  const tlEl = document.getElementById('tlBoxes');
-  tlEl.innerHTML = '<div class="tl-box invest" style="font-size:10px;line-height:1.3">Inv.<span>Thn 0</span></div>';
-  for (let y = 1; y <= Math.min(horizon, 10); y++) {
-    const cls = (payback && y === payback) ? 'breakeven' : (payback && y > payback) ? 'profit' : 'invest';
-    tlEl.innerHTML += `<div class="tl-box ${cls}">${y}<span>thn</span></div>`;
+  // --- STEP 3: Financing ---
+  const dpPct   = parseFloat(document.getElementById('dpPct').value) || 30;
+  const tenor   = parseInt(document.getElementById('tenor').value) || 24;
+  const bunga   = parseFloat(document.getElementById('bunga').value) || 8;
+  const dpAmt   = capex * dpPct / 100;
+  const loanAmt = capex - dpAmt;
+  const rMonth  = bunga / 100 / 12;
+  let cicilan;
+  if (rMonth === 0 || loanAmt === 0) {
+    cicilan = loanAmt / (tenor || 1);
+  } else {
+    cicilan = loanAmt * rMonth * Math.pow(1+rMonth, tenor) / (Math.pow(1+rMonth, tenor)-1);
   }
+  const selisih = netSavingMo - cicilan;
 
-  // Sensitivity
-  const compPB = (eMult, yPct) => {
-    const se = efKonsumsi * hargaEnergi * 12 * eMult;
-    const ay = lahan * prodNow * (yPct/100) * musim * hargaKom * 1000;
-    const ns = se + savingTK + ay - maint;
-    const pb = computePayback(hargaPompa, ns, horizon + 5);
-    return pb ? pb + ' thn' : '>' + (horizon+5) + ' thn';
-  };
-  document.getElementById('sensPes').textContent  = compPB(0.7, 5);
-  document.getElementById('sensBase').textContent = payback ? payback + ' thn' : '>' + horizon + ' thn';
-  document.getElementById('sensOpt').textContent  = compPB(1.3, 25);
+  document.getElementById('cashAmount').textContent = fmt(capex);
+  document.getElementById('dpAmount').textContent   = fmt(dpAmt);
+  document.getElementById('cicilanPerBulan').textContent = fmt(cicilan);
+  document.getElementById('cicilanVsHemat').textContent  = fmt(netSavingMo);
+  document.getElementById('selisihCicilan').textContent  = (selisih >= 0 ? '+' : '') + fmt(selisih);
+  document.getElementById('selisihCicilan').style.color  = selisih >= 0 ? 'var(--mint)' : '#ff9980';
+
+  // --- UPDATE RIGHT PANEL ---
+  const showMain = capex > 0 || totalMonthly > 0;
+  document.getElementById('rp_placeholder').style.display = showMain ? 'none' : '';
+  document.getElementById('rp_main').style.display        = showMain ? '' : 'none';
+  document.getElementById('rp_compare').style.display     = showMain ? '' : 'none';
+  document.getElementById('rp_cum').style.display         = showMain ? '' : 'none';
+  document.getElementById('rp_cta').style.display         = showMain ? '' : 'none';
+
+  if (showMain) {
+    document.getElementById('rp_hemat').textContent    = fmt(netSavingMo);
+    document.getElementById('rp_payback').textContent  = payback ? payback + ' tahun' : '>' + horizon + ' thn';
+    document.getElementById('rp_saving_yr').textContent = fmt(netSavingYr);
+    document.getElementById('rp_capex').textContent    = fmt(capex);
+    document.getElementById('rp_roi').textContent      = Math.round(roi) + '%';
+
+    // Compare rows
+    const maxCost = Math.max(totalMonthly, solarMonthly, 1);
+    const compareHtml = `
+      <div class="cmp-row">
+        <span class="cmp-icon">⛽</span>
+        <span class="cmp-name">Biaya Saat Ini (${currentSrc === 'diesel' ? 'Diesel' : currentSrc === 'pln' ? 'PLN' : currentSrc === 'manual' ? 'Manual' : 'Campuran'})</span>
+        <div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:var(--rust)"></div></div>
+        <span class="cmp-val" style="color:var(--rust)">${fmt(totalMonthly)}</span>
+      </div>
+      <div class="cmp-row active-row">
+        <span class="cmp-icon">☀️</span>
+        <span class="cmp-name">Solar Water Pump</span>
+        <div class="cmp-bar-wrap"><div class="cmp-bar" style="width:${Math.max(solarMonthly/maxCost*100,3).toFixed(0)}%;background:var(--sprout)"></div></div>
+        <span class="cmp-val">${fmt(solarMonthly)}</span>
+      </div>`;
+    document.getElementById('rp_compareRows').innerHTML = compareHtml;
+    document.getElementById('compareRows').innerHTML    = compareHtml;
+
+    // Mini cashflow bars
+    const maxAbs = Math.max(...cfData.map(c => Math.abs(c.val)), capex, 1);
+    const barsHtml = cfData.map(({y, val}) => {
+      const isPos = val >= 0;
+      const pct = Math.min(Math.abs(val)/maxAbs*100, 100).toFixed(0);
+      return `<div class="cf-row">
+        <div class="cf-lbl">Thn ${y}</div>
+        <div class="cf-track"><div class="cf-fill" style="width:${pct}%;background:${isPos?'var(--sprout)':'var(--rust)'}"></div></div>
+        <div class="cf-amt" style="color:${isPos?'var(--leaf)':'var(--rust)'}">${isPos?'+':''}${fmt(val)}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('rp_cfBars').innerHTML = barsHtml;
+    document.getElementById('cfBars').innerHTML    = barsHtml;
+
+    // Cumulative savings
+    const cumYears = [3, 5, 7, 10].filter(y => y <= horizon);
+    const cumHtml = cumYears.map(y => {
+      const total = cfData.find(c => c.y === y);
+      if (!total) return '';
+      return `<div class="cum-row">
+        <span class="cum-lbl">Tahun ke-${y}</span>
+        <span class="cum-val">${total.val >= 0 ? '+' : ''}${fmt(total.val)}</span>
+      </div>`;
+    }).join('');
+    document.getElementById('cumRows').innerHTML = cumHtml;
+
+    // Timeline
+    let tlHtml = `<div class="tl-box invest" style="font-size:10px">Inv.<span>Thn 0</span></div>`;
+    for (let y = 1; y <= Math.min(horizon, 12); y++) {
+      const cls = (payback && y === payback) ? 'breakeven' : (payback && y > payback) ? 'profit' : 'invest';
+      tlHtml += `<div class="tl-box ${cls}">${y}<span>thn</span></div>`;
+    }
+    document.getElementById('tlBoxes').innerHTML = tlHtml;
+
+    // Breakdown
+    document.getElementById('bk_energi').textContent = fmt(energySavingYr);
+    document.getElementById('bk_op').textContent     = fmt(opSavingYr);
+    document.getElementById('bk_yp').textContent     = yieldUp;
+    document.getElementById('bk_yield').textContent  = fmt(yieldRevYr);
+    document.getElementById('bk_maint').textContent  = '-' + fmt(maintSolar);
+    document.getElementById('bk_net').textContent    = fmt(netSavingYr);
+
+    // Step 4 summary
+    document.getElementById('r_hemat_bln').textContent = fmt(netSavingMo);
+    document.getElementById('r_payback').textContent   = payback ? payback + ' tahun' : '>' + horizon + ' thn';
+    document.getElementById('r_hemat_thn').textContent = fmt(netSavingYr);
+    document.getElementById('r_roi').textContent       = Math.round(roi) + '%';
+
+    // Sensitivity
+    const computePB = (eMult, yMult) => {
+      const es = energyCostMonthly * 12 * eMult;
+      const yr = lahan * prodNow * (yieldUp * yMult / 100) * musim * hargaKom * 1000;
+      const ns = es + opSavingYr + yr - maintSolar;
+      let c = -capex;
+      for (let y = 1; y <= horizon + 5; y++) { c += ns; if (c >= 0) return y + ' tahun'; }
+      return '>' + (horizon+5) + ' thn';
+    };
+    document.getElementById('sens_pes').textContent  = computePB(0.7, 0.5);
+    document.getElementById('sens_base').textContent = payback ? payback + ' tahun' : '>' + horizon + ' thn';
+    document.getElementById('sens_opt').textContent  = computePB(1.0, 1.5);
+  }
 }
 
+// ===== LISTEN TO ALL INPUTS =====
 document.querySelectorAll('input[type=number], select').forEach(el => {
-  el.addEventListener('input', calc);
-  el.addEventListener('change', calc);
+  el.addEventListener('input', calcAll);
+  el.addEventListener('change', calcAll);
 });
 
-// Init dengan padi gogo aktif
-selectCrop('padigogo', document.querySelector('.kpill.active'));
+// ===== INIT =====
+document.querySelectorAll('input[type=number]').forEach(el => {
+  el.value = '';
+});
+document.getElementById('resultsPanel') && (document.getElementById('resultsPanel').style.display = 'none');
 </script>
 </body>
 </html>
