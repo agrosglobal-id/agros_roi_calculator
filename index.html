@@ -1355,14 +1355,26 @@ header {
 
       <!-- Breakdown -->
       <div class="bk-section">
-        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">📊 Rincian Sumber Penghematan / Tahun</div>
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">📊 Rincian Sumber Manfaat / Tahun</div>
+        
+        <!-- Baris Biaya Operasional -->
         <div class="bk-row pos"><span class="bk-lbl">Penghematan energi (BBM/Listrik)</span><span class="bk-val" id="bk_energi">—</span></div>
         <div class="bk-row pos"><span class="bk-lbl">Penghematan biaya operator</span><span class="bk-val" id="bk_op">—</span></div>
         <div class="bk-row neg"><span class="bk-lbl">Biaya maintenance solar pump</span><span class="bk-val" id="bk_maint">—</span></div>
-        <div class="bk-row total-row"><span class="bk-lbl">Total penghematan biaya / tahun</span><span class="bk-val" id="bk_net">—</span></div>
-        <div class="bk-row" style="background:rgba(125,224,168,0.08);border-radius:6px;padding:8px 10px;margin-top:6px">
-          <span class="bk-lbl" style="color:var(--leaf)">🌾 Potensi tambahan yield +<span id="bk_yp">0</span>% (terpisah)</span>
-          <span class="bk-val" style="color:var(--leaf)" id="bk_yield">—</span>
+        
+        <!-- Total Penghematan Biaya (Hapus margin negatif di CSS agar tidak overlapping) -->
+        <div class="bk-row total-row" style="margin-bottom: 10px; margin-top: 5px;">
+          <span class="bk-lbl">Total penghematan biaya / tahun</span>
+          <span class="bk-val" id="bk_net">—</span>
+        </div>
+
+        <!-- Box Terpisah untuk Yield (Bonus) -->
+        <div style="background:rgba(22, 163, 74, 0.1); border: 1px dashed #16a34a; border-radius:8px; padding:12px; margin-top:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:12px; color:var(--leaf); font-weight:600;">🌾 Potensi tambahan yield +<span id="bk_yp">0</span>%</span>
+            <span style="font-family:var(--font-mono); font-weight:700; color:var(--leaf);" id="bk_yield">—</span>
+          </div>
+          <div style="font-size:10px; color:var(--clay); margin-top:4px;">*Estimasi tambahan pendapatan dari kenaikan produktivitas lahan.</div>
         </div>
       </div>
 
