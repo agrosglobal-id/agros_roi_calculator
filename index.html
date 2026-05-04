@@ -809,15 +809,16 @@ header {
 <header>
   <div class="hdr">
     <div class="logo">
-      <div class="logo-mark" id="logoMark">
+      <!-- logo-mark sekarang transparan dan lebih besar (48px) -->
+      <div class="logo-mark" id="logoMark" style="width:80px; height:auto; background:transparent; border:none;">
         <img id="logoImg" src="logo.png" alt="AgrosolPump"
-          style="width:100%;height:100%;object-fit:contain;border-radius:9px;display:block"
+          style="width:100%; height:100%; object-fit:contain; display:block"
           onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'">
-        <div id="logoFallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:18px">🌿</div>
+        <div id="logoFallback" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-size:24px">🌿</div>
       </div>
       <div>
-        <div class="logo-name">AgrosolPump</div>
-        <div class="logo-sub">Pompa Irigasi Tenaga Surya</div>
+        <div class="logo-name" style="font-size: 22px;">AgrosolPump</div>
+        <div class="logo-sub" style="font-size: 13px;">Pompa Irigasi Tenaga Surya</div>
       </div>
     </div>
     <div class="hdr-badge">Sales ROI Tool</div>
