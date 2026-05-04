@@ -837,6 +837,7 @@ header {
     <div class="kpi"><div class="kpi-val">0%</div><div class="kpi-lbl">Biaya BBM/Listrik Setelah Pasang</div></div>
     <div class="kpi"><div class="kpi-val">15&#8211;30%</div><div class="kpi-lbl">Peningkatan Hasil Panen</div></div>
     <div class="kpi"><div class="kpi-val">2&#8211;5 Thn</div><div class="kpi-lbl">Rata-rata Balik Modal</div></div>
+    <div class="kpi"><div class="kpi-val">20+ Thn</div><div class="kpi-lbl">Umur Sistem Solar Pump</div></div>
   </div>
 </div>
 
@@ -1133,7 +1134,7 @@ header {
           <div class="grid2" style="margin-bottom:14px">
             <div class="field">
               <label>Uang Muka / DP</label>
-              <div style="height:38px;display:flex;align-items:center;padding:0 12px;background:#f0faf4;border:1.5px solid #a0dab8;border-radius:8px;font-size:14px;font-weight:600;color:var(--leaf)">25% <span style="font-weight:400;font-size:12px;margin-left:8px;color:var(--muted)"></span></div>
+              <div style="height:38px;display:flex;align-items:center;padding:0 12px;background:#f0faf4;border:1.5px solid #a0dab8;border-radius:8px;font-size:14px;font-weight:600;color:var(--leaf)">25% <span style="font-weight:400;font-size:12px;margin-left:8px;color:var(--muted)">— tetap sesuai skema</span></div>
               <input type="hidden" id="dp12Pct" value="25">
             </div>
             <div class="field">
@@ -1285,22 +1286,38 @@ header {
 
     <!-- STEP 4: RESULTS -->
     <div class="step-panel" id="step4">
+      <!-- PENGHEMATAN BIAYA MURNI -->
       <div class="card" style="background:var(--soil);color:white;border-color:var(--bark)">
-        <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-display)">🎯 Kesimpulan Utama</div>
-        <div style="font-family:var(--font-mono);font-size:36px;font-weight:500;color:var(--mint);letter-spacing:-0.02em;line-height:1;margin-bottom:4px" id="r_hemat_bln">Rp —</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:20px">dihemat setiap bulan setelah beralih ke Solar Water Pump</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <div style="font-size:11px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;font-family:var(--font-display)">💰 Penghematan Biaya Murni</div>
+        <div style="font-family:var(--font-mono);font-size:38px;font-weight:600;color:var(--mint);letter-spacing:-0.02em;line-height:1;margin-bottom:4px" id="r_hemat_bln">Rp —</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:4px">dihemat setiap bulan dari BBM/listrik &amp; operator</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-bottom:18px;font-style:italic">Sudah dikurangi biaya servis solar pump — belum termasuk potensi hasil panen</div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
           <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
-            <div style="font-family:var(--font-mono);font-size:15px;color:var(--gold)" id="r_payback">—</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">Balik Modal</div>
+            <div style="font-family:var(--font-mono);font-size:16px;color:var(--gold);font-weight:600" id="r_payback">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.4">Balik Modal<br><span style="color:rgba(255,255,255,0.25);font-size:9px">dari penghematan biaya saja</span></div>
           </div>
           <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
-            <div style="font-family:var(--font-mono);font-size:15px;color:var(--mint)" id="r_hemat_thn">—</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">Hemat / Tahun</div>
+            <div style="font-family:var(--font-mono);font-size:16px;color:var(--mint);font-weight:600" id="r_hemat_thn">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.4">Hemat / Tahun<br><span style="color:rgba(255,255,255,0.25);font-size:9px">BBM + operator - servis</span></div>
           </div>
           <div style="background:rgba(255,255,255,0.07);border-radius:8px;padding:12px">
-            <div style="font-family:var(--font-mono);font-size:15px;color:white" id="r_roi">—</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px">ROI Kumulatif</div>
+            <div style="font-family:var(--font-mono);font-size:16px;color:white;font-weight:600" id="r_roi">—</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.4">ROI Biaya<br><span style="color:rgba(255,255,255,0.25);font-size:9px">selama horizon analisis</span></div>
+          </div>
+        </div>
+
+        <!-- POTENSI TAMBAHAN YIELD -->
+        <div style="background:rgba(125,224,168,0.1);border:1px solid rgba(125,224,168,0.2);border-radius:8px;padding:12px">
+          <div style="font-size:10px;color:var(--mint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:600">🌾 Potensi Tambahan Hasil Panen</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+            <div style="font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--gold)" id="r_yield_rev">Rp —</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4)">/tahun</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6">
+            Estimasi tambahan pendapatan dari peningkatan yield <strong style="color:rgba(255,255,255,0.6)" id="r_yield_pct">—</strong>% dengan irigasi terjadwal.<br>
+            <span style="color:rgba(255,255,255,0.25);font-style:italic">Angka aktual dipengaruhi cuaca, pupuk, dan kondisi lahan.</span>
           </div>
         </div>
       </div>
@@ -1342,9 +1359,12 @@ header {
         <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">📊 Rincian Sumber Penghematan / Tahun</div>
         <div class="bk-row pos"><span class="bk-lbl">Penghematan energi (BBM/Listrik)</span><span class="bk-val" id="bk_energi">—</span></div>
         <div class="bk-row pos"><span class="bk-lbl">Penghematan biaya operator</span><span class="bk-val" id="bk_op">—</span></div>
-        <div class="bk-row pos"><span class="bk-lbl">Tambahan revenue panen (yield +<span id="bk_yp">0</span>%)</span><span class="bk-val" id="bk_yield">—</span></div>
         <div class="bk-row neg"><span class="bk-lbl">Biaya maintenance solar pump</span><span class="bk-val" id="bk_maint">—</span></div>
-        <div class="bk-row total-row"><span class="bk-lbl">Net penghematan bersih / tahun</span><span class="bk-val" id="bk_net">—</span></div>
+        <div class="bk-row total-row"><span class="bk-lbl">Total penghematan biaya / tahun</span><span class="bk-val" id="bk_net">—</span></div>
+        <div class="bk-row" style="background:rgba(125,224,168,0.08);border-radius:6px;padding:8px 10px;margin-top:6px">
+          <span class="bk-lbl" style="color:var(--leaf)">🌾 Potensi tambahan yield +<span id="bk_yp">0</span>% (terpisah)</span>
+          <span class="bk-val" style="color:var(--leaf)" id="bk_yield">—</span>
+        </div>
       </div>
 
       <!-- Sensitivity -->
@@ -1374,9 +1394,9 @@ header {
     <!-- Main result card — shown from step 0 onwards if there's data -->
     <div class="hero-metric" id="rp_main" style="display:none">
       <div class="hm-inner">
-        <div class="hm-eyebrow">Estimasi Hemat Per Bulan</div>
+        <div class="hm-eyebrow">💰 Hemat Biaya Per Bulan</div>
         <div class="hm-main" id="rp_hemat">Rp —</div>
-        <div class="hm-label">dari biaya irigasi + peningkatan hasil panen</div>
+        <div class="hm-label">dari BBM/listrik &amp; operator (belum termasuk yield)</div>
         <div class="hm-row">
           <div class="hm-cell amber">
             <div class="hcv" id="rp_payback">—</div>
@@ -1392,7 +1412,7 @@ header {
           </div>
           <div class="hm-cell mint">
             <div class="hcv" id="rp_roi">—</div>
-            <div class="hcl">ROI Kumulatif</div>
+            <div class="hcl">ROI Biaya</div>
           </div>
         </div>
       </div>
@@ -1654,19 +1674,23 @@ function calcAll() {
   const energySavingYr = energyCostMonthly * 12;
   const opSavingYr     = opCost * 12;
   const yieldRevYr     = lahan * prodNow * (yieldUp / 100) * musim * hargaKom * 1000;
-  const netSavingYr    = energySavingYr + opSavingYr + yieldRevYr - maintSolar;
+  // netSavingYr = murni penghematan biaya (tanpa yield) — untuk ROI/payback yg realistis
+  const costSavingYr   = energySavingYr + opSavingYr - maintSolar;
+  const costSavingMo   = costSavingYr / 12;
+  // netSavingYr tetap include yield untuk cashflow & periodeHemat (info tambahan)
+  const netSavingYr    = costSavingYr + yieldRevYr;
   const netSavingMo    = netSavingYr / 12;
 
   // Payback
+  // Payback & ROI dihitung dari penghematan biaya murni (tanpa yield)
   let cash = -capex, payback = null;
   const cfData = [];
   for (let y = 1; y <= horizon; y++) {
-    cash += netSavingYr;
+    cash += costSavingYr;
     cfData.push({ y, val: cash });
     if (!payback && cash >= 0) payback = y;
   }
-
-  const roi = capex > 0 ? ((netSavingYr * horizon - capex) / capex * 100) : 0;
+  const roi = capex > 0 ? ((costSavingYr * horizon - capex) / capex * 100) : 0;
 
   // Solar monthly cost (maintenance only)
   // Biaya irigasi solar pump per bulan = amortisasi capex + maintenance bulanan
@@ -1787,7 +1811,7 @@ function calcAll() {
   if (showMain) {
     document.getElementById('rp_hemat').textContent    = fmt(netSavingMo);
     document.getElementById('rp_payback').textContent  = payback ? payback + ' tahun' : '>' + horizon + ' thn';
-    document.getElementById('rp_saving_yr').textContent = fmt(netSavingYr);
+    document.getElementById('rp_saving_yr').textContent = fmt(costSavingYr);
     document.getElementById('rp_capex').textContent    = fmt(capex);
     document.getElementById('rp_roi').textContent      = Math.round(roi) + '%';
 
@@ -1890,13 +1914,16 @@ function calcAll() {
     document.getElementById('bk_yp').textContent     = yieldUp;
     document.getElementById('bk_yield').textContent  = fmt(yieldRevYr);
     document.getElementById('bk_maint').textContent  = '-' + fmt(maintSolar);
-    document.getElementById('bk_net').textContent    = fmt(netSavingYr);
+    document.getElementById('bk_net').textContent    = fmt(costSavingYr);
 
-    // Step 4 summary
-    document.getElementById('r_hemat_bln').textContent = fmt(netSavingMo);
+    // Step 4 summary — penghematan biaya murni (tanpa yield)
+    document.getElementById('r_hemat_bln').textContent = fmt(costSavingMo);
     document.getElementById('r_payback').textContent   = payback ? payback + ' tahun' : '>' + horizon + ' thn';
-    document.getElementById('r_hemat_thn').textContent = fmt(netSavingYr);
+    document.getElementById('r_hemat_thn').textContent = fmt(costSavingYr);
     document.getElementById('r_roi').textContent       = Math.round(roi) + '%';
+    // Potensi yield
+    document.getElementById('r_yield_rev').textContent = fmt(yieldRevYr);
+    document.getElementById('r_yield_pct').textContent = yieldUp;
 
     // Sensitivity
     const computePB = (eMult, yMult) => {
