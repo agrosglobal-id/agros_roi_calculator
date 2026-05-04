@@ -780,6 +780,80 @@ header {
   margin-top: 4px;
 }
 
+/* ===== MONTHLY CASHFLOW CARD ===== */
+.monthly-cf-card {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.mcf-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.mcf-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid #d8cfbf;
+  background: #fdfaf6;
+  color: var(--clay);
+  transition: all 0.15s;
+  font-family: var(--font-display);
+}
+.mcf-tab:hover { border-color: var(--sprout); color: var(--leaf); }
+.mcf-tab.active { background: var(--soil); color: var(--gold); border-color: var(--soil); }
+.mcf-summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.mcf-sum-cell {
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.mcf-sum-cell.pos { background: var(--pale-g); }
+.mcf-sum-cell.neg { background: var(--blush); }
+.mcf-sum-cell.neu { background: var(--straw); }
+.mcf-sum-cell .msv { font-family: var(--font-mono); font-size: 14px; font-weight: 600; }
+.mcf-sum-cell.pos .msv { color: var(--leaf); }
+.mcf-sum-cell.neg .msv { color: var(--rust); }
+.mcf-sum-cell.neu .msv { color: #7a5000; }
+.mcf-sum-cell .msl { font-size: 10px; color: var(--clay); margin-top: 3px; }
+.mcf-bar-wrap {
+  display: grid;
+  grid-template-columns: 28px 1fr 80px;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.mcf-mo-lbl { font-size: 10px; color: var(--clay); font-family: var(--font-mono); text-align: right; }
+.mcf-dual-track { height: 16px; background: #f0ebe3; border-radius: 4px; overflow: hidden; position: relative; display: flex; }
+.mcf-save-bar { height: 100%; background: var(--sprout); border-radius: 4px 0 0 4px; }
+.mcf-cicilan-bar { height: 100%; background: var(--rust); opacity: 0.7; }
+.mcf-mo-net { font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; }
+.mcf-legend { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+.mcf-leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--clay); }
+.mcf-dot { width: 12px; height: 8px; border-radius: 2px; }
+.mcf-verdict {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.mcf-verdict.ok  { background: var(--pale-g); color: var(--leaf); }
+.mcf-verdict.warn { background: var(--straw); color: #7a5000; }
+.mcf-verdict.bad  { background: var(--blush); color: var(--rust); }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 860px) {
   .main-wrap { grid-template-columns: 1fr; padding: 16px 14px 60px; gap: 0; }
@@ -892,12 +966,12 @@ header {
 
         <div class="grid2" style="margin-bottom:14px">
           <div class="field">
-            <label>Gaji operator pompa (Rp/bulan)</label>
+            <label id="opCostLbl">Gaji operator pompa (Rp/bulan)</label>
             <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="opCost" value="500000" step="50000" style="padding-left:36px"></div>
-            <span class="hint">Masukkan 0 jika tidak ada operator</span>
+            <span class="hint" id="opCostHint">Masukkan 0 jika tidak ada operator</span>
           </div>
           <div class="field">
-            <label>Biaya servis & spare part (Rp/bulan)</label>
+            <label id="maintCostLbl">Biaya servis & spare part (Rp/bulan)</label>
             <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintCost" value="200000" step="50000" style="padding-left:36px"></div>
           </div>
         </div>
@@ -1064,10 +1138,10 @@ header {
           <div class="field">
             <label>Horizon analisis</label>
             <select id="horizon">
-              <option value="5">5 tahun</option>
-              <option value="7" selected>7 tahun</option>
+              <option value="3">3 tahun</option>
+              <option value="5" selected>5 tahun</option>
+              <option value="7">7 tahun</option>
               <option value="10">10 tahun</option>
-              <option value="15">15 tahun</option>
             </select>
           </div>
         </div>
@@ -1283,6 +1357,24 @@ header {
         <div id="cfBars"></div>
       </div>
 
+      <!-- ✨ NEW: Analisis Arus Kas Bulanan 24 Bulan Pertama -->
+      <div class="monthly-cf-card">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:4px">💳 Analisis Arus Kas Bulanan — 24 Bulan Pertama</div>
+        <div style="font-size:12px;color:var(--clay);margin-bottom:12px">Perbandingan penghematan bulanan vs beban cicilan per skema pembelian</div>
+        <div class="mcf-tabs">
+          <div class="mcf-tab active" onclick="setMcfTab('cash',this)">💵 Cash</div>
+          <div class="mcf-tab" onclick="setMcfTab('dp12',this)">📅 Cicilan 12 Bln</div>
+          <div class="mcf-tab" onclick="setMcfTab('dp24',this)">🏦 Cicilan 24 Bln</div>
+        </div>
+        <div class="mcf-summary-row" id="mcfSummary"></div>
+        <div id="mcfBars"></div>
+        <div class="mcf-legend">
+          <div class="mcf-leg"><div class="mcf-dot" style="background:var(--sprout)"></div>Penghematan bulanan</div>
+          <div class="mcf-leg"><div class="mcf-dot" style="background:var(--rust);opacity:0.7"></div>Cicilan bulanan</div>
+        </div>
+        <div class="mcf-verdict" id="mcfVerdict"></div>
+      </div>
+
       <!-- Timeline -->
       <div class="tl-section">
         <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">⏱ Timeline Investasi</div>
@@ -1474,6 +1566,7 @@ let currentCrop = 'padisawah';
 let currentSrc  = 'diesel';
 let currentFinancing = 'cash';
 let currentStep = 0;
+let currentMcfTab = 'cash';
 
 // ===== FORMAT =====
 const fmt = n => {
@@ -1506,15 +1599,31 @@ function setSrc(s, el) {
   const q2 = document.getElementById('q2');
   const l1 = document.getElementById('q1lbl');
   const l2 = document.getElementById('q2lbl');
+  const opLbl    = document.getElementById('opCostLbl');
+  const maintLbl = document.getElementById('maintCostLbl');
+  const opHint   = document.getElementById('opCostHint');
+
   if (s === 'diesel') {
     l1.textContent = 'Konsumsi solar (liter/bulan)'; l2.textContent = 'Harga solar (Rp/liter)';
     q1.value = 80; q2.value = 6800;
+    opLbl.textContent    = 'Gaji operator pompa (Rp/bulan)';
+    maintLbl.textContent = 'Biaya servis & spare part (Rp/bulan)';
+    opHint.textContent   = 'Masukkan 0 jika tidak ada operator';
+    document.getElementById('energyFields').style.display = '';
   } else if (s === 'pln') {
     l1.textContent = 'Pemakaian listrik (kWh/bulan)'; l2.textContent = 'Tarif listrik (Rp/kWh)';
     q1.value = 200; q2.value = 1445;
+    opLbl.textContent    = 'Gaji operator pompa (Rp/bulan)';
+    maintLbl.textContent = 'Biaya servis & spare part (Rp/bulan)';
+    opHint.textContent   = 'Masukkan 0 jika tidak ada operator';
+    document.getElementById('energyFields').style.display = '';
   } else if (s === 'manual') {
     document.getElementById('energyFields').style.display = 'none';
     q1.value = 0; q2.value = 0;
+    // Rebrand labels untuk tadah hujan
+    opLbl.textContent    = 'Gaji Tenaga Kerja (Rp/bulan)';
+    maintLbl.textContent = 'Biaya Lainnya (Rp/bulan)';
+    opHint.textContent   = 'Biaya buruh siram manual, sewa pompa sementara, dll.';
     calcAll();
     return;
   }
@@ -1553,6 +1662,101 @@ function setFinancing(mode, el) {
   document.getElementById('financing-dp12').style.display   = mode === 'dp12'  ? '' : 'none';
   document.getElementById('financing-dp24').style.display   = mode === 'dp24'  ? '' : 'none';
   calcAll();
+}
+
+// ===== MCF TAB SWITCH =====
+function setMcfTab(mode, el) {
+  document.querySelectorAll('.mcf-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  currentMcfTab = mode;
+  calcAll();
+}
+
+// ===== RENDER MONTHLY CASHFLOW (24 months) =====
+function renderMonthlyCF(netSavingMo, capex, dp12PctDyn, dp24PctDyn) {
+  const MONTHS = 24;
+
+  // Build monthly cicilan for each mode
+  const dp12Amt   = capex * dp12PctDyn / 100;
+  const cic12     = (capex - dp12Amt) / 12;
+
+  const dp24Amt   = capex * dp24PctDyn / 100;
+  const cic24     = (capex - dp24Amt) / 24;
+
+  const modeMap = {
+    cash: { label:'Bayar Cash', dpAmt: capex, cicilanPerBulan: 0, bulanCicilan: 0, dpDesc: 'Bayar tunai di muka' },
+    dp12: { label:'Cicilan 12 Bln', dpAmt: dp12Amt, cicilanPerBulan: cic12, bulanCicilan: 12, dpDesc: `DP ${dp12PctDyn}% (${fmt(dp12Amt)}) + 12× cicilan` },
+    dp24: { label:'Cicilan 24 Bln', dpAmt: dp24Amt, cicilanPerBulan: cic24, bulanCicilan: 24, dpDesc: `DP ${dp24PctDyn}% (${fmt(dp24Amt)}) + 24× cicilan` },
+  };
+
+  const mode = modeMap[currentMcfTab] || modeMap.cash;
+
+  // Compute month-by-month net
+  const months = [];
+  for (let m = 1; m <= MONTHS; m++) {
+    const cicilan = m <= mode.bulanCicilan ? mode.cicilanPerBulan : 0;
+    const net     = netSavingMo - cicilan;
+    months.push({ m, save: netSavingMo, cicilan, net });
+  }
+
+  // Summary stats
+  const avgNet      = months.reduce((s, r) => s + r.net, 0) / MONTHS;
+  const negMonths   = months.filter(r => r.net < 0).length;
+  const firstProfit = months.find(r => r.net >= 0);
+
+  // Summary cells
+  const sumHtml = `
+    <div class="mcf-sum-cell ${netSavingMo > 0 ? 'pos' : 'neu'}">
+      <div class="msv">${fmt(netSavingMo)}</div>
+      <div class="msl">Hemat / bulan</div>
+    </div>
+    <div class="mcf-sum-cell ${mode.cicilanPerBulan > 0 ? 'neg' : 'neu'}">
+      <div class="msv">${mode.cicilanPerBulan > 0 ? fmt(mode.cicilanPerBulan) : '—'}</div>
+      <div class="msl">Cicilan / bulan</div>
+    </div>
+    <div class="mcf-sum-cell ${avgNet >= 0 ? 'pos' : 'neg'}">
+      <div class="msv">${avgNet >= 0 ? '+' : ''}${fmt(avgNet)}</div>
+      <div class="msl">Rata-rata net / bulan</div>
+    </div>`;
+  document.getElementById('mcfSummary').innerHTML = sumHtml;
+
+  // Bar chart
+  const maxVal = Math.max(netSavingMo, mode.cicilanPerBulan, 1);
+  const barsHtml = months.map(({ m, save, cicilan, net }) => {
+    const savePct = Math.min(save / maxVal * 100, 100).toFixed(1);
+    const cicPct  = Math.min(cicilan / maxVal * 100, 100).toFixed(1);
+    const isPos   = net >= 0;
+    // Show every month up to 24, but group label every 4 months to reduce clutter
+    const lbl = m % 4 === 0 || m === 1 ? `Bln ${m}` : '';
+    return `<div class="mcf-bar-wrap">
+      <div class="mcf-mo-lbl">${lbl}</div>
+      <div class="mcf-dual-track">
+        <div class="mcf-save-bar" style="width:${savePct}%"></div>
+        ${cicilan > 0 ? `<div class="mcf-cicilan-bar" style="width:${cicPct}%;position:absolute;left:0;height:100%;background:var(--rust);opacity:0.45;border-radius:4px;mix-blend-mode:multiply"></div>` : ''}
+      </div>
+      <div class="mcf-mo-net" style="color:${isPos ? 'var(--leaf)' : 'var(--rust)'}">${isPos ? '+' : ''}${fmt(net)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('mcfBars').innerHTML = barsHtml;
+
+  // Verdict
+  let verdictHtml, verdictClass;
+  if (currentMcfTab === 'cash') {
+    verdictHtml = `✅ <strong>Bayar cash:</strong> Mulai bulan pertama Anda langsung hemat ${fmt(netSavingMo)}/bulan. Tidak ada beban cicilan sama sekali.`;
+    verdictClass = 'ok';
+  } else if (negMonths === 0) {
+    verdictHtml = `✅ <strong>Selama masa cicilan, Anda tetap untung bersih setiap bulan.</strong> Cicilan ${fmt(mode.cicilanPerBulan)}/bulan jauh lebih kecil dari penghematan ${fmt(netSavingMo)}/bulan.`;
+    verdictClass = 'ok';
+  } else if (negMonths <= 6) {
+    verdictHtml = `⚠️ <strong>${negMonths} bulan pertama cicilan melebihi penghematan.</strong> Namun setelah bulan ke-${firstProfit ? firstProfit.m : '?'}, arus kas mulai positif. Pastikan ada cadangan kas di awal.`;
+    verdictClass = 'warn';
+  } else {
+    verdictHtml = `⚠️ <strong>Selama ${negMonths} bulan, cicilan melebihi penghematan bulanan.</strong> Pertimbangkan memperbesar DP atau menambah sumber penghematan (yield, operator) untuk memperkuat arus kas.`;
+    verdictClass = 'warn';
+  }
+  const v = document.getElementById('mcfVerdict');
+  v.innerHTML = verdictHtml;
+  v.className = `mcf-verdict ${verdictClass}`;
 }
 
 // ===== MAIN CALC =====
@@ -1741,13 +1945,15 @@ function calcAll() {
     { let c = -capex;
       for (let y = 1; y <= horizon; y++) { c += netSavingYr; cfCash.push({y, val:c}); } }
 
-    // 12 bulan: DP 25%, cicilan sisa ÷ 12
-    const dp12fix = capex * 0.25;
-    const cfDp12  = buildTabCF(dp12fix, (capex - dp12fix)/12, 12);
+    // 12 bulan: DP dari input UI (dp12Pct), cicilan sisa ÷ 12 bulan
+    const dp12PctDyn = parseFloat(document.getElementById('dp12Pct').value) || 25;
+    const dp12fix    = capex * dp12PctDyn / 100;
+    const cfDp12     = buildTabCF(dp12fix, (capex - dp12fix)/12, 12);
 
-    // 24 bulan: DP 30%, cicilan sisa ÷ 24
-    const dp24fix = capex * 0.30;
-    const cfDp24  = buildTabCF(dp24fix, (capex - dp24fix)/24, 24);
+    // 24 bulan: DP dari input UI (dp24Pct), cicilan sisa ÷ 24 bulan
+    const dp24PctDyn = parseFloat(document.getElementById('dp24Pct').value) || 30;
+    const dp24fix    = capex * dp24PctDyn / 100;
+    const cfDp24     = buildTabCF(dp24fix, (capex - dp24fix)/24, 24);
 
     const activeCF = currentFinancing === 'dp12' ? cfDp12
                    : currentFinancing === 'dp24' ? cfDp24
@@ -1755,8 +1961,8 @@ function calcAll() {
 
     const cfTitles = {
       cash: 'Cashflow Kumulatif — Bayar Lunas',
-      dp12: 'Cashflow Kumulatif — Cicilan 12 Bln (DP 25%)',
-      dp24: 'Cashflow Kumulatif — Cicilan 24 Bln Multifinance (DP 30%)'
+      dp12: `Cashflow Kumulatif — Cicilan 12 Bln (DP ${dp12PctDyn}%)`,
+      dp24: `Cashflow Kumulatif — Cicilan 24 Bln Multifinance (DP ${dp24PctDyn}%)`
     };
     const ssTitleEl = document.querySelector('.ss-title');
     if (ssTitleEl) ssTitleEl.textContent = cfTitles[currentFinancing] || cfTitles.cash;
@@ -1823,6 +2029,13 @@ function calcAll() {
     document.getElementById('sens_pes').textContent  = computePB(0.7, 0.5);
     document.getElementById('sens_base').textContent = payback ? payback + ' tahun' : '>' + horizon + ' thn';
     document.getElementById('sens_opt').textContent  = computePB(1.0, 1.5);
+
+    // Render monthly CF card (uses dynamic DP values already computed above)
+    const dp12PctForMcf = parseFloat(document.getElementById('dp12Pct').value) || 25;
+    const dp24PctForMcf = parseFloat(document.getElementById('dp24Pct').value) || 30;
+    if (document.getElementById('mcfBars')) {
+      renderMonthlyCF(netSavingMo, capex, dp12PctForMcf, dp24PctForMcf);
+    }
   }
 }
 
