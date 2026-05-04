@@ -1958,11 +1958,16 @@ function updateHeroInfo() {
     const nm = cropNames[currentCrop] || currentCrop;
     const mm = crop.mmRange || '-';
     const umurSistem = 20;
+
+    // Hapus '&nbsp;|&nbsp;' di bagian paling akhir baris ini
     textEl.innerHTML =
       '<strong style="color:var(--mint)">\ud83c\udf3e Lahan:</strong> ' + lahan + ' ha &nbsp;|&nbsp; ' +
       '<strong style="color:var(--mint)">\ud83c\udf31 Komoditas:</strong> ' + nm + ' &nbsp;|&nbsp; ' +
-      '<strong style="color:var(--gold)">\ud83d\udca7 Kebutuhan Air:</strong> ' + mm + ' &nbsp;|&nbsp; '
-    infoEl.style.display = '';
+      '<strong style="color:var(--gold)">\ud83d\udca7 Kebutuhan Air:</strong> ' + mm; 
+    
+    // Pastikan parent container (infoEl) memiliki style center
+    infoEl.style.textAlign = 'center'; 
+    infoEl.style.display = 'block'; // Atau 'flex' jika ingin kontrol lebih lanjut
   } else {
     infoEl.style.display = 'none';
   }
