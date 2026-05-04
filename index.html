@@ -837,6 +837,7 @@ header {
     <div class="kpi"><div class="kpi-val">0%</div><div class="kpi-lbl">Biaya BBM/Listrik Setelah Pasang</div></div>
     <div class="kpi"><div class="kpi-val">15&#8211;30%</div><div class="kpi-lbl">Peningkatan Hasil Panen</div></div>
     <div class="kpi"><div class="kpi-val">2&#8211;5 Thn</div><div class="kpi-lbl">Rata-rata Balik Modal</div></div>
+    <div class="kpi"><div class="kpi-val">20+ Thn</div><div class="kpi-lbl">Umur Sistem Solar Pump</div></div>
   </div>
 </div>
 
@@ -891,23 +892,23 @@ header {
         <div class="grid2" style="margin-bottom:14px" id="energyFields">
           <div class="field" id="q1Field">
             <label id="q1lbl">Konsumsi solar (liter/bulan)</label>
-            <input type="number" id="q1" value="80" step="5">
+            <input type="number" id="q1" value="" placeholder="cth: 80" step="5">
           </div>
           <div class="field" id="q2Field">
             <label id="q2lbl">Harga solar (Rp/liter)</label>
-            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="q2" value="6800" step="500" style="padding-left:36px"></div>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="q2" value="" placeholder="cth: 6800" step="500" style="padding-left:36px"></div>
           </div>
         </div>
 
         <div class="grid2" style="margin-bottom:14px" id="opFields">
           <div class="field">
             <label id="opCostLabel">Gaji operator pompa (Rp/bulan)</label>
-            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="opCost" value="500000" step="50000" style="padding-left:36px"></div>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="opCost" value="" placeholder="0 jika tidak ada" step="50000" style="padding-left:36px"></div>
             <span class="hint" id="opCostHint">Masukkan 0 jika tidak ada operator</span>
           </div>
           <div class="field" id="maintCostField">
             <label id="maintCostLabel">Biaya servis & spare part (Rp/bulan)</label>
-            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintCost" value="200000" step="50000" style="padding-left:36px"></div>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintCost" value="" placeholder="cth: 200000" step="50000" style="padding-left:36px"></div>
           </div>
         </div>
 
@@ -942,7 +943,7 @@ header {
         <div class="grid2" style="margin-bottom:20px">
           <div class="field">
             <label>Luas lahan (hektar)</label>
-            <div class="inp-wrap"><input type="number" id="lahan" value="2" min="0.25" step="0.25"><span class="inp-suffix">ha</span></div>
+            <div class="inp-wrap"><input type="number" id="lahan" value="" placeholder="cth: 1" min="0.25" step="0.25"><span class="inp-suffix">ha</span></div>
           </div>
           <div class="field">
             <label>Musim tanam per tahun</label>
@@ -1041,15 +1042,15 @@ header {
         <div class="capex-rows">
           <div class="capex-row">
             <label>📦 Paket instalasi utama (pompa, solar panel, inverter & kelistrikan)</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx1" value="0" step="1000000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx1" value="" placeholder="cth: 16500000" step="1000000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
           <div class="capex-row">
             <label>🔩 Biaya rangka, pipa distribusi & instalasi lapangan di luar paket</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx2" value="0" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx2" value="" placeholder="cth: 2000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
           <div class="capex-row">
             <label>🚚 Biaya ongkir</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx3" value="0" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx3" value="" placeholder="cth: 500000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
           <!-- cx4 dan cx5 dihapus, nilainya digabung ke cx2. Tetap ada sebagai hidden dengan nilai 0 agar calcAll tidak error -->
           <input type="hidden" id="cx4" value="0">
@@ -1064,7 +1065,7 @@ header {
         <div style="margin-top:20px">
           <div class="field">
             <label>Biaya maintenance tahunan (servis + spare part)</label>
-            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintSolar" value="1500000" step="100000" style="padding-left:36px"></div>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintSolar" value="" placeholder="cth: 1500000" step="100000" style="padding-left:36px"></div>
 
           </div>
         </div>
@@ -1073,8 +1074,8 @@ header {
           <div class="field">
             <label>Horizon analisis</label>
             <select id="horizon">
-              <option value="5">5 tahun</option>
-              <option value="7" selected>7 tahun</option>
+              <option value="5" selected>5 tahun</option>
+              <option value="7">7 tahun</option>
               <option value="10">10 tahun</option>
               <option value="15">15 tahun</option>
             </select>
@@ -1551,17 +1552,19 @@ function setSrc(s, el) {
   const l2 = document.getElementById('q2lbl');
   if (s === 'diesel') {
     l1.textContent = 'Konsumsi solar (liter/bulan)'; l2.textContent = 'Harga solar (Rp/liter)';
-    q1.value = 80; q2.value = 6800;
+    q1.placeholder = 'cth: 80'; q2.placeholder = 'cth: 6800';
+    if (!q1.value) q1.value = ''; if (!q2.value) q2.value = '';
   } else if (s === 'pln') {
     l1.textContent = 'Pemakaian listrik (kWh/bulan)'; l2.textContent = 'Tarif listrik (Rp/kWh)';
-    q1.value = 200; q2.value = 1445;
+    q1.placeholder = 'cth: 200'; q2.placeholder = 'cth: 1445';
+    q1.value = ''; q2.value = '';
   } else if (s === 'manual') {
     document.getElementById('energyFields').style.display = 'none';
     document.getElementById('maintCostField').style.display = 'none';
     document.getElementById('opCostLabel').textContent = 'Biaya tenaga kerja manual (Rp/bulan)';
     document.getElementById('opCostHint').textContent = 'Upah tenaga pengairan manual — isi 0 jika tidak ada';
-    document.getElementById('opCost').value = 300000;
-    document.getElementById('maintCost').value = 0;
+    document.getElementById('opCost').value = '';
+    document.getElementById('maintCost').value = '';
     q1.value = 0; q2.value = 0;
     calcAll();
     return;
@@ -1641,7 +1644,7 @@ function calcAll() {
   const cx4 = parseFloat(document.getElementById('cx4').value) || 0;
   const cx5 = parseFloat(document.getElementById('cx5').value) || 0;
   const capex    = cx1+cx2+cx3+cx4+cx5;
-  const maintSolar = parseFloat(document.getElementById('maintSolar').value) || 1500000;
+  const maintSolar = parseFloat(document.getElementById('maintSolar').value) || 0;
   const horizon    = parseInt(document.getElementById('horizon').value) || 7;
 
   document.getElementById('capexTotal').textContent = fmt(capex);
@@ -1667,7 +1670,8 @@ function calcAll() {
   const roi = capex > 0 ? ((netSavingYr * horizon - capex) / capex * 100) : 0;
 
   // Solar monthly cost (maintenance only)
-  const solarMonthly = maintSolar / 12;
+  // Biaya irigasi solar pump per bulan = amortisasi capex + maintenance bulanan
+  const solarMonthly = (capex / (horizon * 12)) + (maintSolar / 12);
 
   // --- STEP 3: Financing ---
   // Show/hide capex warning
@@ -1968,7 +1972,7 @@ document.querySelectorAll('input[type=number], select').forEach(el => {
 // ===== INIT =====
 // Kosongkan semua input KECUALI cx fields (biar user bisa langsung edit default)
 // dan field financing yg punya default valid
-const _skipClear = new Set(['cx1','cx2','cx3','cx4','cx5','dp24Pct','dp12Pct','dpPct','lahan','musim','prodNow','q1','q2','opCost','maintCost','maintSolar']);
+const _skipClear = new Set(['cx4','cx5','dp24Pct','dp12Pct','dpPct','musim','prodNow']);
 document.querySelectorAll('input[type=number]').forEach(el => {
   if (!_skipClear.has(el.id)) el.value = '';
 });
