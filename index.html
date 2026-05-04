@@ -801,7 +801,12 @@ header {
 <header>
   <div class="hdr">
     <div class="logo">
-      <div class="logo-mark">🌿</div>
+      <div class="logo-mark" id="logoMark">
+        <img id="logoImg" src="logo.png" alt="AgrosolPump"
+          style="width:100%;height:100%;object-fit:contain;border-radius:9px;display:block"
+          onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'">
+        <div id="logoFallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:18px">🌿</div>
+      </div>
       <div>
         <div class="logo-name">AgrosolPump</div>
         <div class="logo-sub">Pompa Irigasi Tenaga Surya</div>
@@ -868,20 +873,19 @@ header {
 
         <p style="font-size:12px;font-weight:700;color:var(--earth);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;font-family:var(--font-display)">Sumber Irigasi Saat Ini</p>
         <div class="src-toggle">
-          <div class="src-btn active" onclick="setSrc('diesel',this)"><span class="sico">⛽</span>Genset Diesel</div>
+          <div class="src-btn active" onclick="setSrc('diesel',this)"><span class="sico">⛽</span>Pompa Diesel</div>
           <div class="src-btn" onclick="setSrc('pln',this)"><span class="sico">⚡</span>PLN</div>
-          <div class="src-btn" onclick="setSrc('manual',this)"><span class="sico">💪</span>Manual</div>
-          <div class="src-btn" onclick="setSrc('mix',this)"><span class="sico">🔀</span>Campuran</div>
+          <div class="src-btn" onclick="setSrc('manual',this)"><span class="sico">🌧️</span>Tadah Hujan</div>
         </div>
 
         <div class="grid2" style="margin-bottom:14px" id="energyFields">
-          <div class="field">
+          <div class="field" id="q1Field">
             <label id="q1lbl">Konsumsi solar (liter/bulan)</label>
             <input type="number" id="q1" value="80" step="5">
           </div>
-          <div class="field">
+          <div class="field" id="q2Field">
             <label id="q2lbl">Harga solar (Rp/liter)</label>
-            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="q2" value="10000" step="500" style="padding-left:36px"></div>
+            <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="q2" value="6800" step="500" style="padding-left:36px"></div>
           </div>
         </div>
 
@@ -940,36 +944,32 @@ header {
           </div>
         </div>
 
-        <p class="kgrp-lbl">🌳 Perkebunan & Tanaman Keras</p>
-        <div class="kpill-grid">
-          <div class="kpill" onclick="pickCrop('kopi',this)"><span class="ke">☕</span><span class="kn">Kopi/Kakao</span></div>
-          <div class="kpill" onclick="pickCrop('singkong',this)"><span class="ke">🍠</span><span class="kn">Singkong</span></div>
-          <div class="kpill" onclick="pickCrop('jeruk',this)"><span class="ke">🍊</span><span class="kn">Jeruk/Mangga</span></div>
-          <div class="kpill" onclick="pickCrop('pisang',this)"><span class="ke">🍌</span><span class="kn">Pisang</span></div>
+        <p class="kgrp-lbl">🌾 Serealia</p>
+        <div class="kpill-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpill active" onclick="pickCrop('padisawah',this)"><span class="ke">🌾</span><span class="kn">Padi Sawah</span></div>
+          <div class="kpill" onclick="pickCrop('padisri',this)"><span class="ke">🌱</span><span class="kn">Padi SRI/Gogo</span></div>
+          <div class="kpill" onclick="pickCrop('jagung',this)"><span class="ke">🌽</span><span class="kn">Jagung/Kedelai/Sorgum</span></div>
         </div>
 
-        <p class="kgrp-lbl">🌾 Serealia & Umbi</p>
-        <div class="kpill-grid">
-          <div class="kpill" onclick="pickCrop('jagung',this)"><span class="ke">🌽</span><span class="kn">Jagung</span></div>
-          <div class="kpill" onclick="pickCrop('kedelai',this)"><span class="ke">🫘</span><span class="kn">Kedelai</span></div>
+        <p class="kgrp-lbl">🥬 Hortikultura Sayur</p>
+        <div class="kpill-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpill" onclick="pickCrop('cabai',this)"><span class="ke">🌶️</span><span class="kn">Cabai/Tomat</span></div>
+          <div class="kpill" onclick="pickCrop('bawangmerah',this)"><span class="ke">🧅</span><span class="kn">Bawang Merah/Putih</span></div>
           <div class="kpill" onclick="pickCrop('kentang',this)"><span class="ke">🥔</span><span class="kn">Kentang</span></div>
-          <div class="kpill" onclick="pickCrop('singkong',this)"><span class="ke">🍠</span><span class="kn">Singkong</span></div>
         </div>
 
-        <p class="kgrp-lbl">🥬 Sayuran & Hortikultura</p>
-        <div class="kpill-grid">
-          <div class="kpill" onclick="pickCrop('cabai',this)"><span class="ke">🌶️</span><span class="kn">Cabai</span></div>
-          <div class="kpill" onclick="pickCrop('bawangmerah',this)"><span class="ke">🧅</span><span class="kn">Bawang Merah</span></div>
-          <div class="kpill" onclick="pickCrop('tomat',this)"><span class="ke">🍅</span><span class="kn">Tomat</span></div>
+        <p class="kgrp-lbl">🍉 Hortikultura Buah</p>
+        <div class="kpill-grid" style="grid-template-columns:repeat(3,1fr)">
           <div class="kpill" onclick="pickCrop('melon',this)"><span class="ke">🍈</span><span class="kn">Melon/Semangka</span></div>
+          <div class="kpill" onclick="pickCrop('pepaya',this)"><span class="ke">🍌</span><span class="kn">Pepaya/Pisang</span></div>
+          <div class="kpill" onclick="pickCrop('jeruk',this)"><span class="ke">🍊</span><span class="kn">Jeruk/Mangga</span></div>
         </div>
 
-        <p class="kgrp-lbl">💧 Padi & Tebu</p>
-        <div class="kpill-grid">
-          <div class="kpill active" onclick="pickCrop('padigogo',this)"><span class="ke">🌱</span><span class="kn">Padi Gogo</span></div>
-          <div class="kpill" onclick="pickCrop('padisawah',this)"><span class="ke">🌾</span><span class="kn">Padi Sawah</span></div>
+        <p class="kgrp-lbl">🌳 Perkebunan</p>
+        <div class="kpill-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpill" onclick="pickCrop('kopi',this)"><span class="ke">☕</span><span class="kn">Kopi/Kakao</span></div>
+          <div class="kpill" onclick="pickCrop('tembakau',this)"><span class="ke">🌿</span><span class="kn">Tembakau</span></div>
           <div class="kpill" onclick="pickCrop('tebu',this)"><span class="ke">🎋</span><span class="kn">Tebu</span></div>
-          <div class="kpill" onclick="pickCrop('pepaya',this)"><span class="ke">🍈</span><span class="kn">Pepaya</span></div>
         </div>
 
         <div class="wmeter" id="wmeter">
@@ -1031,24 +1031,19 @@ header {
         <div class="capex-rows">
           <div class="capex-row">
             <label>📦 Paket instalasi utama (pompa, solar panel, inverter & kelistrikan)</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx1" value="146200000" step="1000000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx1" value="0" step="1000000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
           <div class="capex-row">
-            <label>🔩 Biaya rangka & pipa distribusi di luar paket</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx2" value="8000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <label>🔩 Biaya rangka, pipa distribusi & instalasi lapangan di luar paket</label>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx2" value="0" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
           <div class="capex-row">
             <label>🚚 Biaya ongkir</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx3" value="4000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
+            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx3" value="0" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
           </div>
-          <div class="capex-row">
-            <label>🛠️ Biaya instalasi lapangan</label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx4" value="5000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
-          </div>
-          <div class="capex-row">
-            <label> </label>
-            <div class="field"><div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="cx5" value="2000000" step="500000" style="padding-left:36px;height:36px;font-size:13px"></div></div>
-          </div>
+          <!-- cx4 dan cx5 dihapus, nilainya digabung ke cx2. Tetap ada sebagai hidden dengan nilai 0 agar calcAll tidak error -->
+          <input type="hidden" id="cx4" value="0">
+          <input type="hidden" id="cx5" value="0">
         </div>
 
         <div class="capex-total-row">
@@ -1060,7 +1055,7 @@ header {
           <div class="field">
             <label>Biaya maintenance tahunan (servis + spare part)</label>
             <div class="inp-wrap"><span class="inp-prefix">Rp</span><input type="number" id="maintSolar" value="1500000" step="100000" style="padding-left:36px"></div>
-            <span class="hint">Solar pump sangat minim perawatan — umumnya Rp 1–2,5 jt/tahun</span>
+
           </div>
         </div>
 
@@ -1099,58 +1094,140 @@ header {
           <div class="pb-body">Investasi tidak harus langsung lunas. Yang penting: <strong>cicilan bulanan harus lebih kecil dari penghematan bulanan Anda</strong>. Mari kita buktikan.</div>
         </div>
 
-        <div class="financing-toggle">
-          <button class="ftab active" onclick="setFinancing('cash',this)">💵 Bayar Cash</button>
-          <button class="ftab" onclick="setFinancing('dp',this)">🏦 DP + Cicilan</button>
+        <!-- Peringatan capex = 0 -->
+        <div id="capexWarning" style="display:none;background:#fff8f0;border:1px solid #f0d090;border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-size:12px;color:#7a5000;line-height:1.6">
+          ⚠️ <strong>Total investasi masih Rp 0.</strong> Silakan kembali ke tab <strong>"Investasi Solar Pump"</strong> dan isi setidaknya harga paket pompa (cx1) agar simulasi pembelian bisa dihitung.
         </div>
 
+        <div class="financing-toggle">
+          <button class="ftab active" onclick="setFinancing('cash',this)">💵 Bayar Cash</button>
+          <button class="ftab" onclick="setFinancing('dp12',this)">📅 Cicilan 12 Bulan</button>
+          <button class="ftab" onclick="setFinancing('dp24',this)">🏦 Cicilan 24 Bln (Multifinance)</button>
+        </div>
+
+        <!-- CASH -->
         <div id="financing-cash">
           <div class="financing-result">
             <div class="fr-tag">Anda Bayar Sekali</div>
-            <div class="fr-val" id="cashAmount">Rp 34.000.000</div>
-            <div class="fr-sub">Lalu tidak ada biaya BBM atau listrik lagi — mulai bulan pertama hemat</div>
+            <div class="fr-val" id="cashAmount">Rp —</div>
+            <div class="fr-sub">Tidak ada biaya BBM atau listrik lagi — mulai bulan pertama hemat</div>
           </div>
         </div>
 
-        <div id="financing-dp" style="display:none">
-          <div class="grid3" style="margin-bottom:16px">
+        <!-- 12 BULAN -->
+        <div id="financing-dp12" style="display:none">
+          <div class="pain-box" style="margin-bottom:16px">
+            <div class="pb-icon">📅</div>
+            <div class="pb-body">Cicilan internal 12 bulan dengan DP fleksibel. Pembayaran bisa dipilih <strong>per bulan</strong> atau <strong>sesuai panen</strong> (4 kali dalam setahun).</div>
+          </div>
+          <div class="grid2" style="margin-bottom:14px">
             <div class="field">
-              <label>Uang Muka (%)</label>
-              <div class="inp-wrap"><input type="number" id="dpPct" value="10000000" min="10" max="100" step="5"><span class="inp-suffix">%</span></div>
+              <label>Uang Muka / DP</label>
+              <div style="height:38px;display:flex;align-items:center;padding:0 12px;background:#f0faf4;border:1.5px solid #a0dab8;border-radius:8px;font-size:14px;font-weight:600;color:var(--leaf)">25% <span style="font-weight:400;font-size:12px;margin-left:8px;color:var(--muted)">— tetap sesuai skema</span></div>
+              <input type="hidden" id="dp12Pct" value="25">
             </div>
             <div class="field">
-              <label>Tenor (bulan)</label>
-              <select id="tenor">
-                <option value="12">12 bulan</option>
-                <option value="24" selected>24 bulan</option>
-                <option value="36">36 bulan</option>
-                <option value="48">48 bulan</option>
-                <option value="60">60 bulan</option>
+              <label>Skema Pembayaran</label>
+              <select id="skema12" onchange="calcAll()">
+                <option value="monthly">Per Bulan (÷ 12)</option>
+                <option value="harvest">Sesuai Panen (÷ 4)</option>
               </select>
-            </div>
-            <div class="field">
-              <label>Bunga per tahun (%)</label>
-              <div class="inp-wrap"><input type="number" id="bunga" value="8" min="0" max="24" step="0.5"><span class="inp-suffix">%</span></div>
             </div>
           </div>
 
           <div class="financing-result">
-            <div class="fr-tag">DP Awal Yang Perlu Disiapkan</div>
-            <div class="fr-val" id="dpAmount">Rp 10.200.000</div>
-            <div class="fr-sub">Lalu cicilan bulanan:</div>
+            <div class="fr-tag">DP yang Disiapkan</div>
+            <div class="fr-val" id="dp12Amount">Rp —</div>
+            <div class="fr-sub" id="dp12SubLabel">Sisa dibayar dalam 12 angsuran</div>
             <div class="fr-row">
               <div class="fr-cell">
-                <div class="fcv" id="cicilanPerBulan">Rp 1.150.000</div>
-                <div class="fcl">Cicilan / bulan</div>
+                <div class="fcv" id="cicilan12">Rp —</div>
+                <div class="fcl" id="cicilan12Lbl">Per angsuran</div>
               </div>
               <div class="fr-cell">
-                <div class="fcv" id="cicilanVsHemat" style="color:var(--mint)">vs Hemat Rp X</div>
-                <div class="fcl">Penghematan / bulan</div>
+                <div class="fcv" id="hemat12" style="color:var(--mint)">Rp —</div>
+                <div class="fcl">Hemat / periode</div>
               </div>
               <div class="fr-cell">
-                <div class="fcv" id="selisihCicilan" style="color:var(--gold)">Net +Rp X</div>
-                <div class="fcl">Keuntungan bersih / bln</div>
+                <div class="fcv" id="selisih12" style="color:var(--gold)">—</div>
+                <div class="fcl">Net / periode</div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 24 BULAN MULTIFINANCE -->
+        <div id="financing-dp24" style="display:none">
+          <div class="pain-box" style="margin-bottom:16px">
+            <div class="pb-icon">🏦</div>
+            <div class="pb-body">Skema <strong>multifinance</strong> tenor 24 bulan. Minimum total pembiayaan kelompok ke lembaga finance adalah <strong>Rp 80.000.000</strong>. Cicilan dibayar <strong>saat panen</strong>. Kalkulasi di bawah adalah untuk pompa <strong>milik Anda sendiri</strong>.</div>
+          </div>
+
+          <div class="grid2" style="margin-bottom:14px">
+            <div class="field">
+              <label>Uang Muka / DP</label>
+              <div style="height:38px;display:flex;align-items:center;padding:0 12px;background:#f0faf4;border:1.5px solid #a0dab8;border-radius:8px;font-size:14px;font-weight:600;color:var(--leaf)">30% <span style="font-weight:400;font-size:12px;margin-left:8px;color:var(--muted)">— sesuai syarat multifinance</span></div>
+              <input type="hidden" id="dp24Pct" value="30">
+            </div>
+            <div class="field">
+              <label>Siklus panen (bulan sekali)</label>
+              <select id="siklusPanen" onchange="calcAll()">
+                <option value="3">Setiap 3 bulan (8× cicilan)</option>
+                <option value="4" selected>Setiap 4 bulan (6× cicilan)</option>
+                <option value="6">Setiap 6 bulan (4× cicilan)</option>
+                <option value="12">Setiap 12 bulan (2× cicilan)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:6px">
+            <label>Total pembiayaan kelompok ke multifinance (Rp)</label>
+            <div class="inp-wrap has-prefix">
+              <span class="inp-prefix">Rp</span>
+              <input type="number" id="totalKelompok" value="" min="0" step="1000000"
+                placeholder="isi total gabungan kelompok Anda" oninput="calcAll()"
+                style="padding-left:36px">
+            </div>
+            <span class="hint">Jumlahkan nilai finance semua anggota kelompok, termasuk pompa Anda. Kosongkan jika belum tahu.</span>
+          </div>
+
+          <!-- Status kelompok -->
+          <div id="groupFinancingBox" style="border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-size:12px;line-height:1.7">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <strong>📊 Status Pembiayaan Kelompok</strong>
+              <span id="groupStatusBadge" style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px"></span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 16px">
+              <span>Nilai finance pompa Anda:</span><strong id="nilaiPerUnit">Rp —</strong>
+              <span>Total kelompok diinput:</span><strong id="totalNilaiGroup">—</strong>
+              <span>Min. multifinance:</span><strong>Rp 80.000.000</strong>
+              <span>Kekurangan / kelebihan:</span><strong id="selisihMin">—</strong>
+            </div>
+            <div id="groupNote" style="margin-top:8px;font-weight:600;font-size:11px"></div>
+          </div>
+
+          <!-- Hasil individual -->
+          <div class="financing-result">
+            <div class="fr-tag">Pembiayaan Pompa Anda</div>
+            <div class="fr-val" id="dp24PerOrang">Rp —</div>
+            <div class="fr-sub" id="dp24SubLabel">DP awal — cicilan 6× saat panen dalam 24 bulan</div>
+            <div class="fr-row">
+              <div class="fr-cell">
+                <div class="fcv" id="cicilan24PerOrang">Rp —</div>
+                <div class="fcl">Cicilan / panen</div>
+              </div>
+              <div class="fr-cell">
+                <div class="fcv" id="hemat24" style="color:var(--mint)">Rp —</div>
+                <div class="fcl">Hemat / periode panen</div>
+              </div>
+              <div class="fr-cell">
+                <div class="fcv" id="selisih24" style="color:var(--gold)">—</div>
+                <div class="fcl">Net / periode panen</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.45)">
+              <span>Total nilai finance pompa Anda (tanpa DP):</span>
+              <strong id="totalCicilan24Group" style="color:rgba(255,255,255,0.7)">Rp —</strong>
             </div>
           </div>
         </div>
@@ -1309,27 +1386,90 @@ header {
 
 <script>
 // ===== CROP DATA =====
+// CROPS database - sumber: Statistik Pertanian 2024 Kementan, ATAP Hortikultura 2024, BPS, Panel Harga Bapanas (Mei 2026)
+// Merged: komoditas dengan kebutuhan air & karakteristik serupa digabung per grup
 const CROPS = {
-  kopi:        { airMult:0.4, wmPct:7,  info:'Kopi & kakao: irigasi supplemental di musim kemarau mencegah stress bunga dan meningkatkan konsistensi panen.', yieldHint:'20–25%', defaultYield:18, defaultProd:1.5, defaultHarga:25000, musim:1 },
-  singkong:    { airMult:0.4, wmPct:7,  info:'Singkong sangat toleran kering. Irigasi di musim kemarau bisa meningkatkan yield secara signifikan.', yieldHint:'20–35%', defaultYield:25, defaultProd:20, defaultHarga:1500, musim:1 },
-  jeruk:       { airMult:1.6, wmPct:70, info:'Jeruk & mangga butuh irigasi intensif saat pembungaan. Irigasi off-season memicu pembungaan serempak.', yieldHint:'20–30%', defaultYield:25, defaultProd:15, defaultHarga:8000, musim:1 },
-  pisang:      { airMult:1.3, wmPct:53, info:'Pisang butuh air sedang-tinggi sepanjang tahun. Tanaman tahunan — pompa bekerja efisien sepanjang tahun.', yieldHint:'15–25%', defaultYield:20, defaultProd:30, defaultHarga:2500, musim:3 },
-  jagung:      { airMult:0.7, wmPct:20, info:'Jagung kritis pada fase vegetatif & pembungaan (30–60 HST). Yield drop signifikan jika kurang air saat berbunga.', yieldHint:'10–15%', defaultYield:12, defaultProd:6, defaultHarga:4500, musim:2 },
-  kedelai:     { airMult:0.7, wmPct:20, info:'Kedelai toleran kering, kritis hanya di fase pengisian polong.', yieldHint:'12–18%', defaultYield:15, defaultProd:1.8, defaultHarga:8000, musim:2 },
-  kentang:     { airMult:1.0, wmPct:37, info:'Kentang butuh kelembaban stabil sepanjang siklus. Kekeringan di fase tuberisasi menurunkan ukuran umbi.', yieldHint:'12–18%', defaultYield:15, defaultProd:18, defaultHarga:8000, musim:2 },
-  cabai:       { airMult:1.0, wmPct:37, info:'Cabai sangat sensitif stress air. Kekurangan air menyebabkan gugur bunga dan busuk ujung buah.', yieldHint:'15–25%', defaultYield:20, defaultProd:10, defaultHarga:20000, musim:2 },
-  bawangmerah: { airMult:1.0, wmPct:37, info:'Bawang merah butuh irigasi sering dengan volume kecil. Sprinkler/tetes lebih efektif dari leb.', yieldHint:'15–20%', defaultYield:18, defaultProd:8, defaultHarga:18000, musim:2 },
-  tomat:       { airMult:1.0, wmPct:37, info:'Tomat perlu irigasi konsisten. Stres air menyebabkan blossom end rot dan retakan buah.', yieldHint:'15–20%', defaultYield:18, defaultProd:25, defaultHarga:5000, musim:3 },
-  melon:       { airMult:1.3, wmPct:53, info:'Melon & semangka: kurang air di fase kritis menurunkan kadar gula dan bobot buah drastis.', yieldHint:'18–25%', defaultYield:20, defaultProd:20, defaultHarga:6000, musim:2 },
-  padigogo:    { airMult:1.6, wmPct:70, info:'Padi gogo (ladang): butuh irigasi intensif tapi lebih hemat air dari padi sawah. Cocok lahan kering.', yieldHint:'20–30%', defaultYield:25, defaultProd:3.5, defaultHarga:7000, musim:2 },
-  padisawah:   { airMult:2.0, wmPct:93, info:'Padi sawah: komoditas paling boros air — butuh genangan 5–10 cm. Penghematan diesel terbesar.', yieldHint:'15–25%', defaultYield:20, defaultProd:5.5, defaultHarga:6500, musim:2 },
-  tebu:        { airMult:2.0, wmPct:93, info:'Tebu: volume kebutuhan air terbesar — siklus 10–12 bulan, irigasi hampir setiap hari.', yieldHint:'10–18%', defaultYield:15, defaultProd:80, defaultHarga:600, musim:1 },
-  pepaya:      { airMult:1.3, wmPct:53, info:'Pepaya: tanaman tahunan butuh air konsisten sepanjang tahun. Tanpa irigasi, produksi terhenti di kemarau.', yieldHint:'20–30%', defaultYield:22, defaultProd:40, defaultHarga:3000, musim:3 },
+  // === SEREALIA ===
+  padisawah: {
+    airMult:2.0, wmPct:93, mmRange:'13-15 mm/hari',
+    info:'Padi sawah paling boros air - butuh genangan 5-10 cm terus-menerus. Produktivitas nasional 5.24 ton/ha (BPS 2024). Penghematan diesel paling besar saat beralih ke pompa surya.',
+    yieldHint:'Ref: +20% dengan ketersediaan air optimal (BPS/Kementan)',
+    defaultYield:20, defaultProd:5.24, defaultHarga:6500, musim:2
+  },
+  padisri: {
+    airMult:1.6, wmPct:70, mmRange:'10-13 mm/hari',
+    info:'Padi SRI/Gogo menggunakan irigasi intermittent (SRI) atau tadah hujan dengan suplementasi (Gogo). Lebih hemat air 30-40% vs sawah konvensional. Produktivitas SRI: 6.5 ton/ha, Gogo: 3.5 ton/ha (Balitbangtan/IRRI).',
+    yieldHint:'Ref: +25-30% vs tanpa irigasi (IRRI/Balitbangtan)',
+    defaultYield:28, defaultProd:5.0, defaultHarga:6500, musim:2
+  },
+  jagung: {
+    airMult:0.7, wmPct:20, mmRange:'4-6 mm/hari',
+    info:'Jagung, kedelai, dan sorgum termasuk palawija hemat air. Kritis hanya di fase tertentu: jagung saat berbunga, kedelai saat pengisian polong, sorgum saat vegetatif. Data: Jagung 5.9 ton/ha (Statistik Pertanian 2024), Kedelai 1.6 ton/ha, Sorgum 3 ton/ha (Balitbangtan).',
+    yieldHint:'Ref: +20-25% dengan irigasi tepat fase kritis (Balitbangtan)',
+    defaultYield:22, defaultProd:5.9, defaultHarga:5900, musim:2
+  },
+  // === HORTIKULTURA SAYUR ===
+  cabai: {
+    airMult:1.0, wmPct:37, mmRange:'6-8 mm/hari',
+    info:'Cabai dan tomat sangat sensitif stress air - kekurangan air menyebabkan gugur bunga, busuk ujung buah, dan retakan. Produktivitas: Cabai 10.5 ton/ha, Tomat 16 ton/ha (ATAP Hortikultura 2024 Ditjen Hortikultura).',
+    yieldHint:'Ref: +35% dengan irigasi terjadwal (ATAP Hortikultura 2024)',
+    defaultYield:35, defaultProd:10.5, defaultHarga:25000, musim:3
+  },
+  bawangmerah: {
+    airMult:1.0, wmPct:37, mmRange:'6-8 mm/hari',
+    info:'Bawang merah dan bawang putih butuh irigasi sering dengan volume kecil. Bawang putih adalah prioritas substitusi impor pemerintah. Produktivitas: Bawang Merah 10.3 ton/ha, Bawang Putih 8.5 ton/ha (ATAP Hortikultura 2024 Ditjen Hortikultura).',
+    yieldHint:'Ref: +40% dengan irigasi konsisten (Outlook Bawang Merah 2024)',
+    defaultYield:40, defaultProd:10.3, defaultHarga:20000, musim:3
+  },
+  kentang: {
+    airMult:1.0, wmPct:37, mmRange:'6-8 mm/hari',
+    info:'Kentang butuh kelembaban tanah yang stabil sepanjang siklus. Kekeringan di fase tuberisasi langsung menurunkan ukuran dan bobot umbi. Produktivitas nasional 18 ton/ha (ATAP Hortikultura 2024 Ditjen Hortikultura).',
+    yieldHint:'Ref: +30% dengan irigasi stabil (ATAP Hortikultura 2024)',
+    defaultYield:30, defaultProd:18, defaultHarga:12000, musim:2
+  },
+  // === HORTIKULTURA BUAH ===
+  melon: {
+    airMult:1.3, wmPct:53, mmRange:'8-10 mm/hari',
+    info:'Melon dan semangka kritis di fase pembungaan dan pembesaran buah - kurang air menurunkan kadar gula dan bobot drastis. Produktivitas 20 ton/ha (ATAP Hortikultura 2024 Ditjen Hortikultura).',
+    yieldHint:'Ref: +30% dengan irigasi fase kritis (ATAP Hortikultura 2024)',
+    defaultYield:30, defaultProd:20, defaultHarga:7000, musim:3
+  },
+  pepaya: {
+    airMult:1.3, wmPct:53, mmRange:'8-10 mm/hari',
+    info:'Pepaya dan pisang adalah tanaman tahunan yang butuh air konsisten sepanjang tahun. Tanpa irigasi di musim kemarau, produksi terhenti. Produktivitas: Pepaya 25 ton/ha, Pisang 22 ton/ha (ATAP Hortikultura 2024).',
+    yieldHint:'Ref: +20% dengan irigasi konsisten (ATAP Hortikultura 2024)',
+    defaultYield:20, defaultProd:25, defaultHarga:5000, musim:1
+  },
+  jeruk: {
+    airMult:1.6, wmPct:70, mmRange:'10-13 mm/hari',
+    info:'Jeruk dan mangga butuh irigasi intensif saat pembungaan dan pembesaran buah. Teknik irigasi off-season digunakan untuk memicu pembungaan serempak dan meningkatkan harga jual. Produktivitas: Jeruk 15 ton/ha, Mangga 12 ton/ha (ATAP Hortikultura 2024).',
+    yieldHint:'Ref: +20% dengan irigasi terprogram (ATAP Hortikultura 2024)',
+    defaultYield:20, defaultProd:15, defaultHarga:12000, musim:1
+  },
+  // === PERKEBUNAN ===
+  kopi: {
+    airMult:0.4, wmPct:7, mmRange:'2-4 mm/hari',
+    info:'Kopi dan kakao umumnya ditanam di dataran dengan curah hujan cukup. Irigasi supplemental di musim kemarau mencegah stress bunga dan meningkatkan konsistensi panen. Produktivitas: Kopi 1 ton/ha biji kering, Kakao 0.8 ton/ha (Statistik Perkebunan 2024 Ditjenbun).',
+    yieldHint:'Ref: +10% dengan irigasi supplemental musim kemarau',
+    defaultYield:10, defaultProd:1.0, defaultHarga:30000, musim:1
+  },
+  tembakau: {
+    airMult:0.4, wmPct:7, mmRange:'2-4 mm/hari',
+    info:'Tembakau tidak boleh terlalu basah - kelebihan air menurunkan kualitas daun. Irigasi sangat terbatas, hanya untuk pembibitan dan fase awal pertumbuhan. Produktivitas 1.5 ton/ha (Statistik Perkebunan 2024 Ditjenbun).',
+    yieldHint:'Ref: +10% dengan irigasi presisi fase awal saja',
+    defaultYield:10, defaultProd:1.5, defaultHarga:40000, musim:1
+  },
+  tebu: {
+    airMult:2.0, wmPct:93, mmRange:'13-15 mm/hari',
+    info:'Tebu memiliki volume kebutuhan air terbesar - siklus 10-12 bulan dengan irigasi hampir setiap hari. Satu unit pompa surya skala besar bisa menghemat ratusan juta rupiah solar per siklus tanam. Produktivitas 75 ton/ha batang (Statistik Perkebunan 2024 Ditjenbun).',
+    yieldHint:'Ref: +15% dengan irigasi optimal (Ditjenbun)',
+    defaultYield:15, defaultProd:75, defaultHarga:800, musim:1
+  },
 };
 
 const WM_COLORS = { 7:'#38bdf8', 20:'#60a5fa', 37:'#34d399', 53:'#fbbf24', 70:'#f97316', 93:'#d946ef' };
 
-let currentCrop = 'padigogo';
+let currentCrop = 'padisawah';
 let currentSrc  = 'diesel';
 let currentFinancing = 'cash';
 let currentStep = 0;
@@ -1367,17 +1507,17 @@ function setSrc(s, el) {
   const l2 = document.getElementById('q2lbl');
   if (s === 'diesel') {
     l1.textContent = 'Konsumsi solar (liter/bulan)'; l2.textContent = 'Harga solar (Rp/liter)';
-    q1.value = 80; q2.value = 10000;
+    q1.value = 80; q2.value = 6800;
   } else if (s === 'pln') {
     l1.textContent = 'Pemakaian listrik (kWh/bulan)'; l2.textContent = 'Tarif listrik (Rp/kWh)';
     q1.value = 200; q2.value = 1445;
   } else if (s === 'manual') {
-    l1.textContent = 'Hari kerja irigasi / bulan'; l2.textContent = 'Upah harian (Rp/hari)';
-    q1.value = 20; q2.value = 100000;
-  } else {
-    l1.textContent = 'Estimasi biaya energi total (Rp/bulan)'; l2.textContent = 'Biaya tambahan campuran (Rp/bulan)';
-    q1.value = 1; q2.value = 5000000;
+    document.getElementById('energyFields').style.display = 'none';
+    q1.value = 0; q2.value = 0;
+    calcAll();
+    return;
   }
+  document.getElementById('energyFields').style.display = '';
   calcAll();
 }
 
@@ -1408,8 +1548,9 @@ function setFinancing(mode, el) {
   document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   currentFinancing = mode;
-  document.getElementById('financing-cash').style.display = mode === 'cash' ? '' : 'none';
-  document.getElementById('financing-dp').style.display   = mode === 'dp'   ? '' : 'none';
+  document.getElementById('financing-cash').style.display   = mode === 'cash'  ? '' : 'none';
+  document.getElementById('financing-dp12').style.display   = mode === 'dp12'  ? '' : 'none';
+  document.getElementById('financing-dp24').style.display   = mode === 'dp24'  ? '' : 'none';
   calcAll();
 }
 
@@ -1475,26 +1616,77 @@ function calcAll() {
   const solarMonthly = maintSolar / 12;
 
   // --- STEP 3: Financing ---
-  const dpPct   = parseFloat(document.getElementById('dpPct').value) || 30;
-  const tenor   = parseInt(document.getElementById('tenor').value) || 24;
-  const bunga   = parseFloat(document.getElementById('bunga').value) || 8;
-  const dpAmt   = capex * dpPct / 100;
-  const loanAmt = capex - dpAmt;
-  const rMonth  = bunga / 100 / 12;
-  let cicilan;
-  if (rMonth === 0 || loanAmt === 0) {
-    cicilan = loanAmt / (tenor || 1);
-  } else {
-    cicilan = loanAmt * rMonth * Math.pow(1+rMonth, tenor) / (Math.pow(1+rMonth, tenor)-1);
-  }
-  const selisih = netSavingMo - cicilan;
+  // Show/hide capex warning
+  const capexWarning = document.getElementById('capexWarning');
+  if (capexWarning) capexWarning.style.display = capex === 0 ? '' : 'none';
 
+  // Cash
   document.getElementById('cashAmount').textContent = fmt(capex);
-  document.getElementById('dpAmount').textContent   = fmt(dpAmt);
-  document.getElementById('cicilanPerBulan').textContent = fmt(cicilan);
-  document.getElementById('cicilanVsHemat').textContent  = fmt(netSavingMo);
-  document.getElementById('selisihCicilan').textContent  = (selisih >= 0 ? '+' : '') + fmt(selisih);
-  document.getElementById('selisihCicilan').style.color  = selisih >= 0 ? 'var(--mint)' : '#ff9980';
+
+  // 12 bulan
+  const dp12Pct   = parseFloat(document.getElementById('dp12Pct').value) || 30;
+  const skema12   = document.getElementById('skema12').value;
+  const dp12Amt   = capex * dp12Pct / 100;
+  const sisa12    = capex - dp12Amt;
+  const divider12 = skema12 === 'harvest' ? 4 : 12;
+  const cicilan12 = sisa12 / divider12;
+  const periodeHemat12 = skema12 === 'harvest' ? (netSavingYr / 4) : netSavingMo;
+  const selisih12 = periodeHemat12 - cicilan12;
+
+  document.getElementById('dp12Amount').textContent  = fmt(dp12Amt);
+  document.getElementById('dp12SubLabel').textContent = skema12 === 'harvest'
+    ? 'Sisa dibayar 4× sesuai panen (dalam 12 bulan)'
+    : 'Sisa dibayar 12× per bulan';
+  document.getElementById('cicilan12').textContent   = fmt(cicilan12);
+  document.getElementById('cicilan12Lbl').textContent = skema12 === 'harvest' ? 'Per cicilan panen' : 'Per bulan';
+  document.getElementById('hemat12').textContent     = fmt(periodeHemat12);
+  document.getElementById('selisih12').textContent   = (selisih12 >= 0 ? '+' : '') + fmt(selisih12);
+  document.getElementById('selisih12').style.color   = selisih12 >= 0 ? 'var(--mint)' : '#ff9980';
+
+  // 24 bulan multifinance
+  const MIN_FINANCE    = 80000000;
+  const dp24Pct        = parseFloat(document.getElementById('dp24Pct').value) || 30;
+  const siklusBln      = parseInt(document.getElementById('siklusPanen').value) || 4;
+  const totalKelompok  = parseFloat(document.getElementById('totalKelompok').value) || 0;
+  const jmlCicilan     = Math.floor(24 / siklusBln);
+
+  // Kalkulasi individual (fokus pompa user sendiri)
+  const dp24Amt        = capex * dp24Pct / 100;
+  const nilaiPerUnit   = capex - dp24Amt;               // nilai finance pompa user
+  const cicilanUser    = nilaiPerUnit / jmlCicilan;     // cicilan per periode panen
+  const periodeHemat24 = netSavingYr / (12 / siklusBln); // hemat per periode panen
+  const selisih24      = periodeHemat24 - cicilanUser;
+
+  // Status kelompok
+  const totalDisp      = totalKelompok > 0 ? totalKelompok : nilaiPerUnit;
+  const statusOk       = totalDisp >= MIN_FINANCE;
+  const selisihMin     = totalDisp - MIN_FINANCE;
+
+  const gbox = document.getElementById('groupFinancingBox');
+  gbox.style.background = statusOk ? '#f0faf4' : '#fff8f0';
+  gbox.style.border     = statusOk ? '1px solid #a0dab8' : '1px solid #f0d090';
+  gbox.style.color      = statusOk ? 'var(--leaf)' : '#7a5000';
+
+  document.getElementById('groupStatusBadge').textContent    = statusOk ? '✅ Memenuhi Syarat' : '⚠️ Belum Cukup';
+  document.getElementById('groupStatusBadge').style.background = statusOk ? 'var(--pale-g)' : 'var(--straw)';
+  document.getElementById('groupStatusBadge').style.color      = statusOk ? 'var(--leaf)'   : '#7a5000';
+  document.getElementById('nilaiPerUnit').textContent         = fmt(nilaiPerUnit);
+  document.getElementById('totalNilaiGroup').textContent      = totalKelompok > 0 ? fmt(totalKelompok) : '(belum diisi)';
+  document.getElementById('selisihMin').textContent           = (selisihMin >= 0 ? '+' : '') + fmt(selisihMin);
+  document.getElementById('selisihMin').style.color           = selisihMin >= 0 ? 'var(--leaf)' : 'var(--rust)';
+  document.getElementById('groupNote').textContent            = totalKelompok > 0
+    ? (statusOk
+        ? `✅ Total kelompok ${fmt(totalKelompok)} sudah ≥ Rp 80 jt — pengajuan bisa diproses.`
+        : `⚠️ Kurang ${fmt(MIN_FINANCE - totalKelompok)} lagi dari minimum Rp 80 jt.`)
+    : `ℹ️ Isi total pembiayaan kelompok untuk mengecek syarat minimum multifinance.`;
+
+  document.getElementById('dp24SubLabel').textContent         = `DP awal — cicilan ${jmlCicilan}× saat panen dalam 24 bulan`;
+  document.getElementById('dp24PerOrang').textContent         = fmt(dp24Amt);
+  document.getElementById('cicilan24PerOrang').textContent    = fmt(cicilanUser);
+  document.getElementById('hemat24').textContent              = fmt(periodeHemat24);
+  document.getElementById('selisih24').textContent            = (selisih24 >= 0 ? '+' : '') + fmt(selisih24);
+  document.getElementById('selisih24').style.color            = selisih24 >= 0 ? 'var(--mint)' : '#ff9980';
+  document.getElementById('totalCicilan24Group').textContent  = fmt(nilaiPerUnit);
 
   // --- UPDATE RIGHT PANEL ---
   const showMain = capex > 0 || totalMonthly > 0;
@@ -1516,7 +1708,7 @@ function calcAll() {
     const compareHtml = `
       <div class="cmp-row">
         <span class="cmp-icon">⛽</span>
-        <span class="cmp-name">Biaya Saat Ini (${currentSrc === 'diesel' ? 'Diesel' : currentSrc === 'pln' ? 'PLN' : currentSrc === 'manual' ? 'Manual' : 'Campuran'})</span>
+        <span class="cmp-name">Biaya Saat Ini (${currentSrc === 'diesel' ? 'Genset Diesel' : currentSrc === 'pln' ? 'Listrik PLN' : 'Tadah Hujan'})</span>
         <div class="cmp-bar-wrap"><div class="cmp-bar" style="width:100%;background:var(--rust)"></div></div>
         <span class="cmp-val" style="color:var(--rust)">${fmt(totalMonthly)}</span>
       </div>
@@ -1529,9 +1721,47 @@ function calcAll() {
     document.getElementById('rp_compareRows').innerHTML = compareHtml;
     document.getElementById('compareRows').innerHTML    = compareHtml;
 
-    // Mini cashflow bars
-    const maxAbs = Math.max(...cfData.map(c => Math.abs(c.val)), capex, 1);
-    const barsHtml = cfData.map(({y, val}) => {
+    // Cashflow per tab — memperhitungkan DP dan cicilan
+    const buildTabCF = (dpAmt, cicilanPerBulan, bulanCicilan) => {
+      const rows = [];
+      let cum = -dpAmt;
+      for (let y = 1; y <= horizon; y++) {
+        for (let m = 1; m <= 12; m++) {
+          const mnth = (y-1)*12 + m;
+          cum += netSavingMo - (mnth <= bulanCicilan ? cicilanPerBulan : 0);
+        }
+        rows.push({ y, val: cum });
+      }
+      return rows;
+    };
+
+    // Cash: bayar penuh di muka
+    const cfCash = [];
+    { let c = -capex;
+      for (let y = 1; y <= horizon; y++) { c += netSavingYr; cfCash.push({y, val:c}); } }
+
+    // 12 bulan: DP 25%, cicilan sisa ÷ 12
+    const dp12fix = capex * 0.25;
+    const cfDp12  = buildTabCF(dp12fix, (capex - dp12fix)/12, 12);
+
+    // 24 bulan: DP 30%, cicilan sisa ÷ 24
+    const dp24fix = capex * 0.30;
+    const cfDp24  = buildTabCF(dp24fix, (capex - dp24fix)/24, 24);
+
+    const activeCF = currentFinancing === 'dp12' ? cfDp12
+                   : currentFinancing === 'dp24' ? cfDp24
+                   : cfCash;
+
+    const cfTitles = {
+      cash: 'Cashflow Kumulatif — Bayar Lunas',
+      dp12: 'Cashflow Kumulatif — Cicilan 12 Bln (DP 25%)',
+      dp24: 'Cashflow Kumulatif — Cicilan 24 Bln Multifinance (DP 30%)'
+    };
+    const ssTitleEl = document.querySelector('.ss-title');
+    if (ssTitleEl) ssTitleEl.textContent = cfTitles[currentFinancing] || cfTitles.cash;
+
+    const maxAbs = Math.max(...activeCF.map(c => Math.abs(c.val)), capex, 1);
+    const barsHtml = activeCF.map(({y, val}) => {
       const isPos = val >= 0;
       const pct = Math.min(Math.abs(val)/maxAbs*100, 100).toFixed(0);
       return `<div class="cf-row">
@@ -1543,10 +1773,13 @@ function calcAll() {
     document.getElementById('rp_cfBars').innerHTML = barsHtml;
     document.getElementById('cfBars').innerHTML    = barsHtml;
 
+    // Cumulative savings — pakai activeCF
+    const useCfData = activeCF;
+
     // Cumulative savings
     const cumYears = [3, 5, 7, 10].filter(y => y <= horizon);
     const cumHtml = cumYears.map(y => {
-      const total = cfData.find(c => c.y === y);
+      const total = useCfData.find(c => c.y === y);
       if (!total) return '';
       return `<div class="cum-row">
         <span class="cum-lbl">Tahun ke-${y}</span>
@@ -1599,10 +1832,14 @@ document.querySelectorAll('input[type=number], select').forEach(el => {
 });
 
 // ===== INIT =====
+// Kosongkan semua input KECUALI cx fields (biar user bisa langsung edit default)
+// dan field financing yg punya default valid
+const _skipClear = new Set(['cx1','cx2','cx3','cx4','cx5','dp24Pct','dp12Pct','dpPct','lahan','musim','prodNow']);
 document.querySelectorAll('input[type=number]').forEach(el => {
-  el.value = '';
+  if (!_skipClear.has(el.id)) el.value = '';
 });
 document.getElementById('resultsPanel') && (document.getElementById('resultsPanel').style.display = 'none');
+calcAll();
 </script>
 </body>
 </html>
