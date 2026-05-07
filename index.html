@@ -478,6 +478,59 @@ header {
 .cf-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease, background 0.3s; }
 .cf-amt { font-size: 11px; font-family: var(--font-mono); font-weight: 500; min-width: 78px; text-align: right; }
 
+/* === DUAL CASHFLOW PANEL === */
+.cf-dual-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.cf-panel {
+  background: white;
+  border: 1px solid #e8e0d5;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.cf-panel-head {
+  padding: 12px 16px;
+}
+.cf-panel-head--conservative {
+  background: var(--bark);
+}
+.cf-panel-head--full {
+  background: linear-gradient(135deg, #1c4a2e, #166534);
+}
+.cf-panel-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+.cf-panel-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+.cf-panel-body {
+  padding: 14px 14px 10px;
+}
+.cf-panel-narasi {
+  padding: 10px 14px 14px;
+  font-size: 11px;
+  color: var(--clay);
+  line-height: 1.65;
+  border-top: 1px solid #f0ebe3;
+  background: #fdfaf6;
+}
+.cf-panel-narasi strong { color: var(--earth); }
+.cf-panel-narasi em { font-style: normal; color: var(--rust); font-weight: 600; }
+.cf-panel-head--full + .cf-panel-body + .cf-panel-narasi em { color: var(--leaf); }
+@media (max-width: 700px) {
+  .cf-dual-wrap { grid-template-columns: 1fr; }
+}
+
 .tl-section {
   background: white;
   border: 1px solid #e8e0d5;
@@ -1666,38 +1719,6 @@ header {
         <div class="hc-divider" id="hcDivider"></div>
       </div>
 
-      <!-- Before vs After -->
-      <div class="compare-card">
-        <div class="compare-head">
-          <span class="ch-title">Perbandingan Biaya Bulanan</span>
-          <span style="font-size:10px;color:rgba(255,255,255,0.4)">Sebelum vs Sesudah</span>
-        </div>
-        <div id="compareRows"></div>
-      </div>
-
-      <!-- Cumulative savings -->
-      <div class="card">
-        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--clay);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px">📈 Total Kumulatif Yang Bisa Dihemat</div>
-        <div id="cumRows"></div>
-      </div>
-
-      <!-- Cashflow chart -->
-      <div class="savings-section">
-        <div class="ss-title">Cashflow Kumulatif Per Tahun</div>
-        <div id="cfBars"></div>
-      </div>
-
-      <!-- Timeline -->
-      <div class="tl-section">
-        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">⏱ Timeline Investasi</div>
-        <div class="tl-boxes" id="tlBoxes"></div>
-        <div class="tl-legend">
-          <div class="tl-leg"><div class="tl-dot" style="background:var(--blush)"></div>Masa investasi</div>
-          <div class="tl-leg"><div class="tl-dot" style="background:var(--straw)"></div>Titik balik modal</div>
-          <div class="tl-leg"><div class="tl-dot" style="background:var(--pale-g)"></div>Periode profit</div>
-        </div>
-      </div>
-
       <!-- Breakdown -->
       <div class="bk-section">
         <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">📊 Rincian Sumber Manfaat / Tahun</div>
@@ -1714,6 +1735,55 @@ header {
             <span style="font-family:var(--font-mono);font-weight:700;color:var(--leaf);" id="bk_yield">—</span>
           </div>
           <div style="font-size:10px;color:var(--clay);margin-top:4px;">*Estimasi tambahan pendapatan dari kenaikan produktivitas lahan.</div>
+        </div>
+      </div>
+
+      <!-- Before vs After -->
+      <div class="compare-card">
+        <div class="compare-head">
+          <span class="ch-title">Perbandingan Biaya Bulanan</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.4)">Sebelum vs Sesudah</span>
+        </div>
+        <div id="compareRows"></div>
+      </div>
+
+      <!-- cumRows hidden — masih dipakai JS tapi tidak ditampilkan -->
+      <div id="cumRows" style="display:none"></div>
+
+      <!-- Cashflow chart — dual panel -->
+      <div class="cf-dual-wrap">
+        <!-- Kolom kiri: tanpa yield -->
+        <div class="cf-panel">
+          <div class="cf-panel-head cf-panel-head--conservative">
+            <div class="cf-panel-title">🔒 Konservatif</div>
+            <div class="cf-panel-sub">Hanya penghematan biaya operasional</div>
+          </div>
+          <div class="cf-panel-body" id="cfBarsConservative"></div>
+          <div class="cf-panel-narasi">
+            Grafik ini menghitung <strong>seberapa cepat uang investasi kembali hanya dari biaya yang dihemat</strong> — BBM/listrik, biaya operator, dikurangi servis pompa surya. Yield panen <em>tidak dihitung</em> di sini. Ini adalah skenario paling aman: seandainya panen tidak naik sama sekali pun, investasi tetap balik modal dari hemat biaya saja.
+          </div>
+        </div>
+        <!-- Kolom kanan: dengan yield -->
+        <div class="cf-panel">
+          <div class="cf-panel-head cf-panel-head--full">
+            <div class="cf-panel-title">🌾 Realistis</div>
+            <div class="cf-panel-sub">Penghematan biaya + tambahan pendapatan panen</div>
+          </div>
+          <div class="cf-panel-body" id="cfBarsFull"></div>
+          <div class="cf-panel-narasi">
+            Grafik ini menambahkan <strong>estimasi tambahan pendapatan dari kenaikan hasil panen</strong> akibat irigasi yang lebih terjadwal dan konsisten. Angka yield didasarkan referensi data komoditas nasional. Ini gambaran yang <em>lebih mendekati manfaat nyata</em> yang akan dirasakan petani — tapi ingat, hasil panen tetap dipengaruhi cuaca dan kondisi lahan.
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="tl-section">
+        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--soil);margin-bottom:12px">⏱ Timeline Investasi</div>
+        <div class="tl-boxes" id="tlBoxes"></div>
+        <div class="tl-legend">
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--blush)"></div>Masa investasi</div>
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--straw)"></div>Titik balik modal</div>
+          <div class="tl-leg"><div class="tl-dot" style="background:var(--pale-g)"></div>Periode profit</div>
         </div>
       </div>
 
@@ -1743,6 +1813,9 @@ header {
       <div class="nav-btns">
         <button class="btn btn-back" onclick="goStep(3)">← Ubah Input</button>
       </div>
+
+      <!-- Hidden: dipakai PDF generator (konservatif, tanpa yield) -->
+      <div id="cfBars" style="display:none"></div>
 
     </div><!-- /step4 -->
 
@@ -2196,8 +2269,47 @@ function calcAll() {
     }
     document.getElementById('compareRows').innerHTML = compareHtml;
 
-    // Cashflow
+    // Cashflow — konservatif: hanya penghematan biaya (costSavingMo)
     const buildCF = (dpAmt, cicilanPerBulan, bulanCicilan) => {
+      let c = -dpAmt, rows = [];
+      for (let y = 1; y <= horizon; y++) {
+        for (let m = 1; m <= 12; m++) {
+          const mnth = (y-1)*12 + m;
+          c += costSavingMo - (mnth <= bulanCicilan ? cicilanPerBulan : 0);
+        }
+        rows.push({ y, val: c });
+      }
+      return rows;
+    };
+
+    const cfCash = cfDataCash;
+    const cfDp12 = buildCF(capex * 0.25, (capex*0.75 + bunga12) / 12, 12);
+    const cfDp24 = buildCF(capex * 0.30, (capex*0.70 + totalBunga24) / 24, 24);
+
+    const cfTitles = {
+      cash: 'Cashflow Kumulatif — Bayar Lunas',
+      dp12: 'Cashflow Kumulatif — Cicilan 12 Bln (DP 25%, Bunga 6%/thn)',
+      dp24: 'Cashflow Kumulatif — Cicilan 24 Bln Multifinance (DP 30%)'
+    };
+    const ssTitleEl = document.querySelector('.ss-title');
+    if (ssTitleEl) ssTitleEl.textContent = cfTitles[currentFinancing] || cfTitles.cash;
+
+    // Helper: render bar rows untuk satu dataset CF
+    const renderCFBars = (cfData) => {
+      const maxAbs = Math.max(...cfData.map(c => Math.abs(c.val)), capex, 1);
+      return cfData.map(({y, val}) => {
+        const isPos = val >= 0;
+        const pct = Math.min(Math.abs(val)/maxAbs*100, 100).toFixed(0);
+        return `<div class="cf-row" data-raw="${val}">
+          <div class="cf-lbl">Thn ${y}</div>
+          <div class="cf-track"><div class="cf-fill" style="width:${pct}%;background:${isPos?'var(--sprout)':'var(--rust)'}"></div></div>
+          <div class="cf-amt" style="color:${isPos?'var(--leaf)':'var(--rust)'}">${isPos?'+':''}${fmt(val)}</div>
+        </div>`;
+      }).join('');
+    };
+
+    // Bangun CF "full" (dengan yield) menggunakan netSavingYr
+    const buildCFWithYield = (dpAmt, cicilanPerBulan, bulanCicilan) => {
       let c = -dpAmt, rows = [];
       for (let y = 1; y <= horizon; y++) {
         for (let m = 1; m <= 12; m++) {
@@ -2209,34 +2321,32 @@ function calcAll() {
       return rows;
     };
 
-    const cfCash = cfDataCash;
-    const cfDp12 = buildCF(capex * 0.25, (capex*0.75 + bunga12) / 12, 12);
-    const cfDp24 = buildCF(capex * 0.30, (capex*0.70 + totalBunga24) / 24, 24);
-
     const activeCF = currentFinancing === 'dp12' ? cfDp12
                    : currentFinancing === 'dp24' ? cfDp24
                    : cfCash;
 
-    const cfTitles = {
-      cash: 'Cashflow Kumulatif — Bayar Lunas',
-      dp12: 'Cashflow Kumulatif — Cicilan 12 Bln (DP 25%, Bunga 6%/thn)',
-      dp24: 'Cashflow Kumulatif — Cicilan 24 Bln Multifinance (DP 30%)'
-    };
-    const ssTitleEl = document.querySelector('.ss-title');
-    if (ssTitleEl) ssTitleEl.textContent = cfTitles[currentFinancing] || cfTitles.cash;
+    // CF "full" dengan yield untuk panel kanan
+    const cfCashFull = (() => {
+      let c = -capex, rows = [];
+      for (let y = 1; y <= horizon; y++) { c += netSavingYr; rows.push({ y, val: c }); }
+      return rows;
+    })();
+    const cfDp12Full = buildCFWithYield(capex * 0.25, (capex*0.75 + bunga12) / 12, 12);
+    const cfDp24Full = buildCFWithYield(capex * 0.30, (capex*0.70 + totalBunga24) / 24, 24);
+    const activeCFFull = currentFinancing === 'dp12' ? cfDp12Full
+                       : currentFinancing === 'dp24' ? cfDp24Full
+                       : cfCashFull;
 
-    const maxAbs = Math.max(...activeCF.map(c => Math.abs(c.val)), capex, 1);
-    const barsHtml = activeCF.map(({y, val}) => {
-      const isPos = val >= 0;
-      const pct = Math.min(Math.abs(val)/maxAbs*100, 100).toFixed(0);
-      return `<div class="cf-row" data-raw="${val}">
-        <div class="cf-lbl">Thn ${y}</div>
-        <div class="cf-track"><div class="cf-fill" style="width:${pct}%;background:${isPos?'var(--sprout)':'var(--rust)'}"></div></div>
-        <div class="cf-amt" style="color:${isPos?'var(--leaf)':'var(--rust)'}">${isPos?'+':''}${fmt(val)}</div>
-      </div>`;
-    }).join('');
+    // Isi dual panel (step 4)
+    const elConservative = document.getElementById('cfBarsConservative');
+    const elFull         = document.getElementById('cfBarsFull');
+    if (elConservative) elConservative.innerHTML = renderCFBars(activeCF);
+    if (elFull)         elFull.innerHTML         = renderCFBars(activeCFFull);
+
+    // cfBars: dipakai PDF generator — isi dengan conservative (seperti sebelumnya)
+    const barsHtml = renderCFBars(activeCF);
     if (currentStep !== 4) document.getElementById('rp_cfBars').innerHTML = barsHtml;
-    document.getElementById('cfBars').innerHTML = barsHtml;
+    if (document.getElementById('cfBars')) document.getElementById('cfBars').innerHTML = barsHtml;
 
     // Cumulative
     const cumYears = [3,5,7,10].filter(y => y <= horizon);
