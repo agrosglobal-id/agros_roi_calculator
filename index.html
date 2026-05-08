@@ -1213,6 +1213,52 @@ header {
 .sens-val.base { color: #2a1e12; }
 .sens-val.neg  { color: #c0391e; }
 
+/* Breakdown sumber manfaat — PDF */
+.bk-pdf-wrap { margin: 0 32px 8px; }
+.bk-pdf-row  { display: flex; justify-content: space-between; padding: 6px 10px; font-size: 11.5px; border-radius: 4px; margin-bottom: 3px; }
+.bk-pdf-row span  { color: #4a3626; }
+.bk-pdf-row strong { font-family: monospace; }
+.bk-pdf-row.pos   { background: #f0fdf4; }
+.bk-pdf-row.pos strong { color: #16a34a; }
+.bk-pdf-row.neg   { background: #fef2f2; }
+.bk-pdf-row.neg strong { color: #c0391e; }
+.bk-pdf-row.total { background: #f0fdf4; border-top: 1.5px solid #16a34a; font-weight: 700; }
+.bk-pdf-row.total span  { color: #2a1e12; font-weight: 700; }
+.bk-pdf-row.total strong { color: #16a34a; font-size: 13px; }
+.bk-pdf-row.yield { background: #ecfdf5; border: 1px dashed #16a34a; margin-top: 6px; border-radius: 6px; }
+.bk-pdf-row.yield strong { color: #16a34a; font-size: 13px; }
+
+/* Dual cashflow — PDF */
+.cf2-dual-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 32px; }
+.cf2-panel     { border: 1px solid #e8e0d5; border-radius: 6px; overflow: hidden; }
+.cf2-panel-head { padding: 7px 10px; font-size: 10.5px; font-weight: 700; color: white; }
+.cf2-panel-head.cons { background: #2a1e12; }
+.cf2-panel-head.full { background: #166534; }
+.cf2-panel .cf2-wrap { padding: 0; }
+.cf2-panel .cf2-row  { padding: 4px 8px; }
+.cf2-panel-note { padding: 5px 10px; font-size: 9.5px; color: #78644e; background: #fdfaf6; border-top: 1px solid #e8e0d5; line-height: 1.4; }
+
+/* Compare biaya PDF */
+.cmp2-wrap { margin: 0 32px 8px; display: flex; flex-direction: column; gap: 4px; }
+.cmp2-row  { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 4px; font-size: 11px; }
+.cmp2-row.neg { background: #fef2f2; }
+.cmp2-row.pos { background: #f0fdf4; }
+.cmp2-icon { font-size: 13px; width: 18px; flex-shrink: 0; }
+.cmp2-name { flex: 1; color: #4a3626; }
+.cmp2-val  { font-family: monospace; font-weight: 700; }
+.cmp2-row.neg .cmp2-val { color: #c0391e; }
+.cmp2-row.pos .cmp2-val { color: #16a34a; }
+
+/* Timeline PDF */
+.tl2-wrap { margin: 0 32px 8px; display: flex; flex-wrap: wrap; gap: 5px; }
+.tl2-box  { display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 46px; height: 46px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.tl2-box .tl2-main { line-height: 1; }
+.tl2-box .tl2-sub  { font-size: 8px; font-weight: 400; margin-top: 2px; }
+.tl2-box.invest    { background: #fde8e8; color: #c0391e; }
+.tl2-box.breakeven { background: #fef9e7; color: #b45309; }
+.tl2-box.profit    { background: #f0fdf4; color: #16a34a; }
+
 /* Disclaimer + Footer */
 .pdf-disclaimer {
   margin: 0 32px 16px;
@@ -2663,7 +2709,7 @@ if (_defaultEl) pickCrop('padisawah', _defaultEl);
 else calcAll();
 
 // ============================================================
-// GENERATE PDF — html2canvas approach
+// GENERATE PDF — html2canvas + jsPDF (auto download)
 // ============================================================
 async function generatePDF() {
   const btn = document.getElementById('btnSavePdf');
@@ -2671,7 +2717,6 @@ async function generatePDF() {
   btn.classList.add('loading');
 
   try {
-    // Load libraries
     if (!window.html2canvas) {
       await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     }
@@ -2688,7 +2733,6 @@ async function generatePDF() {
     const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
     const pageW = 210, pageH = 297;
 
-    // Render tiap section sebagai halaman
     const pages = pdfEl.querySelectorAll('.pdf-page');
     for (let i = 0; i < pages.length; i++) {
       const canvas = await html2canvas(pages[i], {
@@ -2746,20 +2790,57 @@ function buildPdfDom() {
     rHematThn: gt('r_hemat_thn'), rRoi: gt('r_roi'),
     rYieldRev: gt('r_yield_rev'), rYieldPct: gt('r_yield_pct'),
     sensPes: gt('sens_pes'), sensBase: gt('sens_base'), sensOpt: gt('sens_opt'),
+    // Breakdown sumber manfaat
+    bkEnergi: gt('bk_energi'), bkOp: gt('bk_op'),
+    bkMaint: gt('bk_maint'), bkNet: gt('bk_net'),
+    bkYield: gt('bk_yield'), bkYp: gt('bk_yp'),
   };
 
-  const cfRows = [];
-  document.querySelectorAll('#cfBars .cf-row').forEach(r => {
-    const raw = parseFloat(r.getAttribute('data-raw') || '0');
-    cfRows.push({
-      lbl: r.querySelector('.cf-lbl')?.textContent.trim() || '',
-      amt: r.querySelector('.cf-amt')?.textContent.trim() || '',
-      raw: raw,
-      pos: raw >= 0,
+  // Helper: ambil baris CF dari container tertentu
+  const extractCF = (containerId) => {
+    const rows = [];
+    document.querySelectorAll(`#${containerId} .cf-row`).forEach(r => {
+      const raw = parseFloat(r.getAttribute('data-raw') || '0');
+      rows.push({
+        lbl: r.querySelector('.cf-lbl')?.textContent.trim() || '',
+        amt: r.querySelector('.cf-amt')?.textContent.trim() || '',
+        raw, pos: raw >= 0,
+      });
     });
-  });
-  // Hitung max absolut untuk skala bar
-  const cfMaxAbs = Math.max(...cfRows.map(r => Math.abs(r.raw)), 1);
+    return rows;
+  };
+
+  // Helper: ambil baris compare biaya dari DOM
+  const compareData = (() => {
+    const rows = [];
+    document.querySelectorAll('#compareRows .cmp-row').forEach(r => {
+      rows.push({
+        icon : r.querySelector('.cmp-icon')?.textContent.trim() || '',
+        name : r.querySelector('.cmp-name')?.textContent.trim() || '',
+        val  : r.querySelector('.cmp-val')?.textContent.trim() || '',
+        isPos: r.classList.contains('active-row'),
+      });
+    });
+    return rows;
+  })();
+
+  // Helper: ambil timeline dari DOM
+  const tlData = (() => {
+    const boxes = [];
+    document.querySelectorAll('#tlBoxes .tl-box').forEach(b => {
+      boxes.push({
+        label: b.childNodes[0]?.textContent.trim() || '',
+        sub  : b.querySelector('span')?.textContent.trim() || '',
+        cls  : b.classList.contains('profit') ? 'profit'
+             : b.classList.contains('breakeven') ? 'breakeven' : 'invest',
+      });
+    });
+    return boxes;
+  })();
+
+  const cfRows         = extractCF('cfBarsConservative');
+  const cfRowsFull     = extractCF('cfBarsFull');
+  const cfMaxAbs       = Math.max(...cfRows.map(r => Math.abs(r.raw)), ...cfRowsFull.map(r => Math.abs(r.raw)), 1);
 
   const hcData = [];
   document.querySelectorAll('#hcCols .hc-col').forEach(col => {
@@ -2908,31 +2989,19 @@ function buildPdfDom() {
       <div class="fcp-net ${fc.netPos ? 'pos' : 'neg'}">Net: ${fc.net}</div>
     </div>`).join('');
 
-  const page2 = `
-  <div class="pdf-page">
-    ${headerHtml}
+  // --- sensRows dihitung sebelum page2 ---
+  const comparePdfHtml = compareData.map(r => `
+    <div class="cmp2-row ${r.isPos ? 'pos' : 'neg'}">
+      <span class="cmp2-icon">${r.icon}</span>
+      <span class="cmp2-name">${r.name}</span>
+      <strong class="cmp2-val">${r.val}</strong>
+    </div>`).join('');
 
-    <div class="ps-section-title">Perbandingan Jumlah Panen</div>
-    <div class="hcp-wrap">${hcColsHtml}</div>
-
-    <div class="ps-section-title" style="margin-top:22px">Perbandingan Skema Pembelian</div>
-    <div class="fcp-wrap">${fcColsHtml}</div>
-
-    ${footerHtml}
-  </div>`;
-
-  // --- PAGE 3: Cashflow + Sensitivitas ---
-  const cfRowsHtml = cfRows.map((r,i) => {
-    const pct = Math.min(Math.abs(r.raw) / cfMaxAbs * 95, 95).toFixed(1);
-    return `
-    <div class="cf2-row ${i%2===0?'even':'odd'}">
-      <div class="cf2-lbl">${r.lbl}</div>
-      <div class="cf2-bar-wrap">
-        <div class="cf2-bar" style="background:${r.pos?'#16a34a':'#c0391e'};width:${pct}%"></div>
-      </div>
-      <div class="cf2-amt ${r.pos?'pos':'neg'}">${r.amt}</div>
-    </div>`;
-  }).join('');
+  const tlPdfHtml = tlData.map(b => `
+    <div class="tl2-box ${b.cls}">
+      <span class="tl2-main">${b.label}</span>
+      <span class="tl2-sub">${b.sub}</span>
+    </div>`).join('');
 
   const sensRows = [
     {icon:'😟', label:'Pesimis — penghematan 60% dari estimasi', val:d.sensPes, cls:'neg'},
@@ -2946,15 +3015,67 @@ function buildPdfDom() {
       <div class="sens-val ${r.cls}">${r.val}</div>
     </div>`).join('');
 
+  const page2 = `
+  <div class="pdf-page">
+    ${headerHtml}
+
+    <div class="ps-section-title">Perbandingan Jumlah Panen</div>
+    <div class="hcp-wrap">${hcColsHtml}</div>
+
+    <div class="ps-section-title" style="margin-top:18px">Perbandingan Skema Pembelian</div>
+    <div class="fcp-wrap">${fcColsHtml}</div>
+
+    <div class="ps-section-title" style="margin-top:18px">⏱ Timeline Investasi</div>
+    <div class="tl2-wrap">${tlPdfHtml}</div>
+
+    <div class="ps-section-title" style="margin-top:18px">Analisis Sensitivitas — Payback Period</div>
+    <div class="sens-wrap">${sensRowsHtml}</div>
+
+    ${footerHtml}
+  </div>`;
+
+  // --- PAGE 3: Breakdown + Compare Biaya + Dual Cashflow + Disclaimer ---
+  const buildCfRowsHtml = (rows) => rows.map((r,i) => {
+    const pct = Math.min(Math.abs(r.raw) / cfMaxAbs * 95, 95).toFixed(1);
+    return `
+    <div class="cf2-row ${i%2===0?'even':'odd'}">
+      <div class="cf2-lbl">${r.lbl}</div>
+      <div class="cf2-bar-wrap">
+        <div class="cf2-bar" style="background:${r.pos?'#16a34a':'#c0391e'};width:${pct}%"></div>
+      </div>
+      <div class="cf2-amt ${r.pos?'pos':'neg'}">${r.amt}</div>
+    </div>`;
+  }).join('');
+
   const page3 = `
   <div class="pdf-page">
     ${headerHtml}
 
-    <div class="ps-section-title">Cashflow Kumulatif</div>
-    <div class="cf2-wrap">${cfRowsHtml}</div>
+    <div class="ps-section-title">Rincian Sumber Manfaat / Tahun</div>
+    <div class="bk-pdf-wrap">
+      <div class="bk-pdf-row pos"><span>Penghematan energi (BBM/Listrik)</span><strong>${d.bkEnergi}</strong></div>
+      <div class="bk-pdf-row pos"><span>Penghematan biaya operator</span><strong>${d.bkOp}</strong></div>
+      <div class="bk-pdf-row neg"><span>Biaya maintenance solar pump</span><strong>${d.bkMaint}</strong></div>
+      <div class="bk-pdf-row total"><span>Total penghematan biaya / tahun</span><strong>${d.bkNet}</strong></div>
+      <div class="bk-pdf-row yield"><span>🌾 Potensi tambahan yield +${d.bkYp}%</span><strong>${d.bkYield}</strong></div>
+    </div>
 
-    <div class="ps-section-title" style="margin-top:22px">Analisis Sensitivitas — Payback Period</div>
-    <div class="sens-wrap">${sensRowsHtml}</div>
+    <div class="ps-section-title" style="margin-top:18px">Perbandingan Biaya Bulanan</div>
+    <div class="cmp2-wrap">${comparePdfHtml}</div>
+
+    <div class="ps-section-title" style="margin-top:18px">Cashflow Kumulatif</div>
+    <div class="cf2-dual-wrap">
+      <div class="cf2-panel">
+        <div class="cf2-panel-head cons">🔒 Konservatif — Hanya Penghematan Biaya</div>
+        <div class="cf2-wrap">${buildCfRowsHtml(cfRows)}</div>
+        <div class="cf2-panel-note">Tanpa memperhitungkan kenaikan hasil panen. Skenario paling aman.</div>
+      </div>
+      <div class="cf2-panel">
+        <div class="cf2-panel-head full">🌾 Realistis — Termasuk Tambahan Panen</div>
+        <div class="cf2-wrap">${buildCfRowsHtml(cfRowsFull)}</div>
+        <div class="cf2-panel-note">Termasuk estimasi tambahan pendapatan dari kenaikan yield. Angka aktual bergantung kondisi lahan.</div>
+      </div>
+    </div>
 
     <div class="pdf-disclaimer">
       Dokumen ini bersifat estimasi untuk tujuan perencanaan. Hasil aktual dipengaruhi kondisi iklim,
